@@ -143,68 +143,84 @@ export class CharGenScene extends Phaser.Scene {
     let stMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     stPlus.on('pointerup', function () {
-      game.self.strength++;
-      stText.setText('ST: ' + game.self.strength);
-      game.self.points -= 10;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.strength < 20 && game.self.points >= 10) {
+        game.self.strength++;
+        stText.setText('ST: ' + game.self.strength);
+        game.self.points -= 10;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     stMinus.on('pointerup', function () {
-      game.self.strength--;
-      stText.setText('ST: ' + game.self.strength);
-      game.self.points += 10;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.strength > 7) {
+        game.self.strength--;
+        stText.setText('ST: ' + game.self.strength);
+        game.self.points += 10;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     let dxPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let dxMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     dxPlus.on('pointerup', function () {
-      game.self.dexterity++;
-      dxText.setText('DX: ' + game.self.dexterity);
-      game.self.points -= 20;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.dexterity < 20 && game.self.points >= 20) {
+        game.self.dexterity++;
+        dxText.setText('DX: ' + game.self.dexterity);
+        game.self.points -= 20;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     dxMinus.on('pointerup', function () {
-      game.self.dexterity--;
-      dxText.setText('DX: ' + game.self.dexterity);
-      game.self.points += 20;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.dexterity > 7) {
+        game.self.dexterity--;
+        dxText.setText('DX: ' + game.self.dexterity);
+        game.self.points += 20;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     let iqPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     iqPlus.on('pointerup', function () {
-      game.self.intelligence++;
-      iqText.setText('IQ: ' + game.self.intelligence);
-      game.self.points -= 20;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.intelligence < 20 && game.self.points >= 20) {
+        game.self.intelligence++;
+        iqText.setText('IQ: ' + game.self.intelligence);
+        game.self.points -= 20;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     iqMinus.on('pointerup', function () {
-      game.self.intelligence--;
-      iqText.setText('IQ: ' + game.self.intelligence);
-      game.self.points += 20;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.intelligence > 7) {
+        game.self.intelligence--;
+        iqText.setText('IQ: ' + game.self.intelligence);
+        game.self.points += 20;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     let htPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let htMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     htPlus.on('pointerup', function () {
-      game.self.health++;
-      htText.setText('HT: ' + game.self.health);
-      game.self.points -= 10;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.health < 20 && game.self.points >= 10) {
+        game.self.health++;
+        htText.setText('HT: ' + game.self.health);
+        game.self.points -= 10;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
     htMinus.on('pointerup', function () {
-      game.self.health--;
-      htText.setText('HT: ' + game.self.health);
-      game.self.points += 10;
-      pointsText.setText('Points: ' + game.self.points);
+      if (game.self.health > 7) {
+        game.self.health--;
+        htText.setText('HT: ' + game.self.health);
+        game.self.points += 10;
+        pointsText.setText('Points: ' + game.self.points);
+      };
     });
 
   }
