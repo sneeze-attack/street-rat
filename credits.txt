@@ -44,7 +44,7 @@ Szilárd Szabó : https://pixabay.com/users/clard-6995126/
 Pixabay: https://pixabay.com
 Pixabay License: https://pixabay.com/service/license/
 
-play-button.png made by Smashicons from Flaticon are licensed by Flaticon Basic License
+play-button.png, minus.png, and add.png made by Smashicons from Flaticon are licensed by Flaticon Basic License
 Smashicons: https://www.flaticon.com/authors/smashicons
 Flaticon: https://www.flaticon.com
 Flaticon Basic License: https://file000.flaticon.com/downloads/license/license.pdf

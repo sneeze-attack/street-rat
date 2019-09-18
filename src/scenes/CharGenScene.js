@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import gameState from '../index';
 import config from '../index';
-import self from '../index';
+import game from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
 import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
@@ -9,6 +9,8 @@ import male_icon_boxed_img from '../assets/icons/32x32/male_icon_small_white_box
 import female_icon_boxed_img from '../assets/icons/32x32/female_icon_small_white_boxed.png';
 import arrow_right_img from '../assets/icons/16x16/arrow_right_white_16x16.png';
 import arrow_left_img from '../assets/icons/16x16/arrow_left_white_16x16.png';
+import plus_img from '../assets/icons/16x16/plus.png';
+import minus_img from '../assets/icons/16x16/minus.png';
 import female1_img from '../assets/portraits/female/160x200/female1.jpg';
 import female2_img from '../assets/portraits/female/160x200/female2.jpg';
 import female3_img from '../assets/portraits/female/160x200/female3.jpg';
@@ -33,6 +35,8 @@ export class CharGenScene extends Phaser.Scene {
     this.load.image('female_icon_boxed', female_icon_boxed_img);
     this.load.image('arrow_right', arrow_right_img);
     this.load.image('arrow_left', arrow_left_img);
+    this.load.image('plus', plus_img);
+    this.load.image('minus', minus_img);
     this.load.image('female1', female1_img);
     this.load.image('female2', female2_img);
     this.load.image('female3', female3_img);
@@ -48,7 +52,7 @@ export class CharGenScene extends Phaser.Scene {
 
     //needs comment
     this.config = this.sys.game.config;
-    this.globals = { gameState, self };
+    this.globals = { gameState };
 
     //add background image
     this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
@@ -68,57 +72,85 @@ export class CharGenScene extends Phaser.Scene {
 
     //boxed selection logic for gender
     maleButton.on('pointerup', function () {
-      self.gender = 'male';
-      self.portrait = 1;
+      game.self.gender = 'male';
+      game.self.portrait = 1;
       maleSelection = 'male_icon_boxed';
       femaleSelection = 'female_icon';
       maleButton.setTexture(maleSelection);
       femaleButton.setTexture(femaleSelection);
-      portrait.setTexture(self.gender + self.portrait);
+      portrait.setTexture(game.self.gender + game.self.portrait);
     });
     femaleButton.on('pointerup', function () {
-      self.gender = 'female';
-      self.portrait = 1;
+      game.self.gender = 'female';
+      game.self.portrait = 1;
       maleSelection = 'male_icon';
       femaleSelection = 'female_icon_boxed';
       femaleButton.setTexture(femaleSelection);
       maleButton.setTexture(maleSelection);
-      portrait.setTexture(self.gender + self.portrait);
+      portrait.setTexture(game.self.gender + game.self.portrait);
     });
 
     //back button logic
     backButton.on('pointerup', function () {
-      self.gender = null;
-      self.portrait = null;
+      game.self.gender = null;
+      game.self.portrait = null;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
     backTextBox.on('pointerup', function () {
-      self.gender = null;
-      self.portrait = null;
+      game.self.gender = null;
+      game.self.portrait = null;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
 
-    self.portrait = 0;
+    //create portrait with placeholder and arrows
+    game.self.portrait = 0;
     let portrait = this.add.sprite(((this.config.width * 18) / 128), ((this.config.height * 19) / 128), 'placeholder').setOrigin(0, 0);
     let portraitPreviousArrow = this.add.sprite(((this.config.width * 18) / 128), ((this.config.height * 56) / 128), 'arrow_left').setOrigin(0, 0).setInteractive();
     let portraitNextArrow = this.add.sprite(((this.config.width * 31) / 128), ((this.config.height * 56) / 128), 'arrow_right').setOrigin(0, 0).setInteractive();
 
+    //portrait arrow code
     portraitNextArrow.on('pointerup', function () {
-      self.portrait++;
-      if (self.portrait === 5) {
-        self.portrait = 1;
+      game.self.portrait++;
+      if (game.self.portrait === 5) {
+        game.self.portrait = 1;
       };
-      portrait.setTexture(self.gender + self.portrait);
+      portrait.setTexture(game.self.gender + game.self.portrait);
     });
     portraitPreviousArrow.on('pointerup', function () {
-      self.portrait--;
-      if (self.portrait === 0) {
-        self.portrait = 4;
+      game.self.portrait--;
+      if (game.self.portrait === 0) {
+        game.self.portrait = 4;
       };
-      portrait.setTexture(self.gender + self.portrait);
+      portrait.setTexture(game.self.gender + game.self.portrait);
     });
+
+    //name
+    let nameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'PlayerName').setColor('#FFFFFF').setFontSize(36);
+
+    //primary attributes
+    let stText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 29) / 128), 'ST:').setColor('#FFFFFF').setFontSize(28);
+    let dxText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 35) / 128), 'DX:').setColor('#FFFFFF').setFontSize(28);
+    let iqText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 41) / 128), 'IQ:').setColor('#FFFFFF').setFontSize(28);
+    let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT:').setColor('#FFFFFF').setFontSize(28);
+
+    let selfStText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 29) / 128), game.self.strength).setColor('#FFFFFF').setFontSize(28);
+    let selfDxText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 35) / 128), game.self.dexterity).setColor('#FFFFFF').setFontSize(28);
+    let selfIqText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 41) / 128), game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
+    let selfHtText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 47) / 128), game.self.health).setColor('#FFFFFF').setFontSize(28);
+
+    let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let stMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let dxPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let dxMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let iqPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let htPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let htMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
   }
 
   update() {

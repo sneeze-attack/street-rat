@@ -17,7 +17,9 @@ export const config = {
 };
 
 export const gameState = new GameState();
-export const self = new Player();
 
 const game = new Phaser.Game(config);
+
+game.self = new Player();
+
 export default game;
