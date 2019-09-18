@@ -129,28 +129,84 @@ export class CharGenScene extends Phaser.Scene {
     //name
     let nameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'PlayerName').setColor('#FFFFFF').setFontSize(36);
 
+    //player points
+    let pointsText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
+
     //primary attributes
-    let stText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 29) / 128), 'ST:').setColor('#FFFFFF').setFontSize(28);
-    let dxText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 35) / 128), 'DX:').setColor('#FFFFFF').setFontSize(28);
-    let iqText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 41) / 128), 'IQ:').setColor('#FFFFFF').setFontSize(28);
-    let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT:').setColor('#FFFFFF').setFontSize(28);
+    let stText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 29) / 128), 'ST: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
+    let dxText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 35) / 128), 'DX: ' + game.self.dexterity).setColor('#FFFFFF').setFontSize(28);
+    let iqText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 41) / 128), 'IQ: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
+    let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT: ' + game.self.health).setColor('#FFFFFF').setFontSize(28);
 
-    let selfStText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 29) / 128), game.self.strength).setColor('#FFFFFF').setFontSize(28);
-    let selfDxText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 35) / 128), game.self.dexterity).setColor('#FFFFFF').setFontSize(28);
-    let selfIqText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 41) / 128), game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
-    let selfHtText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 47) / 128), game.self.health).setColor('#FFFFFF').setFontSize(28);
-
+    //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let stMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    stPlus.on('pointerup', function () {
+      game.self.strength++;
+      stText.setText('ST: ' + game.self.strength);
+      game.self.points -= 10;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
+    stMinus.on('pointerup', function () {
+      game.self.strength--;
+      stText.setText('ST: ' + game.self.strength);
+      game.self.points += 10;
+      pointsText.setText('Points: ' + game.self.points);
+    });
 
     let dxPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let dxMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
+    dxPlus.on('pointerup', function () {
+      game.self.dexterity++;
+      dxText.setText('DX: ' + game.self.dexterity);
+      game.self.points -= 20;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
+    dxMinus.on('pointerup', function () {
+      game.self.dexterity--;
+      dxText.setText('DX: ' + game.self.dexterity);
+      game.self.points += 20;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
     let iqPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
+    iqPlus.on('pointerup', function () {
+      game.self.intelligence++;
+      iqText.setText('IQ: ' + game.self.intelligence);
+      game.self.points -= 20;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
+    iqMinus.on('pointerup', function () {
+      game.self.intelligence--;
+      iqText.setText('IQ: ' + game.self.intelligence);
+      game.self.points += 20;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
     let htPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let htMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    htPlus.on('pointerup', function () {
+      game.self.health++;
+      htText.setText('HT: ' + game.self.health);
+      game.self.points -= 10;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
+    htMinus.on('pointerup', function () {
+      game.self.health--;
+      htText.setText('HT: ' + game.self.health);
+      game.self.points += 10;
+      pointsText.setText('Points: ' + game.self.points);
+    });
+
   }
 
   update() {
