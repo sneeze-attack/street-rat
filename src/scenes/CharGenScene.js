@@ -94,12 +94,24 @@ export class CharGenScene extends Phaser.Scene {
     backButton.on('pointerup', function () {
       game.self.gender = null;
       game.self.portrait = null;
+      game.self.name = null;
+      game.self.health = 10;
+      game.self.intelligence = 10;
+      game.self.dexterity = 10;
+      game.self.health = 10;
+      game.self.points = 100;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
     backTextBox.on('pointerup', function () {
       game.self.gender = null;
       game.self.portrait = null;
+      game.self.name = null;
+      game.self.health = 10;
+      game.self.intelligence = 10;
+      game.self.dexterity = 10;
+      game.self.health = 10;
+      game.self.points = 100;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -112,22 +124,44 @@ export class CharGenScene extends Phaser.Scene {
 
     //portrait arrow code
     portraitNextArrow.on('pointerup', function () {
-      game.self.portrait++;
-      if (game.self.portrait === 5) {
-        game.self.portrait = 1;
+      if (game.self.gender) {
+        game.self.portrait++;
+        if (game.self.portrait === 5) {
+          game.self.portrait = 1;
+        };
+        portrait.setTexture(game.self.gender + game.self.portrait);
       };
-      portrait.setTexture(game.self.gender + game.self.portrait);
     });
     portraitPreviousArrow.on('pointerup', function () {
-      game.self.portrait--;
-      if (game.self.portrait === 0) {
-        game.self.portrait = 4;
+      if (game.self.gender) {
+        game.self.portrait--;
+        if (game.self.portrait === 0) {
+          game.self.portrait = 4;
+        };
+        portrait.setTexture(game.self.gender + game.self.portrait);
       };
-      portrait.setTexture(game.self.gender + game.self.portrait);
     });
 
     //name
-    let nameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'PlayerName').setColor('#FFFFFF').setFontSize(36);
+    let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'Enter player name').setColor('#FFFFFF').setFontSize(36);
+
+    //enter name code
+    let nameEntry = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), '', { font: '36px Courier', fill: '#ffffff' });
+    let keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    let keyBackspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
+
+    this.input.keyboard.on('keydown', function (event) {
+        if (event.keyCode === 8 && nameEntry.text.length > 0)
+        {
+            nameEntry.text = nameEntry.text.substr(0, nameEntry.text.length - 1);
+        }
+        else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
+        {
+            nameEntry.text += event.key;
+            enterNameText.destroy();
+            game.self.name = nameEntry.text;
+        }
+    });
 
     //player points
     let pointsText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
