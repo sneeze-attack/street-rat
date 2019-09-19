@@ -95,7 +95,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.gender = null;
       game.self.portrait = null;
       game.self.name = null;
-      game.self.health = 10;
+      game.self.strength = 10;
       game.self.intelligence = 10;
       game.self.dexterity = 10;
       game.self.health = 10;
@@ -107,7 +107,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.gender = null;
       game.self.portrait = null;
       game.self.name = null;
-      game.self.health = 10;
+      game.self.strength = 10;
       game.self.intelligence = 10;
       game.self.dexterity = 10;
       game.self.health = 10;
