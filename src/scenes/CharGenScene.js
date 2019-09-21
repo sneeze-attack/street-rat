@@ -100,6 +100,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.dexterity = 10;
       game.self.health = 10;
       game.self.points = 100;
+      game.self.hp = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -112,6 +113,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.dexterity = 10;
       game.self.health = 10;
       game.self.points = 100;
+      game.self.hp = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -126,6 +128,7 @@ export class CharGenScene extends Phaser.Scene {
     portraitNextArrow.on('pointerup', function () {
       if (game.self.gender) {
         game.self.portrait++;
+        //loop back to first portrait once end is reached
         if (game.self.portrait === 5) {
           game.self.portrait = 1;
         };
@@ -135,6 +138,7 @@ export class CharGenScene extends Phaser.Scene {
     portraitPreviousArrow.on('pointerup', function () {
       if (game.self.gender) {
         game.self.portrait--;
+        //loop back to last portrait once beginning is reached
         if (game.self.portrait === 0) {
           game.self.portrait = 4;
         };
@@ -172,25 +176,44 @@ export class CharGenScene extends Phaser.Scene {
     let iqText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 41) / 128), 'IQ: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
     let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT: ' + game.self.health).setColor('#FFFFFF').setFontSize(28);
 
+    //secondary attributes
+    let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), 'HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
+
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let stMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     stPlus.on('pointerup', function () {
-      if (game.self.strength < 20 && game.self.points >= 10) {
+      if (game.self.strength < 20 && game.self.points >= 10 && game.self.hp < (1.3 * game.self.strength)) {
         game.self.strength++;
+        game.self.hp++;
         stText.setText('ST: ' + game.self.strength);
+        hpText.setText('HP: ' + game.self.hp);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
+        //hp should not vary beyond +- 30% of strength
+      } else if (game.self.strength < 20 && game.self.hp >= (1.3 * game.self.strength)) {
+        game.self.hp--;
+        game.self.points += 2;
+        pointsText.setText('Points: ' + game.self.points);
+        hpText.setText('HP: ' + game.self.hp);
       };
     });
 
     stMinus.on('pointerup', function () {
-      if (game.self.strength > 7) {
+      if (game.self.strength > 7 && game.self.hp > (0.7 * game.self.strength)) {
         game.self.strength--;
+        game.self.hp--;
         stText.setText('ST: ' + game.self.strength);
+        hpText.setText('HP: ' + game.self.hp);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
+        //hp should not vary beyond +- 30% of strength
+      } else if (game.self.strength > 7 && game.self.points >= 2 && game.self.hp <= (0.7 * game.self.strength)) {
+        game.self.hp++;
+        game.self.points -= 2;
+        pointsText.setText('Points: ' + game.self.points);
+        hpText.setText('HP: ' + game.self.hp);
       };
     });
 
@@ -253,6 +276,28 @@ export class CharGenScene extends Phaser.Scene {
         game.self.health--;
         htText.setText('HT: ' + game.self.health);
         game.self.points += 10;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+
+    let hpPlus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let hpMinus = this.add.sprite(((this.config.width * 67) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    //hp should not beyond +- 30% of strength
+    hpPlus.on('pointerup', function () {
+      if (game.self.hp < (1.3 * game.self.strength) && game.self.points >= 2) {
+        game.self.hp++;
+        hpText.setText('HP: ' + game.self.hp);
+        game.self.points -= 2;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+
+    hpMinus.on('pointerup', function () {
+      if (game.self.hp > (0.7 * game.self.strength)) {
+        game.self.hp--;
+        hpText.setText('HP: ' + game.self.hp);
+        game.self.points += 2;
         pointsText.setText('Points: ' + game.self.points);
       };
     });

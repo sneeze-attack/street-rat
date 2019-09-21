@@ -8,5 +8,6 @@ export default class Player {
 		this.intelligence = 10;
 		this.health = 10;
 		this.points = 100;
+		this.hp = 10;
 	}
 }
