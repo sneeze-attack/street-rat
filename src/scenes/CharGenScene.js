@@ -181,6 +181,7 @@ export class CharGenScene extends Phaser.Scene {
     //secondary attributes
     let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
     let willText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
+    let perText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 41) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
 
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -244,10 +245,12 @@ export class CharGenScene extends Phaser.Scene {
     let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     iqPlus.on('pointerup', function () {
-      if (game.self.intelligence < 20 && game.self.points >= 20 && game.self.will < 20) {
+      if (game.self.intelligence < 20 && game.self.points >= 20 && game.self.will < 20 && game.self.perception < 20) {
         game.self.intelligence++;
         game.self.will++;
+        game.self.perception++;
         willText.setText('Will: ' + game.self.will);
+        perText.setText(' Per: ' + game.self.perception);
         iqText.setText('IQ: ' + game.self.intelligence);
         game.self.points -= 20;
         pointsText.setText('Points: ' + game.self.points);
@@ -258,14 +261,22 @@ export class CharGenScene extends Phaser.Scene {
         game.self.points += 5;
         willText.setText('Will: ' + game.self.will);
         pointsText.setText('Points: ' + game.self.points);
+      } else if (game.self.intelligence < 20 && game.self.perception >= 20) {
+        game.self.perception--;
+        game.self.perInteger++;
+        game.self.points += 5;
+        perText.setText(' Per: ' + game.self.perception);
+        pointsText.setText('Points: ' + game.self.points);
       };
     });
     iqMinus.on('pointerup', function () {
       if (game.self.intelligence > 7) {
         game.self.intelligence--;
         game.self.will--;
+        game.self.perception--;
         iqText.setText('IQ: ' + game.self.intelligence);
         willText.setText('Will: ' + game.self.will);
+        perText.setText(' Per: ' + game.self.perception);
         game.self.points += 20;
         pointsText.setText('Points: ' + game.self.points);
       };
@@ -331,6 +342,31 @@ export class CharGenScene extends Phaser.Scene {
         game.self.will--;
         game.self.willInteger++;
         willText.setText('Will: ' + game.self.will);
+        game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+
+
+    let perPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let perMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    perPlus.on('pointerup', function () {
+      //perception should not exceed 20
+      if (game.self.perception < 20 && game.self.points > 5) {
+        game.self.perception++;
+        game.self.perInteger--;
+        perText.setText(' Per: ' + game.self.perception);
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+    perMinus.on('pointerup', function () {
+      //perception cannot be lowered by more than 4, tracked with perInteger
+      if (game.self.perInteger < 4) {
+        game.self.perception--;
+        game.self.perInteger++;
+        perText.setText(' Per: ' + game.self.perception);
         game.self.points += 5;
         pointsText.setText('Points: ' + game.self.points);
       };

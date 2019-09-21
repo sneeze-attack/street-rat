@@ -11,5 +11,7 @@ export default class Player {
 		this.hp = 10;
 		this.will = 10;
 		this.willInteger = 0;
+		this.perception = 10;
+		this.perInteger = 0;
 	}
 }
