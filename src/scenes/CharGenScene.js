@@ -101,6 +101,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.health = 10;
       game.self.points = 100;
       game.self.hp = 10;
+      game.self.will = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -114,6 +115,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.health = 10;
       game.self.points = 100;
       game.self.hp = 10;
+      game.self.will = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -177,7 +179,8 @@ export class CharGenScene extends Phaser.Scene {
     let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT: ' + game.self.health).setColor('#FFFFFF').setFontSize(28);
 
     //secondary attributes
-    let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), 'HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
+    let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
+    let willText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
 
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -228,7 +231,6 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
       };
     });
-
     dxMinus.on('pointerup', function () {
       if (game.self.dexterity > 7) {
         game.self.dexterity--;
@@ -242,18 +244,28 @@ export class CharGenScene extends Phaser.Scene {
     let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     iqPlus.on('pointerup', function () {
-      if (game.self.intelligence < 20 && game.self.points >= 20) {
+      if (game.self.intelligence < 20 && game.self.points >= 20 && game.self.will < 20) {
         game.self.intelligence++;
+        game.self.will++;
+        willText.setText('Will: ' + game.self.will);
         iqText.setText('IQ: ' + game.self.intelligence);
         game.self.points -= 20;
         pointsText.setText('Points: ' + game.self.points);
+        //if will is more than 20, decrease it so that intelligence may be raised
+      } else if (game.self.intelligence < 20 && game.self.will >= 20) {
+        game.self.will--;
+        game.self.willInteger++;
+        game.self.points += 5;
+        willText.setText('Will: ' + game.self.will);
+        pointsText.setText('Points: ' + game.self.points);
       };
     });
-
     iqMinus.on('pointerup', function () {
       if (game.self.intelligence > 7) {
         game.self.intelligence--;
+        game.self.will--;
         iqText.setText('IQ: ' + game.self.intelligence);
+        willText.setText('Will: ' + game.self.will);
         game.self.points += 20;
         pointsText.setText('Points: ' + game.self.points);
       };
@@ -270,7 +282,6 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
       };
     });
-
     htMinus.on('pointerup', function () {
       if (game.self.health > 7) {
         game.self.health--;
@@ -280,24 +291,47 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
-    let hpPlus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let hpMinus = this.add.sprite(((this.config.width * 67) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let hpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let hpMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    //hp should not beyond +- 30% of strength
+    //hp should not vary beyond +- 30% of strength
     hpPlus.on('pointerup', function () {
       if (game.self.hp < (1.3 * game.self.strength) && game.self.points >= 2) {
         game.self.hp++;
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
         game.self.points -= 2;
         pointsText.setText('Points: ' + game.self.points);
       };
     });
-
     hpMinus.on('pointerup', function () {
       if (game.self.hp > (0.7 * game.self.strength)) {
         game.self.hp--;
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
         game.self.points += 2;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+
+    let willPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let willMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    willPlus.on('pointerup', function () {
+      //will should not exceed 20
+      if (game.self.will < 20 && game.self.points > 5) {
+        game.self.will++;
+        game.self.willInteger--;
+        willText.setText('Will: ' + game.self.will);
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+    willMinus.on('pointerup', function () {
+      //will cannot be lowered by more than 4, tracked with willInteger
+      if (game.self.willInteger < 4) {
+        game.self.will--;
+        game.self.willInteger++;
+        willText.setText('Will: ' + game.self.will);
+        game.self.points += 5;
         pointsText.setText('Points: ' + game.self.points);
       };
     });

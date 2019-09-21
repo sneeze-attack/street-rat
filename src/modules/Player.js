@@ -9,5 +9,7 @@ export default class Player {
 		this.health = 10;
 		this.points = 100;
 		this.hp = 10;
+		this.will = 10;
+		this.willInteger = 0;
 	}
 }
