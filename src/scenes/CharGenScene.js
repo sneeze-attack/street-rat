@@ -106,6 +106,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.fp = 10;
       game.self.lift = 20;
       game.self.speed = 5;
+      game.self.move = 5;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -124,6 +125,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.fp = 10;
       game.self.lift = 20;
       game.self.speed = 5;
+      game.self.move = 5;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -195,11 +197,13 @@ export class CharGenScene extends Phaser.Scene {
     //more secondary attributes, third column
     let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), ' Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
+    let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
 
     //integers to track stats with specific thresholds
     let willInteger = 0;
     let perInteger = 0;
     let speedInteger = 0;
+    let moveInteger = 0;
 
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -262,6 +266,9 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
         game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       };
     });
     dxMinus.on('pointerup', function () {
@@ -272,6 +279,9 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
         game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       };
     });
 
@@ -330,6 +340,9 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
         game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       } else if (game.self.health < 20 && game.self.fp >= (1.3 * game.self.health)) {
 		    game.self.fp--;
 		    game.self.points += 3;
@@ -348,6 +361,9 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
         game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       } else if (game.self.health > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.health)) {
 	      game.self.fp++
 	      game.self.points -= 3;
@@ -458,6 +474,9 @@ export class CharGenScene extends Phaser.Scene {
         speedText.setText('Speed: ' + game.self.speed);
         game.self.points -= 5;
         pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       };
     });
     speedMinus.on('pointerup', function () {
@@ -468,6 +487,35 @@ export class CharGenScene extends Phaser.Scene {
         speedText.setText('Speed: ' + game.self.speed);
         game.self.points += 5;
         pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+      };
+    });
+
+    let movePlus = this.add.sprite(((this.config.width * 102) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let moveMinus = this.add.sprite(((this.config.width * 99) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    movePlus.on('pointerup', function () {
+      //move threshold of +- 3
+      if (moveInteger < 3 && game.self.points >= 5) {
+        moveInteger++;
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+      };
+    });
+    //move threshold of +- 3, move cannot be less than 1
+    moveMinus.on('pointerup', function () {
+      if (moveInteger > -3 && game.self.move > 1) {
+        moveInteger--;
+        game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
       };
     });
   }
