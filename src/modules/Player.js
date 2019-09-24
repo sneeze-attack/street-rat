@@ -12,5 +12,8 @@ export default class Player {
 		this.will = 10;
 		this.perception = 10;
 		this.fp = 10;
+		this.lift = 20;
+		this.speed = 5;
+		this.move = 5;
 	}
 }
