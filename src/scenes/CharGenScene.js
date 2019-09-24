@@ -102,6 +102,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.points = 100;
       game.self.hp = 10;
       game.self.will = 10;
+      game.self.perception = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -116,6 +117,8 @@ export class CharGenScene extends Phaser.Scene {
       game.self.points = 100;
       game.self.hp = 10;
       game.self.will = 10;
+      game.self.perception = 10;
+      game.self.fp = 10;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -182,6 +185,7 @@ export class CharGenScene extends Phaser.Scene {
     let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
     let willText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
     let perText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 41) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
+    let fpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 47) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
 
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -192,7 +196,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.strength++;
         game.self.hp++;
         stText.setText('ST: ' + game.self.strength);
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
         //hp should not vary beyond +- 30% of strength
@@ -200,7 +204,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.hp--;
         game.self.points += 2;
         pointsText.setText('Points: ' + game.self.points);
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
       };
     });
 
@@ -209,7 +213,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.strength--;
         game.self.hp--;
         stText.setText('ST: ' + game.self.strength);
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
         //hp should not vary beyond +- 30% of strength
@@ -217,7 +221,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.hp++;
         game.self.points -= 2;
         pointsText.setText('Points: ' + game.self.points);
-        hpText.setText('HP: ' + game.self.hp);
+        hpText.setText('  HP: ' + game.self.hp);
       };
     });
 
@@ -286,20 +290,36 @@ export class CharGenScene extends Phaser.Scene {
     let htMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     htPlus.on('pointerup', function () {
-      if (game.self.health < 20 && game.self.points >= 10) {
+      if (game.self.health < 20 && game.self.points >= 10 && game.self.fp < (1.3 * game.self.health)) {
         game.self.health++;
+        game.self.fp++;
         htText.setText('HT: ' + game.self.health);
+		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
+		    //fp should not vary beyond +- 30% of health
+      } else if (game.self.health < 20 && game.self.fp >= (1.3 * game.self.health)) {
+		    game.self.fp--;
+		    game.self.points +- 3;
+		    pointsText.setText('Points: ' + game.self.points);
+		    fpText.setText('  FP: ' + game.self.fp);
       };
     });
     htMinus.on('pointerup', function () {
-      if (game.self.health > 7) {
+      if (game.self.health > 7 && game.self.fp > (0.7 * game.self.health)) {
         game.self.health--;
+		    game.self.fp--;
         htText.setText('HT: ' + game.self.health);
+		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
-      };
+		    //fp should not vary beyond +- 30% of health
+      } else if (game.self.health > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.health)) {
+	      game.self.fp++
+	      game.self.points -= 3;
+	      pointsText.setText('Points: ' + game.self.points);
+        fpText.setText('  FP: ' + game.self.fp);
+	    };
     });
 
     let hpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -368,6 +388,27 @@ export class CharGenScene extends Phaser.Scene {
         game.self.perInteger++;
         perText.setText(' Per: ' + game.self.perception);
         game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+
+    let fpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let fpMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    //fp should not vary beyond +- 30% of health
+    fpPlus.on('pointerup', function () {
+      if (game.self.fp < (1.3 * game.self.health) && game.self.points >= 3) {
+        game.self.fp++;
+        fpText.setText('  FP: ' + game.self.fp);
+        game.self.points -= 3;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+    fpMinus.on('pointerup', function () {
+      if (game.self.fp > (0.7 * game.self.health)) {
+        game.self.fp--;
+        fpText.setText('  FP: ' + game.self.fp);
+        game.self.points += 3;
         pointsText.setText('Points: ' + game.self.points);
       };
     });
