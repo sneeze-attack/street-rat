@@ -502,11 +502,43 @@ export class CharGenScene extends Phaser.Scene {
     });
     speedMinus.on('pointerup', function () {
       //speed is (HT+DX)/4, speed threshold is +- 2.0 of unmodified speed stat
-      if (speedInteger > -8) {
+      if (speedInteger > -8 && game.self.move > 1) {
         speedInteger--;
         game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+        //the below else-ifs prevent game.self.move from being an invalid value, will need to redo this at some point because its terribly inefficient/complicated validation
+      } else if (speedInteger > -8 && game.self.move === 1 && game.self.speed === 3 && moveInteger < 3) {
+        moveInteger++;
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+      } else if (speedInteger > -8 && game.self.move === 1 && game.self.speed === 2 && moveInteger < 3) {
+        moveInteger++;
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+      } else if (speedInteger > -8 && game.self.move === 1 && game.self.speed > 1) {
+        speedInteger--;
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
+        game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+        //move is equal to speed, rounded down
+        game.self.move = Math.floor(game.self.speed) + moveInteger;
+        moveText.setText(' Move: ' + game.self.move);
+      } else if (speedInteger > -8 && game.self.points >= 5 && moveInteger < 3) {
+        //if current move is less than 1, adjust it by +1
+        moveInteger++;
+        game.self.points -= 5;
         pointsText.setText('Points: ' + game.self.points);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
