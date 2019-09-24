@@ -64,6 +64,10 @@ export class CharGenScene extends Phaser.Scene {
     let backTextBox = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 100) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let backButton = this.add.text(((this.config.width * 24) / 128), ((this.config.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
+    //continue button
+    let continueTextBox = this.add.rectangle(((this.config.width * 90) / 128), ((this.config.height * 100) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let continueButton = this.add.text(((this.config.width * 93) / 128), ((this.config.height * 101) / 128), 'Continue').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
     //buttons to select gender
     let maleSelection = 'male_icon';
     let femaleSelection = 'female_icon';
@@ -88,6 +92,16 @@ export class CharGenScene extends Phaser.Scene {
       femaleButton.setTexture(femaleSelection);
       maleButton.setTexture(maleSelection);
       portrait.setTexture(game.self.gender + game.self.portrait);
+    });
+
+    //continue button logic
+    continueButton.on('pointerup', function () {
+      gameState.nextScene = 'GameScene';
+      gameState.previousScene = 'CharGenScene';
+    });
+    continueTextBox.on('pointerup', function () {
+      gameState.nextScene = 'GameScene';
+      gameState.previousScene = 'CharGenScene';
     });
 
     //back button logic
@@ -197,7 +211,7 @@ export class CharGenScene extends Phaser.Scene {
     //more secondary attributes, third column
     let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), ' Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
-    let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
+    let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
 
     //integers to track stats with specific thresholds
     let willInteger = 0;
