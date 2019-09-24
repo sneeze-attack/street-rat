@@ -105,6 +105,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.perception = 10;
       game.self.fp = 10;
       game.self.lift = 20;
+      game.self.speed = 5;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -122,6 +123,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.perception = 10;
       game.self.fp = 10;
       game.self.lift = 20;
+      game.self.speed = 5;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     });
@@ -191,11 +193,13 @@ export class CharGenScene extends Phaser.Scene {
     let fpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 47) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
 
     //more secondary attributes, third column
-    let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), 'Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
+    let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), ' Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
+    let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
 
-    //integers to track will/perception decreases
+    //integers to track stats with specific thresholds
     let willInteger = 0;
     let perInteger = 0;
+    let speedInteger = 0;
 
     //attribute plus and minus sprites + code
     let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
@@ -213,7 +217,7 @@ export class CharGenScene extends Phaser.Scene {
         if (game.self.lift >= 10) {
           game.self.lift = Math.round(((game.self.strength * game.self.strength) / 5));
         };
-        liftText.setText('Lift: ' + game.self.lift);
+        liftText.setText(' Lift: ' + game.self.lift);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
       } else if (game.self.strength < 20 && game.self.hp >= (1.3 * game.self.strength)) {
@@ -236,7 +240,7 @@ export class CharGenScene extends Phaser.Scene {
         if (game.self.lift >= 10) {
           game.self.lift = Math.round(((game.self.strength * game.self.strength) / 5));
         };
-        liftText.setText('Lift: ' + game.self.lift);
+        liftText.setText(' Lift: ' + game.self.lift);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
       } else if (game.self.strength > 7 && game.self.points >= 2 && game.self.hp <= (0.7 * game.self.strength)) {
@@ -256,6 +260,8 @@ export class CharGenScene extends Phaser.Scene {
         dxText.setText('DX: ' + game.self.dexterity);
         game.self.points -= 20;
         pointsText.setText('Points: ' + game.self.points);
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
       };
     });
     dxMinus.on('pointerup', function () {
@@ -264,6 +270,8 @@ export class CharGenScene extends Phaser.Scene {
         dxText.setText('DX: ' + game.self.dexterity);
         game.self.points += 20;
         pointsText.setText('Points: ' + game.self.points);
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
       };
     });
 
@@ -320,9 +328,11 @@ export class CharGenScene extends Phaser.Scene {
 		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
       } else if (game.self.health < 20 && game.self.fp >= (1.3 * game.self.health)) {
 		    game.self.fp--;
-		    game.self.points +- 3;
+		    game.self.points += 3;
 		    pointsText.setText('Points: ' + game.self.points);
 		    fpText.setText('  FP: ' + game.self.fp);
       };
@@ -336,6 +346,8 @@ export class CharGenScene extends Phaser.Scene {
 		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
       } else if (game.self.health > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.health)) {
 	      game.self.fp++
 	      game.self.points -= 3;
@@ -435,6 +447,29 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
+    let speedPlus = this.add.sprite(((this.config.width * 102) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let speedMinus = this.add.sprite(((this.config.width * 99) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    speedPlus.on('pointerup', function () {
+      //speed is (HT+DX)/4, speed threshold is +- 2.0 of unmodified speed stat
+      if (speedInteger < 8 && game.self.points >= 5) {
+        speedInteger++;
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
+        game.self.points -= 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
+    speedMinus.on('pointerup', function () {
+      //speed is (HT+DX)/4, speed threshold is +- 2.0 of unmodified speed stat
+      if (speedInteger > -8) {
+        speedInteger--;
+        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        speedText.setText('Speed: ' + game.self.speed);
+        game.self.points += 5;
+        pointsText.setText('Points: ' + game.self.points);
+      };
+    });
   }
 
   update() {
