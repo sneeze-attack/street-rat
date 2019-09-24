@@ -95,14 +95,20 @@ export class CharGenScene extends Phaser.Scene {
     });
 
     //continue button logic
+    //only allow continue if name and gender are selected
     continueButton.on('pointerup', function () {
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'CharGenScene';
+      if (game.self.gender && game.self.name) {
+        gameState.nextScene = 'GameScene';
+        gameState.previousScene = 'CharGenScene';
+      };
     });
     continueTextBox.on('pointerup', function () {
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'CharGenScene';
+      if (game.self.gender && game.self.name) {
+        gameState.nextScene = 'GameScene';
+        gameState.previousScene = 'CharGenScene';
+      };
     });
+
 
     //back button logic
     backButton.on('pointerup', function () {
@@ -184,6 +190,7 @@ export class CharGenScene extends Phaser.Scene {
         if (event.keyCode === 8 && nameEntry.text.length > 0)
         {
             nameEntry.text = nameEntry.text.substr(0, nameEntry.text.length - 1);
+            game.self.name = nameEntry.text;
         }
         else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
         {
