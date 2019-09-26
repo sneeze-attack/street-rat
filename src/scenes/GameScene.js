@@ -40,6 +40,7 @@ export class GameScene extends Phaser.Scene {
     //add black box
     let createBox = this.add.rectangle(((this.config.width * 16) / 128), ((this.config.height * 16) / 128), ((this.config.width * 96) / 128), ((this.config.height * 96) / 128), 0x000000).setOrigin(0, 0);
 
+    //portrait
     let portrait = this.add.sprite(((this.config.width * 18) / 128), ((this.config.height * 19) / 128), game.self.gender + game.self.portrait).setOrigin(0, 0);
 
     //name
@@ -64,6 +65,45 @@ export class GameScene extends Phaser.Scene {
     let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), ' Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
     let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
+
+    //add in a message box
+    let messageBoxBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
+    let messageBox = this.add.rectangle(((this.config.width * 63) / 128), ((this.config.height * 63) / 128), ((this.config.width * 46) / 128), ((this.config.height * 45) / 128), 0x000000).setOrigin(0, 0);
+
+    //message box text
+    let messageBoxLineOne = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 65) / 128), 'Test Text: Line 1').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineTwo = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 71) / 128), 'Test Text: Line 2').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineThree = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 77) / 128), 'Test Text: Line 3').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineFour = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 83) / 128), 'Test Text: Line 4').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineFive = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 89) / 128), 'Test Text: Line 5').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineSix = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 95) / 128), 'Test Text: Line 6').setColor('#FFFFFF').setFontSize(28);
+    let messageBoxLineSeven = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 101) / 128), 'Test Text: Line 7').setColor('#FFFFFF').setFontSize(28);
+
+    //action buttons
+    let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding1Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding1Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), 'Test1').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding2Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding2Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 74) / 128), 'Test2').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding3Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding3Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 74) / 128), 'Test3').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding4Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding4Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 85) / 128), 'Test4').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding5Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding5Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 85) / 128), 'Test5').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding6Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding6Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 96) / 128), 'Test6').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    let padding7Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding7Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 96) / 128), 'Test7').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    
   }
 
   update() {
