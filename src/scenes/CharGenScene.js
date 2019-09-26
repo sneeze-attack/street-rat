@@ -117,14 +117,14 @@ export class CharGenScene extends Phaser.Scene {
       game.self.name = null;
       game.self.strength = 10;
       game.self.intelligence = 10;
-      game.self.dexterity = 10;
-      game.self.health = 10;
+      game.self.agility = 10;
+      game.self.constitution = 10;
       game.self.points = 100;
       game.self.hp = 10;
       game.self.will = 10;
       game.self.perception = 10;
       game.self.fp = 10;
-      game.self.lift = 20;
+      game.self.carry = 20;
       game.self.speed = 5;
       game.self.move = 5;
       gameState.nextScene = 'StartScene';
@@ -136,14 +136,14 @@ export class CharGenScene extends Phaser.Scene {
       game.self.name = null;
       game.self.strength = 10;
       game.self.intelligence = 10;
-      game.self.dexterity = 10;
-      game.self.health = 10;
+      game.self.agility = 10;
+      game.self.constitution = 10;
       game.self.points = 100;
       game.self.hp = 10;
       game.self.will = 10;
       game.self.perception = 10;
       game.self.fp = 10;
-      game.self.lift = 20;
+      game.self.carry = 20;
       game.self.speed = 5;
       game.self.move = 5;
       gameState.nextScene = 'StartScene';
@@ -179,7 +179,7 @@ export class CharGenScene extends Phaser.Scene {
     });
 
     //name
-    let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'Enter player name').setColor('#FFFFFF').setFontSize(36);
+    let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'Type player name').setColor('#FFFFFF').setFontSize(36);
 
     //enter name code
     let nameEntry = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), '', { font: '36px Courier', fill: '#ffffff' });
@@ -204,10 +204,10 @@ export class CharGenScene extends Phaser.Scene {
     let pointsText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
 
     //primary attributes, first column
-    let stText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 29) / 128), 'ST: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
-    let dxText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 35) / 128), 'DX: ' + game.self.dexterity).setColor('#FFFFFF').setFontSize(28);
-    let iqText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 41) / 128), 'IQ: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
-    let htText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 47) / 128), 'HT: ' + game.self.health).setColor('#FFFFFF').setFontSize(28);
+    let strText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 29) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
+    let agiText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 35) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
+    let intText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 41) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
+    let conText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 47) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
 
     //secondary attributes, second column
     let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
@@ -216,7 +216,7 @@ export class CharGenScene extends Phaser.Scene {
     let fpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 47) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
 
     //more secondary attributes, third column
-    let liftText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), ' Lift: ' + game.self.lift).setColor('#FFFFFF').setFontSize(28);
+    let carryText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
     let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
 
@@ -227,22 +227,22 @@ export class CharGenScene extends Phaser.Scene {
     let moveInteger = 0;
 
     //attribute plus and minus sprites + code
-    let stPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let stMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let strPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let strMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    stPlus.on('pointerup', function () {
+    strPlus.on('pointerup', function () {
       //hp should not vary beyond +- 30% of strength
       if (game.self.strength < 20 && game.self.points >= 10 && game.self.hp < (1.3 * game.self.strength)) {
         game.self.strength++;
         game.self.hp++;
-        stText.setText('ST: ' + game.self.strength);
+        strText.setText('STR: ' + game.self.strength);
         hpText.setText('  HP: ' + game.self.hp);
-        //lift is (STxST)/5, rounded to nearest integer if lift is 10 or more
-        game.self.lift = ((game.self.strength * game.self.strength) / 5);
-        if (game.self.lift >= 10) {
-          game.self.lift = Math.round(((game.self.strength * game.self.strength) / 5));
+        //carry is (STRxSTR)/5, rounded to nearest integer if carry is 10 or more
+        game.self.carry = ((game.self.strength * game.self.strength) / 5);
+        if (game.self.carry >= 10) {
+          game.self.carry = Math.round(((game.self.strength * game.self.strength) / 5));
         };
-        liftText.setText(' Lift: ' + game.self.lift);
+        carryText.setText(' Carry: ' + game.self.carry);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
       } else if (game.self.strength < 20 && game.self.hp >= (1.3 * game.self.strength)) {
@@ -253,19 +253,19 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
-    stMinus.on('pointerup', function () {
+    strMinus.on('pointerup', function () {
       //hp should not vary beyond +- 30% of strength
       if (game.self.strength > 7 && game.self.hp > (0.7 * game.self.strength)) {
         game.self.strength--;
         game.self.hp--;
-        stText.setText('ST: ' + game.self.strength);
+        strText.setText('STR: ' + game.self.strength);
         hpText.setText('  HP: ' + game.self.hp);
-        //lift is (STxST)/5, rounded to nearest integer if lift is 10 or more
-        game.self.lift = ((game.self.strength * game.self.strength) / 5);
-        if (game.self.lift >= 10) {
-          game.self.lift = Math.round(((game.self.strength * game.self.strength) / 5));
+        //carry is (STRxSTR)/5, rounded to nearest integer if carry is 10 or more
+        game.self.carry = ((game.self.strength * game.self.strength) / 5);
+        if (game.self.carry >= 10) {
+          game.self.carry = Math.round(((game.self.strength * game.self.strength) / 5));
         };
-        liftText.setText(' Lift: ' + game.self.lift);
+        carryText.setText(' Carry: ' + game.self.carry);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
       } else if (game.self.strength > 7 && game.self.points >= 2 && game.self.hp <= (0.7 * game.self.strength)) {
@@ -276,29 +276,29 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
-    let dxPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let dxMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let agiPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let agiMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    dxPlus.on('pointerup', function () {
-      if (game.self.dexterity < 20 && game.self.points >= 20) {
-        game.self.dexterity++;
-        dxText.setText('DX: ' + game.self.dexterity);
+    agiPlus.on('pointerup', function () {
+      if (game.self.agility < 20 && game.self.points >= 20) {
+        game.self.agility++;
+        agiText.setText('AGI: ' + game.self.agility);
         game.self.points -= 20;
         pointsText.setText('Points: ' + game.self.points);
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
         moveText.setText(' Move: ' + game.self.move);
       };
     });
-    dxMinus.on('pointerup', function () {
-      if (game.self.dexterity > 7) {
-        game.self.dexterity--;
-        dxText.setText('DX: ' + game.self.dexterity);
+    agiMinus.on('pointerup', function () {
+      if (game.self.agility > 7) {
+        game.self.agility--;
+        agiText.setText('AGI: ' + game.self.agility);
         game.self.points += 20;
         pointsText.setText('Points: ' + game.self.points);
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
@@ -306,17 +306,17 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
-    let iqPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let iqMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let intPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let intMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    iqPlus.on('pointerup', function () {
+    intPlus.on('pointerup', function () {
       if (game.self.intelligence < 20 && game.self.points >= 20 && game.self.will < 20 && game.self.perception < 20) {
         game.self.intelligence++;
         game.self.will++;
         game.self.perception++;
         willText.setText('Will: ' + game.self.will);
         perText.setText(' Per: ' + game.self.perception);
-        iqText.setText('IQ: ' + game.self.intelligence);
+        intText.setText('INT: ' + game.self.intelligence);
         game.self.points -= 20;
         pointsText.setText('Points: ' + game.self.points);
         //if will is more than 20, decrease it so that intelligence may be raised
@@ -334,12 +334,12 @@ export class CharGenScene extends Phaser.Scene {
         pointsText.setText('Points: ' + game.self.points);
       };
     });
-    iqMinus.on('pointerup', function () {
+    intMinus.on('pointerup', function () {
       if (game.self.intelligence > 7) {
         game.self.intelligence--;
         game.self.will--;
         game.self.perception--;
-        iqText.setText('IQ: ' + game.self.intelligence);
+        intText.setText('INT: ' + game.self.intelligence);
         willText.setText('Will: ' + game.self.will);
         perText.setText(' Per: ' + game.self.perception);
         game.self.points += 20;
@@ -347,45 +347,45 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
 
-    let htPlus = this.add.sprite(((this.config.width * 50) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let htMinus = this.add.sprite(((this.config.width * 47) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let conPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let conMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    htPlus.on('pointerup', function () {
-      //fp should not vary beyond +- 30% of health
-      if (game.self.health < 20 && game.self.points >= 10 && game.self.fp < (1.3 * game.self.health)) {
-        game.self.health++;
+    conPlus.on('pointerup', function () {
+      //fp should not vary beyond +- 30% of constitution
+      if (game.self.constitution < 20 && game.self.points >= 10 && game.self.fp < (1.3 * game.self.constitution)) {
+        game.self.constitution++;
         game.self.fp++;
-        htText.setText('HT: ' + game.self.health);
+        conText.setText('CON: ' + game.self.constitution);
 		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points -= 10;
         pointsText.setText('Points: ' + game.self.points);
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
         moveText.setText(' Move: ' + game.self.move);
-      } else if (game.self.health < 20 && game.self.fp >= (1.3 * game.self.health)) {
+      } else if (game.self.constitution < 20 && game.self.fp >= (1.3 * game.self.constitution)) {
 		    game.self.fp--;
 		    game.self.points += 3;
 		    pointsText.setText('Points: ' + game.self.points);
 		    fpText.setText('  FP: ' + game.self.fp);
       };
     });
-    htMinus.on('pointerup', function () {
-      //fp should not vary beyond +- 30% of health
-      if (game.self.health > 7 && game.self.fp > (0.7 * game.self.health)) {
-        game.self.health--;
+    conMinus.on('pointerup', function () {
+      //fp should not vary beyond +- 30% of constitution
+      if (game.self.constitution > 7 && game.self.fp > (0.7 * game.self.constitution)) {
+        game.self.constitution--;
 		    game.self.fp--;
-        htText.setText('HT: ' + game.self.health);
+        conText.setText('CON: ' + game.self.constitution);
 		    fpText.setText('  FP: ' + game.self.fp);
         game.self.points += 10;
         pointsText.setText('Points: ' + game.self.points);
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
         moveText.setText(' Move: ' + game.self.move);
-      } else if (game.self.health > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.health)) {
+      } else if (game.self.constitution > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.constitution)) {
 	      game.self.fp++
 	      game.self.points -= 3;
 	      pointsText.setText('Points: ' + game.self.points);
@@ -466,9 +466,9 @@ export class CharGenScene extends Phaser.Scene {
     let fpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
     let fpMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
-    //fp should not vary beyond +- 30% of health
+    //fp should not vary beyond +- 30% of constitution
     fpPlus.on('pointerup', function () {
-      if (game.self.fp < (1.3 * game.self.health) && game.self.points >= 3) {
+      if (game.self.fp < (1.3 * game.self.constitution) && game.self.points >= 3) {
         game.self.fp++;
         fpText.setText('  FP: ' + game.self.fp);
         game.self.points -= 3;
@@ -476,7 +476,7 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
     fpMinus.on('pointerup', function () {
-      if (game.self.fp > (0.7 * game.self.health)) {
+      if (game.self.fp > (0.7 * game.self.constitution)) {
         game.self.fp--;
         fpText.setText('  FP: ' + game.self.fp);
         game.self.points += 3;
@@ -488,10 +488,10 @@ export class CharGenScene extends Phaser.Scene {
     let speedMinus = this.add.sprite(((this.config.width * 99) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     speedPlus.on('pointerup', function () {
-      //speed is (HT+DX)/4, speed threshold is +- 2.0 of unmodified speed stat
+      //speed is (CON+AGI)/4, speed threshold is +- 2.0 of unmodified speed stat
       if (speedInteger < 8 && game.self.points >= 5) {
         speedInteger++;
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         game.self.points -= 5;
         pointsText.setText('Points: ' + game.self.points);
@@ -501,10 +501,10 @@ export class CharGenScene extends Phaser.Scene {
       };
     });
     speedMinus.on('pointerup', function () {
-      //speed is (HT+DX)/4, speed threshold is +- 2.0 of unmodified speed stat
+      //speed is (CON+AGI)/4, speed threshold is +- 2.0 of unmodified speed stat
       if (speedInteger > -8 && game.self.move > 1) {
         speedInteger--;
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         game.self.points += 5;
         pointsText.setText('Points: ' + game.self.points);
@@ -519,7 +519,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.move = Math.floor(game.self.speed) + moveInteger;
         //decrease speed now
         speedInteger--;
-        game.self.speed = ((game.self.health + game.self.dexterity) / 4) + (speedInteger * 0.25);
+        game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         speedText.setText('Speed: ' + game.self.speed);
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
