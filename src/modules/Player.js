@@ -15,5 +15,6 @@ export default class Player {
 		this.carry = 20;
 		this.speed = 5;
 		this.move = 5;
+		this.credits = 0;
 	}
 }

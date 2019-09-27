@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import gameState from '../index';
 import config from '../index';
 import game from '../index';
+import * as roll from '../modules/Roll';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import female1_img from '../assets/portraits/female/160x200/female1.jpg';
 import female2_img from '../assets/portraits/female/160x200/female2.jpg';
@@ -65,29 +66,58 @@ export class GameScene extends Phaser.Scene {
     let carryText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
     let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
+    let creditsText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 47) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(28);
 
-    //add in a message box
-    let messageBoxBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
-    let messageBox = this.add.rectangle(((this.config.width * 63) / 128), ((this.config.height * 63) / 128), ((this.config.width * 46) / 128), ((this.config.height * 45) / 128), 0x000000).setOrigin(0, 0);
+    //add in a message area
+    let messageAreaBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
+    let messageArea = this.add.rectangle(((this.config.width * 63) / 128), ((this.config.height * 63) / 128), ((this.config.width * 46) / 128), ((this.config.height * 45) / 128), 0x000000).setOrigin(0, 0);
 
-    //message box text
-    let messageBoxLineOne = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 65) / 128), 'Test Text: Line 1').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineTwo = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 71) / 128), 'Test Text: Line 2').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineThree = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 77) / 128), 'Test Text: Line 3').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineFour = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 83) / 128), 'Test Text: Line 4').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineFive = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 89) / 128), 'Test Text: Line 5').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineSix = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 95) / 128), 'Test Text: Line 6').setColor('#FFFFFF').setFontSize(28);
-    let messageBoxLineSeven = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 101) / 128), 'Test Text: Line 7').setColor('#FFFFFF').setFontSize(28);
+    //add in message lines
+    game.messageBox.lineOne = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 101) / 128), game.messageBox.lineOneText).setColor('#FFFFFF').setFontSize(28);
+    game.messageBox.lineTwo = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 95) / 128), game.messageBox.lineTwoText).setColor('#DCDCDC').setFontSize(28);
+    game.messageBox.lineThree = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 89) / 128), game.messageBox.lineThreeText).setColor('#C0C0C0').setFontSize(28);
+    game.messageBox.lineFour = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 83) / 128), game.messageBox.lineFourText).setColor('#A9A9A9').setFontSize(28);
+    game.messageBox.lineFive = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 77) / 128), game.messageBox.lineFiveText).setColor('#808080').setFontSize(28);
+    game.messageBox.lineSix = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 71) / 128), game.messageBox.lineSixText).setColor('#696969').setFontSize(28);
+    game.messageBox.lineSeven = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 65) / 128), game.messageBox.lineSevenText).setColor('#505050').setFontSize(28);
 
     //action buttons
 
+    //first button, upper left area
     //panhandling
-    //button + text
+    //button + text + code
     let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
-
+    
     panhandlingButton.on('pointerup', function () {
-
+      let diceroll = roll.easyDefault();
+      let margin = game.self.intelligence - diceroll
+      //panhandling margin cannot be zero
+      if (margin === 0) {
+        margin++;
+      };
+      if (margin > 0) {
+        game.self.credits = game.self.credits+=(margin * 2)
+        game.messageBox.updateBox('Success! Made ' + (margin * 2) + ' credits!' );
+        creditsText.setText('Creds: ' + game.self.credits);
+      } else {
+        game.messageBox.updateBox('Failure');
+      };
+    });
+    panhandlingText.on('pointerup', function () {
+      let diceroll = roll.easyDefault();
+      let margin = game.self.intelligence - diceroll
+      //panhandling margin cannot be zero
+      if (margin === 0) {
+        margin++;
+      };
+      if (margin > 0) {
+        game.self.credits = game.self.credits+=(margin * 2)
+        game.messageBox.updateBox('Success! Made ' + (margin * 2) + ' credits!' );
+        creditsText.setText('Creds: ' + game.self.credits);
+      } else {
+        game.messageBox.updateBox('Failure');
+      };
     });
 
 

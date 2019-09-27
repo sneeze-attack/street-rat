@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import gameState from '../index';
 import config from '../index';
 import game from '../index';
+import * as nameGen from '../modules/NameGen';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
 import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
@@ -95,20 +96,52 @@ export class CharGenScene extends Phaser.Scene {
     });
 
     //continue button logic
-    //only allow continue if name and gender are selected
     continueButton.on('pointerup', function () {
-      if (game.self.gender && game.self.name) {
-        gameState.nextScene = 'GameScene';
-        gameState.previousScene = 'CharGenScene';
+      //if gender hasnt been chosen, randomly assign one, update portrait to match
+      if (!game.self.gender) {
+        let genderRoll = (Math.floor((Math.random() * 2) + 1));
+        game.self.portrait = 1;
+        if (genderRoll === 1) {
+          game.self.gender = 'male';
+        } else {
+          game.self.gender = 'female';
+        };
+        portrait.setTexture(game.self.gender + game.self.portrait);
       };
+      //if name hasnt been chosen, randomly assign one based on gender
+      if (!game.self.name) {
+        if (game.self.gender === 'male') {
+          game.self.name = nameGen.maleFirstName();
+        } else {
+          game.self.name = nameGen.femaleFirstName();
+        };
+      };
+      gameState.nextScene = 'GameScene';
+      gameState.previousScene = 'CharGenScene';
     });
     continueTextBox.on('pointerup', function () {
-      if (game.self.gender && game.self.name) {
-        gameState.nextScene = 'GameScene';
-        gameState.previousScene = 'CharGenScene';
+      //if gender hasnt been chosen, randomly assign one, update portrait to match
+      if (!game.self.gender) {
+        let genderRoll = (Math.floor((Math.random() * 2) + 1));
+        game.self.portrait = 1;
+        if (genderRoll === 1) {
+          game.self.gender = 'male';
+        } else {
+          game.self.gender = 'female';
+        };
+        portrait.setTexture(game.self.gender + game.self.portrait);
       };
+      //if name hasnt been chosen, randomly assign one based on gender
+      if (!game.self.name) {
+        if (game.self.gender === 'male') {
+          game.self.name = nameGen.maleFirstName();
+        } else {
+          game.self.name = nameGen.femaleFirstName();
+        };
+      };
+      gameState.nextScene = 'GameScene';
+      gameState.previousScene = 'CharGenScene';
     });
-
 
     //back button logic
     backButton.on('pointerup', function () {

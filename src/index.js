@@ -5,6 +5,7 @@ import { CharGenScene } from './scenes/CharGenScene';
 import { GameScene } from './scenes/GameScene';
 import GameState from './modules/GameState';
 import Player from './modules/Player';
+import MessageBox from './modules/MessageBox';
 
 export const config = {
   type: Phaser.AUTO,
@@ -22,5 +23,6 @@ export const gameState = new GameState();
 const game = new Phaser.Game(config);
 
 game.self = new Player();
+game.messageBox = new MessageBox();
 
 export default game;
