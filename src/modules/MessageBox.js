@@ -1,12 +1,12 @@
 export default class MessageBox {
 	constructor() {
-    this.lineOneText = 'Test Text: Line 1';
-    this.lineTwoText = 'Test Text: Line 2';
-    this.lineThreeText = 'Test Text: Line 3';
-    this.lineFourText = 'Test Text: Line 4';
-    this.lineFiveText = 'Test Text: Line 5';
-    this.lineSixText = 'Test Text: Line 6';
-    this.lineSevenText = 'Test Text: Line 7';
+    this.lineOneText = '';
+    this.lineTwoText = '';
+    this.lineThreeText = '';
+    this.lineFourText = '';
+    this.lineFiveText = '';
+    this.lineSixText = '';
+    this.lineSevenText = '';
 	}
   updateBox(alert) {
     this.lineSevenText = this.lineSixText;

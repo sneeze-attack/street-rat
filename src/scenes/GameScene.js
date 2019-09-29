@@ -68,6 +68,10 @@ export class GameScene extends Phaser.Scene {
     let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
     let creditsText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 47) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(28);
 
+    //Day and Time
+    let calendar = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 18) / 128), ' Day: ' + game.progress.day).setColor('#FFFFFF').setFontSize(20);
+    let clock = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 22) / 128), 'Hour: ' + game.progress.hour).setColor('#FFFFFF').setFontSize(20);
+
     //add in a message area
     let messageAreaBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
     let messageArea = this.add.rectangle(((this.config.width * 63) / 128), ((this.config.height * 63) / 128), ((this.config.width * 46) / 128), ((this.config.height * 45) / 128), 0x000000).setOrigin(0, 0);
@@ -88,8 +92,11 @@ export class GameScene extends Phaser.Scene {
     //button + text + code
     let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
-    
+
     panhandlingButton.on('pointerup', function () {
+      game.progress.updateTime(1);
+      clock.setText('Hour: ' + game.progress.hour);
+      calendar.setText(' Day: ' + game.progress.day);
       let diceroll = roll.easyDefault();
       let margin = game.self.intelligence - diceroll
       //panhandling margin cannot be zero
@@ -105,6 +112,9 @@ export class GameScene extends Phaser.Scene {
       };
     });
     panhandlingText.on('pointerup', function () {
+      game.progress.updateTime(1);
+      clock.setText('Hour: ' + game.progress.hour);
+      calendar.setText(' Day: ' + game.progress.day);
       let diceroll = roll.easyDefault();
       let margin = game.self.intelligence - diceroll
       //panhandling margin cannot be zero
