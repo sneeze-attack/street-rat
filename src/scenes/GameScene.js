@@ -69,8 +69,8 @@ export class GameScene extends Phaser.Scene {
     let creditsText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 47) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(28);
 
     //Day and Time
-    let calendar = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 18) / 128), ' Day: ' + game.progress.day).setColor('#FFFFFF').setFontSize(20);
-    let clock = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 22) / 128), 'Hour: ' + game.progress.hour).setColor('#FFFFFF').setFontSize(20);
+    let calendar = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 18) / 128), ' Day: ' + game.self.day).setColor('#FFFFFF').setFontSize(20);
+    let clock = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 22) / 128), 'Hour: ' + game.self.hour).setColor('#FFFFFF').setFontSize(20);
 
     //add in a message area
     let messageAreaBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
@@ -94,9 +94,9 @@ export class GameScene extends Phaser.Scene {
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     panhandlingButton.on('pointerup', function () {
-      game.progress.updateTime(1);
-      clock.setText('Hour: ' + game.progress.hour);
-      calendar.setText(' Day: ' + game.progress.day);
+      game.self.updateTime(1);
+      clock.setText('Hour: ' + game.self.hour);
+      calendar.setText(' Day: ' + game.self.day);
       let diceroll = roll.easyDefault();
       let margin = game.self.intelligence - diceroll
       //panhandling margin cannot be zero
@@ -109,12 +109,15 @@ export class GameScene extends Phaser.Scene {
         creditsText.setText('Creds: ' + game.self.credits);
       } else {
         game.messageBox.updateBox('Failure');
+      };
+      if (game.self.sleep === 0) {
+        game.messageBox.updateBox('You are beginning to feel tired.');
       };
     });
     panhandlingText.on('pointerup', function () {
-      game.progress.updateTime(1);
-      clock.setText('Hour: ' + game.progress.hour);
-      calendar.setText(' Day: ' + game.progress.day);
+      game.self.updateTime(1);
+      clock.setText('Hour: ' + game.self.hour);
+      calendar.setText(' Day: ' + game.self.day);
       let diceroll = roll.easyDefault();
       let margin = game.self.intelligence - diceroll
       //panhandling margin cannot be zero
@@ -127,6 +130,9 @@ export class GameScene extends Phaser.Scene {
         creditsText.setText('Creds: ' + game.self.credits);
       } else {
         game.messageBox.updateBox('Failure');
+      };
+      if (game.self.sleep <= 0.625) {
+        game.messageBox.updateBox('You feel tired.');
       };
     });
 

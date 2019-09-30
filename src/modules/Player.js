@@ -16,5 +16,24 @@ export default class Player {
 		this.speed = 5;
 		this.move = 5;
 		this.credits = 0;
+		// use 24h clock, will add option to change to 12h clock later
+		// start game at 8am
+		this.hour = 8;
+    this.day = 1;
+		// set to 10 - allows resting for long periods to recover more sleep stat
+		// sleep for at least 6 hours, get +2 to sleep stat
+		// 8 hours = (8 + 2) = 10 sleep stat or a full nights rest
+		this.sleep = 10;
+	}
+
+	updateTime(hoursSpent) {
+    this.hour = this.hour + hoursSpent;
+    if (this.hour >= 24) {
+      this.hour = this.hour - 24;
+      this.day++
+    };
+		// multiply by 0.625 - this allows 16 hours of awake before tired
+		// 16 * 0.625 = 10 = total sleep stat
+		this.sleep = this.sleep - (hoursSpent * 0.625);
 	}
 }
