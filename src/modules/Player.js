@@ -24,10 +24,20 @@ export default class Player {
 		// sleep for at least 6 hours, get +2 to sleep stat
 		// 8 hours = (8 + 2) = 10 sleep stat or a full nights rest
 		this.sleep = 10;
+		this.statusEffects = [];
+	}
+
+	addStatusEffect(status) {
+		let index = this.statusEffects.findIndex(x => x==status);
+		// if status does not already exist in list, add it
+		if (index === -1) {
+			this.statusEffects.push(status);
+		};
 	}
 
 	updateTime(hoursSpent) {
     this.hour = this.hour + hoursSpent;
+		// if over 24 hours, proceed to next day
     if (this.hour >= 24) {
       this.hour = this.hour - 24;
       this.day++

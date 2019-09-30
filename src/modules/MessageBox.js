@@ -8,6 +8,7 @@ export default class MessageBox {
     this.lineSixText = '';
     this.lineSevenText = '';
 	}
+	// use in GameScene
   updateBox(alert) {
     this.lineSevenText = this.lineSixText;
     this.lineSixText = this.lineFiveText;
@@ -23,5 +24,15 @@ export default class MessageBox {
     this.lineFive.setText(this.lineFiveText);
     this.lineSix.setText(this.lineSixText);
     this.lineSeven.setText(this.lineSevenText);
+  }
+	// use everywhere MessageBox text is not displayed
+	updateValues(alert) {
+    this.lineSevenText = this.lineSixText;
+    this.lineSixText = this.lineFiveText;
+    this.lineFiveText = this.lineFourText;
+    this.lineFourText = this.lineThreeText;
+    this.lineThreeText = this.lineTwoText;
+    this.lineTwoText = this.lineOneText;
+    this.lineOneText = alert;
   }
 }
