@@ -110,8 +110,8 @@ export class GameScene extends Phaser.Scene {
       } else {
         game.messageBox.updateBox('Failure');
       };
-      if (game.self.sleep === 0) {
-        game.messageBox.updateBox('You are beginning to feel tired.');
+      if (game.self.sleep <= 0.625) {
+        game.messageBox.updateBox('You feel tired.');
       };
     });
     panhandlingText.on('pointerup', function () {
