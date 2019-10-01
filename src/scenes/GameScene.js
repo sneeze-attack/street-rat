@@ -135,7 +135,7 @@ export class GameScene extends Phaser.Scene {
     let passTurnButton = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let passTurnText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 85) / 128), 'Pass Turn').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
-    passTurnButton.on('pointerup', function () {
+    function passTurn() {
       game.self.updateTime(1);
       clock.setText('Hour: ' + game.self.hour);
       calendar.setText(' Day: ' + game.self.day);
@@ -144,17 +144,15 @@ export class GameScene extends Phaser.Scene {
         game.self.addStatusEffect('Tired');
         statusEffectsList.setText(game.self.statusEffects);
       };
+    }
+
+    passTurnButton.on('pointerup', function () {
+      passTurn.call(this);
     });
     passTurnText.on('pointerup', function () {
-      game.self.updateTime(1);
-      clock.setText('Hour: ' + game.self.hour);
-      calendar.setText(' Day: ' + game.self.day);
-      if (game.self.sleep <= 0) {
-        game.messageBox.updateBox('You feel tired.');
-        game.self.addStatusEffect('Tired');
-        statusEffectsList.setText(game.self.statusEffects);
-      };
+      passTurn.call(this);
     });
+
 
     // Seventh button, first column, fourth row
     // Rest
