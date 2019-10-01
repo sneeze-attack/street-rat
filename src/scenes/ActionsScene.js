@@ -61,10 +61,8 @@ export class ActionsScene extends Phaser.Scene {
       } else {
         game.messageBox.updateValues('Failure');
       };
-      if (game.self.sleep <= 0) {
-        game.messageBox.updateValues('You feel tired.');
-        game.self.addStatusEffect('Tired');
-      };
+      // check to see if Tiredness status effect should be added, since 1 hour has passed
+      game.self.isPlayerTired();
       gameState.nextScene = 'GameScene';
       gameState.previousScene = 'ActionsScene';
     }

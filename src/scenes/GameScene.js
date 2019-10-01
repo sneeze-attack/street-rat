@@ -77,9 +77,29 @@ export class GameScene extends Phaser.Scene {
     // list current statusEffects of Player
     let statusEffectsList = this.add.text(((this.config.width * 88) / 128), ((this.config.height * 35) / 128), game.self.statusEffects).setColor('#FFFFFF').setFontSize(22);
 
+    function statusEffectMessages() {
+      // Tired status effect check
+      let checkForTired = game.self.statusEffects.includes('Tired');
+      if (checkForTired === true && game.self.tiredWarned === false) {
+        game.messageBox.updateBox('You feel tired.');
+        // only warn once by using tiredWarning
+        game.self.tiredWarned = true;
+        // lose 1 FP when you first get tired
+        game.self.fp -= 1;
+      };
+    }
+
     // Day and Time
     let calendar = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 18) / 128), ' Day: ' + game.self.day).setColor('#FFFFFF').setFontSize(20);
     let clock = this.add.text(((this.config.width * 102) / 128), ((this.config.height * 22) / 128), 'Hour: ' + game.self.hour).setColor('#FFFFFF').setFontSize(20);
+
+    function updateMenu() {
+      //updates displays
+      statusEffectsList.setText(game.self.statusEffects);
+      clock.setText('Hour: ' + game.self.hour);
+      calendar.setText(' Day: ' + game.self.day);
+      fpText.setText('  FP: ' + game.self.fp);
+    }
 
     // add in a message area
     let messageAreaBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 62) / 128), ((this.config.width * 48) / 128), ((this.config.height * 47) / 128), 0x4D4E4F).setOrigin(0, 0);
@@ -93,6 +113,9 @@ export class GameScene extends Phaser.Scene {
     game.messageBox.lineFive = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 77) / 128), game.messageBox.lineFiveText).setColor('#808080').setFontSize(28);
     game.messageBox.lineSix = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 71) / 128), game.messageBox.lineSixText).setColor('#696969').setFontSize(28);
     game.messageBox.lineSeven = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 65) / 128), game.messageBox.lineSevenText).setColor('#505050').setFontSize(28);
+    // check for status effects gained from ActionsScene
+    statusEffectMessages.call(this);
+
 
     // main buttons
 
@@ -113,22 +136,22 @@ export class GameScene extends Phaser.Scene {
     // second button, top right corner
     // Repeat last action
     let padding1Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding1Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), 'Test1').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let padding1Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     // Third button, first column, second row
     // Inventory
     let padding2Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding2Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 74) / 128), 'Test2').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let padding2Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 74) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     // Fourth button, second column, second row
     // Skills (list/train)
     let padding3Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding3Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 74) / 128), 'Test3').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let padding3Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 74) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     // Fifth button, first column, third row
     // Shop / Purchase
     let padding4Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding4Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 85) / 128), 'Test4').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let padding4Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 85) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     // Sixth button, second column, third row
     // Pass Turn
@@ -137,13 +160,9 @@ export class GameScene extends Phaser.Scene {
 
     function passTurn() {
       game.self.updateTime(1);
-      clock.setText('Hour: ' + game.self.hour);
-      calendar.setText(' Day: ' + game.self.day);
-      if (game.self.sleep <= 0) {
-        game.messageBox.updateBox('You feel tired.');
-        game.self.addStatusEffect('Tired');
-        statusEffectsList.setText(game.self.statusEffects);
-      };
+      game.self.isPlayerTired();
+      statusEffectMessages.call(this);
+      updateMenu.call(this);
     }
 
     passTurnButton.on('pointerup', function () {
@@ -156,13 +175,26 @@ export class GameScene extends Phaser.Scene {
 
     // Seventh button, first column, fourth row
     // Rest
-    let padding6Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding6Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 96) / 128), 'Test6').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let restButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let restText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 96) / 128), 'Rest 1 Hour').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    function selfRest() {
+      game.self.playerRest(1);
+      statusEffectMessages.call(this);
+      updateMenu.call(this);
+    }
+
+    restButton.on('pointerup', function () {
+      selfRest.call(this);
+    });
+    restText.on('pointerup', function () {
+      selfRest.call(this);
+    });
 
     // Eighth button, second column, fourth row
     // Save and Quit
     let padding7Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding7Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 96) / 128), 'Test7').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let padding7Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 96) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
 
   }
