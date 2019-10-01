@@ -47,7 +47,7 @@ export class ActionsScene extends Phaser.Scene {
     let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 21) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 22) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
-    panhandlingButton.on('pointerup', function () {
+    function panhandle() {
       game.self.updateTime(1);
       let diceroll = roll.easyDefault();
       let margin = game.self.intelligence - diceroll
@@ -67,27 +67,13 @@ export class ActionsScene extends Phaser.Scene {
       };
       gameState.nextScene = 'GameScene';
       gameState.previousScene = 'ActionsScene';
+    }
+
+    panhandlingButton.on('pointerup', function () {
+      panhandle.call(this);
     });
     panhandlingText.on('pointerup', function () {
-      game.self.updateTime(1);
-      let diceroll = roll.easyDefault();
-      let margin = game.self.intelligence - diceroll
-      // panhandling margin cannot be zero
-      if (margin === 0) {
-        margin++;
-      };
-      if (margin > 0) {
-        game.self.credits = game.self.credits+=(margin * 2)
-        game.messageBox.updateValues('Success! Made ' + (margin * 2) + ' credits!' );
-      } else {
-        game.messageBox.updateValues('Failure');
-      };
-      if (game.self.sleep <= 0) {
-        game.messageBox.updateValues('You feel tired.');
-        game.self.addStatusEffect('Tired');
-      };
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'ActionsScene';
+      panhandle.call(this);
     });
 
   }
