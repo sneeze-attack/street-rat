@@ -78,15 +78,33 @@ export class GameScene extends Phaser.Scene {
     let statusEffectsList = this.add.text(((this.config.width * 88) / 128), ((this.config.height * 35) / 128), game.self.statusEffects).setColor('#FFFFFF').setFontSize(22);
 
     function statusEffectMessages() {
+      // Check for status effects on player and warn or take action as needed
+
       // Tired status effect check
+      // This is NOT adding the status effect, it is only checking for first
+      // encounter of Tired status effect.
+      // First turn of Tired - warn player and subtract 1 FP
       let checkForTired = game.self.statusEffects.includes('Tired');
       if (checkForTired === true && game.self.tiredWarned === false) {
         game.messageBox.updateBox('You feel tired.');
-        // only warn once by using tiredWarning
+        // only warn once by using tiredWarned
         game.self.tiredWarned = true;
         // lose 1 FP when you first get tired
         game.self.fp -= 1;
       };
+
+      // Fatigued status effect check
+      // first turn of Fatigued - warn player
+      game.self.isPlayerFatigued();
+      let checkForFatigued = game.self.statusEffects.includes('Fatigued');
+      if (checkForFatigued === true && game.self.fatiguedWarned === false) {
+        game.messageBox.updateBox('You feel fatigued.');
+        // only warn once by using fatiguedWarned
+        game.self.fatiguedWarned = true;
+      };
+
+      //update menu in case of stat changes
+      updateMenu.call(this);
     }
 
     // Day and Time
@@ -149,34 +167,9 @@ export class GameScene extends Phaser.Scene {
     let padding3Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 74) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     // Fifth button, first column, third row
-    // Shop / Purchase
-    let padding4Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding4Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 85) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
-
-    // Sixth button, second column, third row
-    // Pass Turn
-    let passTurnButton = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let passTurnText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 85) / 128), 'Pass Turn').setColor('#FFFFFF').setInteractive().setFontSize(32);
-
-    function passTurn() {
-      game.self.updateTime(1);
-      game.self.isPlayerTired();
-      statusEffectMessages.call(this);
-      updateMenu.call(this);
-    }
-
-    passTurnButton.on('pointerup', function () {
-      passTurn.call(this);
-    });
-    passTurnText.on('pointerup', function () {
-      passTurn.call(this);
-    });
-
-
-    // Seventh button, first column, fourth row
     // Rest
-    let restButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let restText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 96) / 128), 'Rest 1 Hour').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let restButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let restText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 85) / 128), 'Rest').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     function selfRest() {
       game.self.playerRest(1);
@@ -190,6 +183,40 @@ export class GameScene extends Phaser.Scene {
     restText.on('pointerup', function () {
       selfRest.call(this);
     });
+
+    // Sixth button, second column, third row
+    // Sleep until self.sleep = 10
+    let sleepButton = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 84) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let sleepText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 85) / 128), 'Sleep').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    function sleepNow() {
+      let fullSleepHours = (Math.floor(game.self.sleep - 10) * -1);
+      // 8 hours will equal full nights rest
+      if (fullSleepHours >= 8) {
+        fullSleepHours -= 2;
+      };
+      if (fullSleepHours <= 0) {
+        game.messageBox.updateBox('You do not need to sleep.');
+      } else {
+        game.messageBox.updateBox('You slept for ' + fullSleepHours + ' hours.');
+        game.self.playerRest(fullSleepHours);
+        statusEffectMessages.call(this);
+        updateMenu.call(this);
+      };
+    }
+
+    sleepButton.on('pointerup', function () {
+      sleepNow.call(this);
+    });
+    sleepText.on('pointerup', function () {
+      sleepNow.call(this);
+    });
+
+    // Seventh button, first column, fourth row
+    // Shop / Purchase
+    let padding4Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 95) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let padding4Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 96) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
 
     // Eighth button, second column, fourth row
     // Save and Quit
@@ -209,3 +236,11 @@ export class GameScene extends Phaser.Scene {
   }
 
 }
+
+// old code snippets
+//function passTurn() {
+//  game.self.updateTime(1);
+//  game.self.isPlayerTired();
+//  statusEffectMessages.call(this);
+//  updateMenu.call(this);
+//}

@@ -115,6 +115,8 @@ export class CharGenScene extends Phaser.Scene {
           game.self.name = nameGen.femaleFirstName();
         };
       };
+      // set players fpMax from charGen only
+      game.self.fpMax = game.self.fp;
       gameState.nextScene = 'GameScene';
       gameState.previousScene = 'CharGenScene';
     }

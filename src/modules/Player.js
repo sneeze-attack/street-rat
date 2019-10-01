@@ -12,6 +12,7 @@ export default class Player {
 		this.will = 10;
 		this.perception = 10;
 		this.fp = 10;
+		this.fpMax = 10;
 		this.carry = 20;
 		this.speed = 5;
 		this.move = 5;
@@ -27,6 +28,8 @@ export default class Player {
 		this.statusEffects = [];
 		// tracks whether has been told of Tiredness status effect in game.messageBox
 		this.tiredWarned = false;
+		// tracks whether has been told of Fatigued status effect in game.messageBox
+		this.fatiguedWarned = false;
 	}
 
 	addStatusEffect(status) {
@@ -65,10 +68,12 @@ export default class Player {
 		} else {
 			this.sleep = this.sleep + hoursSpent;
 		};
+
 		// Oversleeping does nothing
 		if (this.sleep > 10) {
 			this.sleep = 10;
 		};
+
 		if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
 			// remove Tired status effect if found in statusEffects list
@@ -77,8 +82,12 @@ export default class Player {
 					// Allow displaying Tired warning message again
 					this.tiredWarned = false;
 			};
-			// recover FP if sleeping and not tired, 1 per hour
-			this.fp += 1;
+			// do not exceed player's max FP
+			if (this.fp < this.fpMax) {
+				// recover FP if sleeping and not tired, 1 per hour
+				this.fp += 1;
+				this.isPlayerFatigued();
+			};
 		};
 	}
 
@@ -92,6 +101,7 @@ export default class Player {
 			// next 4-7 hours of no sleep, lose 2 FP per turn, and so on
 			let cumulativeTired = Math.ceil(this.sleep * 0.25);
 			this.fp += cumulativeTired;
+			this.isPlayerFatigued();
 		} else if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
 			// remove Tired status effect if found in statusEffects list
@@ -101,6 +111,21 @@ export default class Player {
 					this.tiredWarned = false;
 			};
 		};
+	}
+
+	isPlayerFatigued() {
+		// if less than 1/3 of total FP is left, obtain Fatigued status effect
+		if (this.fp < (this.fpMax / 3)) {
+			this.addStatusEffect('Fatigued');
+		} else {
+			let index = this.statusEffects.findIndex(x => x=='Fatigued');
+			// remove Fatigued status effect if found in statusEffects list
+			if (index >= 0) {
+					let removeIt = this.statusEffects.splice(index,1);
+					// Allow displaying Fatigued warning message again
+					this.fatiguedWarned = false;
+			};
+		}
 	}
 
 }
