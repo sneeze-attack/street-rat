@@ -115,8 +115,13 @@ export class CharGenScene extends Phaser.Scene {
           game.self.name = nameGen.femaleFirstName();
         };
       };
-      // set players fpMax from charGen only
+      // set players stat maxes from charGen only
       game.self.fpMax = game.self.fp;
+
+      // set player dodge
+      game.self.calculateDodge();
+
+      // values to change scene
       gameState.nextScene = 'GameScene';
       gameState.previousScene = 'CharGenScene';
     }
