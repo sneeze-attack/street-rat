@@ -17,6 +17,7 @@ export default class Player {
 		this.speed = 5;
 		this.move = 5;
 		this.credits = 0;
+		this.dodge = 0;
 		// use 24h clock, will add option to change to 12h clock later
 		// start game at 8am
 		this.hour = 8;
@@ -28,8 +29,13 @@ export default class Player {
 		this.statusEffects = [];
 		// tracks whether has been told of Tiredness status effect in game.messageBox
 		this.tiredWarned = false;
+
+		// Fatigue
 		// tracks whether has been told of Fatigued status effect in game.messageBox
 		this.fatiguedWarned = false;
+		this.fatiguedStrLoss = 0;
+		this.fatiguedMoveLoss = 0;
+		this.fatiguedDodgeLoss = 0;
 	}
 
 	addStatusEffect(status) {
@@ -50,6 +56,11 @@ export default class Player {
 		// multiply by 0.625 - this allows 16 hours of awake before tired
 		// 16 * 0.625 = 10 = total sleep stat
 		this.sleep = this.sleep - (hoursSpent * 0.625);
+	}
+
+	calculateDodge() {
+		// dodge = speed + 3, rounded down
+		this.dodge = Math.floor(this.speed + 3);
 	}
 
 	playerRest(hoursSpent) {
@@ -74,6 +85,8 @@ export default class Player {
 			this.sleep = 10;
 		};
 
+
+
 		if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
 			// remove Tired status effect if found in statusEffects list
@@ -85,7 +98,10 @@ export default class Player {
 			// do not exceed player's max FP
 			if (this.fp < this.fpMax) {
 				// recover FP if sleeping and not tired, 1 per hour
-				this.fp += 1;
+				this.fp += hoursSpent;
+				if (this.fp > this.fpMax) {
+					this.fp = this.fpMax;
+				}
 				this.isPlayerFatigued();
 			};
 		};
@@ -98,7 +114,7 @@ export default class Player {
 			this.addStatusEffect('Tired');
 			// Every 4 extra hours the player is awake, lose 1 FP, cumulative
 			// example, first 1-3 hours of being Tired, lose nothing
-			// next 4-7 hours of no sleep, lose 2 FP per turn, and so on
+			// next 4-7 hours of no sleep, lose 1 FP per turn, and so on
 			let cumulativeTired = Math.ceil(this.sleep * 0.25);
 			this.fp += cumulativeTired;
 			this.isPlayerFatigued();
@@ -114,18 +130,42 @@ export default class Player {
 	}
 
 	isPlayerFatigued() {
-		// if less than 1/3 of total FP is left, obtain Fatigued status effect
-		if (this.fp < (this.fpMax / 3)) {
-			this.addStatusEffect('Fatigued');
-		} else {
-			let index = this.statusEffects.findIndex(x => x=='Fatigued');
-			// remove Fatigued status effect if found in statusEffects list
-			if (index >= 0) {
-					let removeIt = this.statusEffects.splice(index,1);
-					// Allow displaying Fatigued warning message again
-					this.fatiguedWarned = false;
+
+		//First check and see if the player is already fatigued
+		let checkifFatigued = this.statusEffects.findIndex(x => x=='Fatigued');
+		if (checkifFatigued >= 0) {
+			// if fatigued, check to see if it can be removed
+			if (this.fp >= (this.fpMax / 3)) {
+				let index = this.statusEffects.findIndex(x => x=='Fatigued');
+				// remove Fatigued status effect
+				let removeIt = this.statusEffects.splice(index,1);
+				// Allow displaying Fatigued warning message again
+				this.fatiguedWarned = false;
+
+				// When fatigued status effect is removed, regain lost stats
+				this.strength = this.strength + this.fatiguedStrLoss;
+				this.move = this.move + this.fatiguedMoveLoss;
+				this.dodge = this.dodge + this.fatiguedDodgeLoss;
+
+				this.fatiguedStrLoss = 0;
+				this.fatiguedMoveLoss = 0;
+				this.fatiguedDodgeLoss = 0;
 			};
-		}
+		// if not fatigued, check to see if player should be
+		// if less than 1/3 of total FP is left, obtain Fatigued status effect
+		} else if (this.fp < (this.fpMax / 3)) {
+			this.addStatusEffect('Fatigued');
+			// When fatigued, halve strength, move, and dodge. May add INT, PER,
+			// and/or Will later
+			this.fatiguedStrLoss = Math.floor(this.strength / 2);
+			this.fatiguedMoveLoss = Math.floor(this.move / 2);
+			this.fatiguedDodgeLoss = Math.floor(this.dodge / 2);
+
+			this.strength = this.strength - this.fatiguedStrLoss;
+			this.move = this.move - this.fatiguedMoveLoss;
+			this.dodge = this.dodge - this.fatiguedDodgeLoss;
+		};
+
 	}
 
 }

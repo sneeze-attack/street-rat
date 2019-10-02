@@ -47,8 +47,13 @@ export class GameScene extends Phaser.Scene {
     // name
     let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), game.self.name).setColor('#FFFFFF').setFontSize(36);
 
-    // player points
-    let pointsText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
+    // small space between stats and buttons / messageBox
+    //let pointsText = this.add.text(((this.config.width * 18) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
+    //let creditsText = this.add.text(((this.config.width * 40) / 128), ((this.config.height * 56) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(20);
+
+    //below buttons
+    let pointsText = this.add.text(((this.config.width * 18) / 128), ((this.config.height * 106) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
+    let creditsText = this.add.text(((this.config.width * 40) / 128), ((this.config.height * 106) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(20);
 
     // primary attributes, first column
     let strText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 29) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
@@ -66,7 +71,8 @@ export class GameScene extends Phaser.Scene {
     let carryText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
     let speedText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
     let moveText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
-    let creditsText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 47) / 128), 'Creds: ' + game.self.credits).setColor('#FFFFFF').setFontSize(28);
+    let dodgeText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 47) / 128), 'Dodge: ' + game.self.dodge).setColor('#FFFFFF').setFontSize(28);
+
 
     // Status Effects, fourth column
     let statusEffectsText = this.add.text(((this.config.width * 88) / 128), ((this.config.height * 29) / 128), 'Status Effects').setColor('#FFFFFF').setFontSize(22);
@@ -82,7 +88,8 @@ export class GameScene extends Phaser.Scene {
 
       // Tired status effect check
       // This is NOT adding the status effect, it is only checking for first
-      // encounter of Tired status effect.
+      // encounter of Tired status effect being present on the player.
+
       // First turn of Tired - warn player and subtract 1 FP
       let checkForTired = game.self.statusEffects.includes('Tired');
       if (checkForTired === true && game.self.tiredWarned === false) {
@@ -90,6 +97,7 @@ export class GameScene extends Phaser.Scene {
         // only warn once by using tiredWarned
         game.self.tiredWarned = true;
         // lose 1 FP when you first get tired
+        // TODO: move this into player.isPlayerTired()
         game.self.fp -= 1;
       };
 
@@ -117,6 +125,9 @@ export class GameScene extends Phaser.Scene {
       clock.setText('Hour: ' + game.self.hour);
       calendar.setText(' Day: ' + game.self.day);
       fpText.setText('  FP: ' + game.self.fp);
+      dodgeText.setText('Dodge: ' + game.self.dodge);
+      moveText.setText(' Move: ' + game.self.move);
+      strText.setText('STR: ' + game.self.strength);
     }
 
     // add in a message area
