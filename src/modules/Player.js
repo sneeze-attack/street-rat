@@ -17,7 +17,7 @@ export default class Player {
 		this.speed = 5;
 		this.move = 5;
 		this.credits = 0;
-		this.dodge = 0;
+		this.dodge = 8;
 		// use 24h clock, will add option to change to 12h clock later
 		// start game at 8am
 		this.hour = 8;
@@ -107,6 +107,8 @@ export default class Player {
 		};
 	}
 
+
+
 	isPlayerTired() {
 		// if sleep stat is equal to or less than 0, add Tired status effect
 		// if sleep stat is greater than 0, remove Tired status effect
@@ -136,9 +138,8 @@ export default class Player {
 		if (checkifFatigued >= 0) {
 			// if fatigued, check to see if it can be removed
 			if (this.fp >= (this.fpMax / 3)) {
-				let index = this.statusEffects.findIndex(x => x=='Fatigued');
 				// remove Fatigued status effect
-				let removeIt = this.statusEffects.splice(index,1);
+				let removeIt = this.statusEffects.splice(checkifFatigued,1);
 				// Allow displaying Fatigued warning message again
 				this.fatiguedWarned = false;
 

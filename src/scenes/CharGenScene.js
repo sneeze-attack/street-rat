@@ -3,7 +3,7 @@ import gameState from '../index';
 import config from '../index';
 import game from '../index';
 import * as nameGen from '../modules/NameGen';
-import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
+//import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
 import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
 import male_icon_boxed_img from '../assets/icons/32x32/male_icon_small_white_boxed.png';
@@ -29,7 +29,7 @@ export class CharGenScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('japan_background', japan_background_img);
+    //this.load.image('japan_background', japan_background_img);
     this.load.image('male_icon', male_icon_img);
     this.load.image('female_icon', female_icon_img);
     this.load.image('male_icon_boxed', male_icon_boxed_img);
@@ -56,24 +56,46 @@ export class CharGenScene extends Phaser.Scene {
     this.globals = { gameState };
 
     //add background image
-    this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
+    //this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
 
     //add black box
-    let createBox = this.add.rectangle(((this.config.width * 16) / 128), ((this.config.height * 16) / 128), ((this.config.width * 96) / 128), ((this.config.height * 96) / 128), 0x000000).setOrigin(0, 0);
+    let createBox = this.add.rectangle(0, 0, this.config.width, this.config.height, 0x000000).setOrigin(0, 0);
+
+    //create stat boxes
+    let primaryStatBoxBorder = this.add.rectangle(((this.config.width * 19) / 128), ((this.config.height * 12) / 128), ((this.config.width * 21) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let primaryStatBoxInterior = this.add.rectangle(((this.config.width * 19.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 20) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    let secondaryStatBoxBorder = this.add.rectangle(((this.config.width * 39.5) / 128), ((this.config.height * 12) / 128), ((this.config.width * 24) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let secondaryStatBoxInterior = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 23) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    let tertiaryStatBoxBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 12) / 128), ((this.config.width * 28) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let tertiaryStatBoxInterior = this.add.rectangle(((this.config.width * 62.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 27) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    //skills boxes
+    let skillsBoxBorder = this.add.rectangle(((this.config.width * 89) / 128), ((this.config.height * 12) / 128), ((this.config.width * 37) / 128), ((this.config.height * 101) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let skillsBoxInterior = this.add.rectangle(((this.config.width * 89.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 36) / 128), ((this.config.height * 100) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    //future concept
+    let conceptBoxBorder = this.add.rectangle(((this.config.width * 3) / 128), ((this.config.height * 48) / 128), ((this.config.width * 86.5) / 128), ((this.config.height * 65) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let conceptBoxInterior = this.add.rectangle(((this.config.width * 3.5) / 128), ((this.config.height * 48.5) / 128), ((this.config.width * 85.5) / 128), ((this.config.height * 64) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    //divider -- points
+    let dividerBoxBorder = this.add.rectangle(((this.config.width * 19) / 128), ((this.config.height * 36.75) / 128), ((this.config.width * 70.5) / 128), ((this.config.height * 11.5) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
+    let dividerBoxInterior = this.add.rectangle(((this.config.width * 19.5) / 128), ((this.config.height * 37.25) / 128), ((this.config.width * 69.5) / 128), ((this.config.height * 10.5) / 128), 0x000000).setOrigin(0, 0).setInteractive();
 
     //back button
-    let backTextBox = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 100) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let backButton = this.add.text(((this.config.width * 24) / 128), ((this.config.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let backTextBox = this.add.rectangle(((this.config.width * 2) / 128), ((this.config.height * 115) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let backButton = this.add.text(((this.config.width * 8) / 128), ((this.config.height * 116) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     //continue button
-    let continueTextBox = this.add.rectangle(((this.config.width * 90) / 128), ((this.config.height * 100) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let continueButton = this.add.text(((this.config.width * 93) / 128), ((this.config.height * 101) / 128), 'Continue').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let continueTextBox = this.add.rectangle(((this.config.width * 105) / 128), ((this.config.height * 115) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let continueButton = this.add.text(((this.config.width * 108) / 128), ((this.config.height * 116) / 128), 'Continue').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     //buttons to select gender
     let maleSelection = 'male_icon';
     let femaleSelection = 'female_icon';
-    let maleButton = this.add.sprite(((this.config.width * 21) / 128), ((this.config.height * 55) / 128), maleSelection).setOrigin(0, 0).setInteractive();
-    let femaleButton = this.add.sprite(((this.config.width * 26) / 128), ((this.config.height * 55) / 128), femaleSelection).setOrigin(0, 0).setInteractive();
+    let maleButton = this.add.sprite(((this.config.width * 6) / 128), ((this.config.height * 40) / 128), maleSelection).setOrigin(0, 0).setInteractive();
+    let femaleButton = this.add.sprite(((this.config.width * 11) / 128), ((this.config.height * 40) / 128), femaleSelection).setOrigin(0, 0).setInteractive();
 
     //boxed selection logic for gender
     function genderUpdate() {
@@ -149,6 +171,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.carry = 20;
       game.self.speed = 5;
       game.self.move = 5;
+      game.self.dodge = 8;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     }
@@ -161,9 +184,9 @@ export class CharGenScene extends Phaser.Scene {
 
     //create portrait with placeholder and arrows
     game.self.portrait = 0;
-    let portrait = this.add.sprite(((this.config.width * 18) / 128), ((this.config.height * 19) / 128), 'placeholder').setOrigin(0, 0);
-    let portraitPreviousArrow = this.add.sprite(((this.config.width * 18) / 128), ((this.config.height * 56) / 128), 'arrow_left').setOrigin(0, 0).setInteractive();
-    let portraitNextArrow = this.add.sprite(((this.config.width * 31) / 128), ((this.config.height * 56) / 128), 'arrow_right').setOrigin(0, 0).setInteractive();
+    let portrait = this.add.sprite(((this.config.width * 3) / 128), ((this.config.height * 4) / 128), 'placeholder').setOrigin(0, 0);
+    let portraitPreviousArrow = this.add.sprite(((this.config.width * 3) / 128), ((this.config.height * 41.25) / 128), 'arrow_left').setOrigin(0, 0).setInteractive();
+    let portraitNextArrow = this.add.sprite(((this.config.width * 16) / 128), ((this.config.height * 41) / 128), 'arrow_right').setOrigin(0, 0).setInteractive();
 
     //portrait arrow code
     portraitNextArrow.on('pointerup', function () {
@@ -188,10 +211,10 @@ export class CharGenScene extends Phaser.Scene {
     });
 
     //name
-    let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), 'Type player name').setColor('#FFFFFF').setFontSize(36);
+    let enterNameText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), 'Name').setColor('#FFFFFF').setFontSize(36);
 
     //enter name code
-    let nameEntry = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), '', { font: '36px Courier', fill: '#ffffff' });
+    let nameEntry = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), '', { font: '36px Courier', fill: '#ffffff' });
     let keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     let keyBackspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
 
@@ -210,24 +233,54 @@ export class CharGenScene extends Phaser.Scene {
     });
 
     //player points
-    let pointsText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
+    let pointsText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 40.75) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
 
     //primary attributes, first column
-    let strText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 29) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
-    let agiText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 35) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
-    let intText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 41) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
-    let conText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 47) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
+    let strText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 13) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
+    let strPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 55) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let strMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 55) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let agiText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 19) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
+    let agiPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let agiMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let intText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 25) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
+    let intPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let intMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let conText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 31) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
+    let conPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 127) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let conMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 127) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     //secondary attributes, second column
-    let hpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
-    let willText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
-    let perText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 41) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
-    let fpText = this.add.text(((this.config.width * 56) / 128), ((this.config.height * 47) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
+    let hpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 13) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
+    let hpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 55) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let hpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 55) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let fpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 19) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
+    let fpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let fpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let perText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 25) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
+    let perPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let perMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let willText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 31) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
+    let willPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 127) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let willMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 127) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     //more secondary attributes, third column
-    let carryText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
-    let speedText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
-    let moveText = this.add.text(((this.config.width * 80) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
+    let carryText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 13) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
+
+    let speedText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 19) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
+    let speedPlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let speedMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let moveText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 25) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
+    let movePlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
+    let moveMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+
+    let dodgeText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 31) / 128), 'Dodge: ' + game.self.dodge).setColor('#FFFFFF').setFontSize(28);
 
     //integers to track stats with specific thresholds
     let willInteger = 0;
@@ -236,8 +289,6 @@ export class CharGenScene extends Phaser.Scene {
     let moveInteger = 0;
 
     //attribute plus and minus sprites + code
-    let strPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let strMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     function updateText() {
       //updates all stat displays
@@ -254,6 +305,7 @@ export class CharGenScene extends Phaser.Scene {
       carryText.setText('Carry: ' + game.self.carry);
       speedText.setText('Speed: ' + game.self.speed);
       moveText.setText(' Move: ' + game.self.move);
+      dodgeText.setText('Dodge: ' + game.self.dodge);
 
       pointsText.setText('Points: ' + game.self.points);
     }
@@ -294,14 +346,13 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    let agiPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let agiMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     agiPlus.on('pointerup', function () {
       if (game.self.agility < 20 && game.self.points >= 20) {
         game.self.agility++;
         game.self.points -= 20;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       };
@@ -312,14 +363,13 @@ export class CharGenScene extends Phaser.Scene {
         game.self.agility--;
         game.self.points += 20;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       };
       updateText.call(this);
     });
 
-    let intPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let intMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     intPlus.on('pointerup', function () {
       if (game.self.intelligence < 20 && game.self.points >= 20 && game.self.will < 20 && game.self.perception < 20) {
@@ -349,8 +399,6 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    let conPlus = this.add.sprite(((this.config.width * 51) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let conMinus = this.add.sprite(((this.config.width * 48) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     conPlus.on('pointerup', function () {
       //fp should not vary beyond +- 30% of constitution
@@ -359,6 +407,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.fp++;
         game.self.points -= 10;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       } else if (game.self.constitution < 20 && game.self.fp >= (1.3 * game.self.constitution)) {
@@ -374,6 +423,7 @@ export class CharGenScene extends Phaser.Scene {
 		    game.self.fp--;
         game.self.points += 10;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       } else if (game.self.constitution > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.constitution)) {
@@ -382,9 +432,6 @@ export class CharGenScene extends Phaser.Scene {
 	    };
       updateText.call(this);
     });
-
-    let hpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 119) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let hpMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 119) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     //hp should not vary beyond +- 30% of strength
     hpPlus.on('pointerup', function () {
@@ -402,8 +449,6 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    let willPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let willMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     willPlus.on('pointerup', function () {
       //will should not exceed 20
@@ -425,8 +470,6 @@ export class CharGenScene extends Phaser.Scene {
     });
 
 
-    let perPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let perMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     perPlus.on('pointerup', function () {
       //perception should not exceed 20
@@ -447,8 +490,6 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    let fpPlus = this.add.sprite(((this.config.width * 73) / 128), ((this.config.height * 191) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let fpMinus = this.add.sprite(((this.config.width * 70) / 128), ((this.config.height * 191) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     //fp should not vary beyond +- 30% of constitution
     fpPlus.on('pointerup', function () {
@@ -466,8 +507,6 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    let speedPlus = this.add.sprite(((this.config.width * 102) / 128), ((this.config.height * 143) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let speedMinus = this.add.sprite(((this.config.width * 99) / 128), ((this.config.height * 143) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     speedPlus.on('pointerup', function () {
       //speed is (CON+AGI)/4, speed threshold is +- 2.0 of unmodified speed stat
@@ -475,6 +514,7 @@ export class CharGenScene extends Phaser.Scene {
         speedInteger++;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         game.self.points -= 5;
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       };
@@ -486,6 +526,7 @@ export class CharGenScene extends Phaser.Scene {
         speedInteger--;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         game.self.points += 5;
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
         //prevent game.self.move from being an invalid value such as 0 or less
@@ -497,14 +538,13 @@ export class CharGenScene extends Phaser.Scene {
         //decrease speed now
         speedInteger--;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
+        game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
       }
       updateText.call(this);
     });
 
-    let movePlus = this.add.sprite(((this.config.width * 102) / 128), ((this.config.height * 167) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let moveMinus = this.add.sprite(((this.config.width * 99) / 128), ((this.config.height * 167) / 512), 'minus').setOrigin(0, 0).setInteractive();
 
     movePlus.on('pointerup', function () {
       //move threshold of +- 3
