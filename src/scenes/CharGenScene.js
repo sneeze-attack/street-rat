@@ -3,7 +3,6 @@ import gameState from '../index';
 import config from '../index';
 import game from '../index';
 import * as nameGen from '../modules/NameGen';
-//import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
 import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
 import male_icon_boxed_img from '../assets/icons/32x32/male_icon_small_white_boxed.png';
@@ -29,7 +28,6 @@ export class CharGenScene extends Phaser.Scene {
   }
 
   preload() {
-    //this.load.image('japan_background', japan_background_img);
     this.load.image('male_icon', male_icon_img);
     this.load.image('female_icon', female_icon_img);
     this.load.image('male_icon_boxed', male_icon_boxed_img);
@@ -55,9 +53,6 @@ export class CharGenScene extends Phaser.Scene {
     this.config = this.sys.game.config;
     this.globals = { gameState };
 
-    //add background image
-    //this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
-
     //add black box
     let createBox = this.add.rectangle(0, 0, this.config.width, this.config.height, 0x000000).setOrigin(0, 0);
 
@@ -74,6 +69,41 @@ export class CharGenScene extends Phaser.Scene {
     //skills boxes
     let skillsBoxBorder = this.add.rectangle(((this.config.width * 89) / 128), ((this.config.height * 12) / 128), ((this.config.width * 37) / 128), ((this.config.height * 101) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
     let skillsBoxInterior = this.add.rectangle(((this.config.width * 89.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 36) / 128), ((this.config.height * 100) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+
+    // panhandling
+    let panhandlingText = this.add.text(((this.config.width * 90) / 128), ((this.config.height * 15) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
+    let panhandlingPlus = this.add.sprite(((this.config.width * 116) / 128), ((this.config.height * 15.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let panhandlingMinus = this.add.sprite(((this.config.width * 113) / 128), ((this.config.height * 15.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
+    panhandlingPlus.on('pointerup', function () {
+      let number = ((game.self.panhandle - 1) * 4);
+      if (game.self.panhandle === 0 && game.self.points >= 1 && game.self.panhandleScore <= 15) {
+        game.self.panhandle++;
+        game.self.points--;
+      } else if (game.self.panhandle === 1 && game.self.points >= 2 && game.self.panhandleScore <= 15) {
+        game.self.panhandle++;
+        game.self.points -= 2;
+      } else if (game.self.panhandle >= 2 && game.self.points >= number && game.self.panhandleScore <= 15) {
+        game.self.panhandle++;
+        game.self.points -= number;
+      };
+      game.self.calculatePanhandleScore();
+      updateText.call(this);
+    });
+    panhandlingMinus.on('pointerup', function () {
+      let number = ((game.self.panhandle - 2) * 4);
+      if (game.self.panhandle === 1) {
+        game.self.panhandle--;
+        game.self.points++;
+      } else if (game.self.panhandle === 2) {
+        game.self.panhandle--;
+        game.self.points += 2;
+      } else if (game.self.panhandle >= 3) {
+        game.self.panhandle--;
+        game.self.points += number;
+      };
+      game.self.calculatePanhandleScore();
+      updateText.call(this);
+    });
 
     //future concept
     let conceptBoxBorder = this.add.rectangle(((this.config.width * 3) / 128), ((this.config.height * 48) / 128), ((this.config.width * 86.5) / 128), ((this.config.height * 65) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
@@ -172,6 +202,8 @@ export class CharGenScene extends Phaser.Scene {
       game.self.speed = 5;
       game.self.move = 5;
       game.self.dodge = 8;
+      game.self.panhandle = 0;
+      game.self.panhandleScore = 6;
       gameState.nextScene = 'StartScene';
       gameState.previousScene = 'CharGenScene';
     }
@@ -237,48 +269,48 @@ export class CharGenScene extends Phaser.Scene {
 
     //primary attributes, first column
     let strText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 13) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
-    let strPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 55) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let strMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 55) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let strPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 13.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let strMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 13.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let agiText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 19) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
-    let agiPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let agiMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let agiPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let agiMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let intText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 25) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
-    let intPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let intMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let intPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 25.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let intMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 25.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let conText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 31) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
-    let conPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 127) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let conMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 127) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let conPlus = this.add.sprite(((this.config.width * 36) / 128), ((this.config.height * 31.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let conMinus = this.add.sprite(((this.config.width * 33) / 128), ((this.config.height * 31.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     //secondary attributes, second column
     let hpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 13) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
-    let hpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 55) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let hpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 55) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let hpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 13.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let hpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 13.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let fpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 19) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
-    let fpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let fpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let fpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let fpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let perText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 25) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
-    let perPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let perMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let perPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 25.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let perMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 25.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let willText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 31) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
-    let willPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 127) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let willMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 127) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let willPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 31.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let willMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 31.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     //more secondary attributes, third column
     let carryText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 13) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
 
     let speedText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 19) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28);
-    let speedPlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 79) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let speedMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 79) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let speedPlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let speedMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let moveText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 25) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28);
-    let movePlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 103) / 512), 'plus').setOrigin(0, 0).setInteractive();
-    let moveMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 103) / 512), 'minus').setOrigin(0, 0).setInteractive();
+    let movePlus = this.add.sprite(((this.config.width * 86) / 128), ((this.config.height * 25.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let moveMinus = this.add.sprite(((this.config.width * 83) / 128), ((this.config.height * 25.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let dodgeText = this.add.text(((this.config.width * 64) / 128), ((this.config.height * 31) / 128), 'Dodge: ' + game.self.dodge).setColor('#FFFFFF').setFontSize(28);
 
@@ -308,6 +340,14 @@ export class CharGenScene extends Phaser.Scene {
       dodgeText.setText('Dodge: ' + game.self.dodge);
 
       pointsText.setText('Points: ' + game.self.points);
+
+      // keep panhandle text aligned with if statement
+      if (game.self.panhandle === 10) {
+        panhandlingText.setText('Panhandling (' + game.self.panhandle + ')       ' + game.self.panhandleScore);
+      } else {
+        panhandlingText.setText('Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore);
+      };
+
     }
 
     strPlus.on('pointerup', function () {
@@ -377,6 +417,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.will++;
         game.self.perception++;
         game.self.points -= 20;
+        game.self.calculatePanhandleScore();
         //if will is more than 20, decrease it so that intelligence may be raised
       } else if (game.self.intelligence < 20 && game.self.will >= 20) {
         game.self.will--;
@@ -395,6 +436,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.will--;
         game.self.perception--;
         game.self.points += 20;
+        game.self.calculatePanhandleScore();
       };
       updateText.call(this);
     });

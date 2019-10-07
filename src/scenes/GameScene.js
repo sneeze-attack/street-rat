@@ -128,6 +128,7 @@ export class GameScene extends Phaser.Scene {
       dodgeText.setText('Dodge: ' + game.self.dodge);
       moveText.setText(' Move: ' + game.self.move);
       strText.setText('STR: ' + game.self.strength);
+      creditsText.setText('Creds: ' + game.self.credits);
     }
 
     // add in a message area
@@ -164,8 +165,43 @@ export class GameScene extends Phaser.Scene {
 
     // second button, top right corner
     // Repeat last action
-    let padding1Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let padding1Text = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
+    let repeatButton = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    let repeatText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), game.self.lastAction).setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    //actions for repeat button
+    function panhandle() {
+      game.self.updateTime(1);
+      let diceroll = roll.dice();
+      let margin = game.self.panhandleScore - diceroll
+      // panhandling margin cannot be zero
+      if (margin === 0) {
+        margin++;
+      };
+      if (margin > 0) {
+        game.self.credits = game.self.credits+=(margin * 2)
+        game.messageBox.updateBox('Success! Made ' + (margin * 2) + ' credits!' );
+      } else {
+        game.messageBox.updateBox('Failure');
+      };
+      // check to see if Tiredness status effect should be added, since 1 hour has passed
+      game.self.isPlayerTired();
+
+      updateMenu.call(this);
+      statusEffectMessages.call(this);
+    }
+
+    repeatButton.on('pointerup', function () {
+      if (game.self.lastAction === 'Panhandle') {
+        panhandle.call(this);
+      };
+    });
+    repeatText.on('pointerup', function () {
+      if (game.self.lastAction === 'Panhandle') {
+        panhandle.call(this);
+      };
+    });
+
+
 
     // Third button, first column, second row
     // Inventory

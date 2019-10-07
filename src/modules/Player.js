@@ -18,6 +18,9 @@ export default class Player {
 		this.move = 5;
 		this.credits = 0;
 		this.dodge = 8;
+
+		this.lastAction = '';
+
 		// use 24h clock, will add option to change to 12h clock later
 		// start game at 8am
 		this.hour = 8;
@@ -36,6 +39,14 @@ export default class Player {
 		this.fatiguedStrLoss = 0;
 		this.fatiguedMoveLoss = 0;
 		this.fatiguedDodgeLoss = 0;
+
+		//skills
+
+		// level of Panhandle skill
+		this.panhandle = 0;
+		// Effective score of Panhandle skill
+		this.panhandleScore = 6;
+
 	}
 
 	addStatusEffect(status) {
@@ -167,6 +178,14 @@ export default class Player {
 			this.dodge = this.dodge - this.fatiguedDodgeLoss;
 		};
 
+	}
+
+	calculatePanhandleScore() {
+		if (this.panhandle === 0) {
+			this.panhandleScore = this.intelligence + this.panhandle - 4;
+		} else {
+			this.panhandleScore = this.intelligence + this.panhandle - 1;
+		};
 	}
 
 }

@@ -49,8 +49,8 @@ export class ActionsScene extends Phaser.Scene {
 
     function panhandle() {
       game.self.updateTime(1);
-      let diceroll = roll.easyDefault();
-      let margin = game.self.intelligence - diceroll
+      let diceroll = roll.dice();
+      let margin = game.self.panhandleScore - diceroll
       // panhandling margin cannot be zero
       if (margin === 0) {
         margin++;
@@ -63,6 +63,7 @@ export class ActionsScene extends Phaser.Scene {
       };
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
+      game.self.lastAction = 'Panhandle';
       gameState.nextScene = 'GameScene';
       gameState.previousScene = 'ActionsScene';
     }
