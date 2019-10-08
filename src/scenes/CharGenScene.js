@@ -169,6 +169,7 @@ export class CharGenScene extends Phaser.Scene {
       };
       // set players stat maxes from charGen only
       game.self.fpMax = game.self.fp;
+      game.self.hpMax = game.self.hp;
 
       // set player dodge
       game.self.calculateDodge();

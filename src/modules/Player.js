@@ -9,6 +9,7 @@ export default class Player {
 		this.constitution = 10;
 		this.points = 100;
 		this.hp = 10;
+		this.hpMax = 10;
 		this.will = 10;
 		this.perception = 10;
 		this.fp = 10;
@@ -39,6 +40,18 @@ export default class Player {
 		this.fatiguedStrLoss = 0;
 		this.fatiguedMoveLoss = 0;
 		this.fatiguedDodgeLoss = 0;
+
+		// Wounded
+		// tracks whether has been told of Wounded status effect in game.messageBox
+		this.woundedWarned = false;
+		this.woundedMoveLoss = 0;
+		this.woundedDodgeLoss = 0;
+
+		// Unconscious
+		// tracks how long unconscious for
+		this.unconsciousLength = 0;
+
+
 
 		//skills
 
@@ -129,7 +142,14 @@ export default class Player {
 			// example, first 1-3 hours of being Tired, lose nothing
 			// next 4-7 hours of no sleep, lose 1 FP per turn, and so on
 			let cumulativeTired = Math.ceil(this.sleep * 0.25);
-			this.fp += cumulativeTired;
+			if (this.fp <= 0) {
+				this.fp += cumulativeTired;
+				this.hp += cumulativeTired;
+				this.isPlayerHurt();
+			} else {
+				this.fp += cumulativeTired;
+			};
+
 			this.isPlayerFatigued();
 		} else if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
@@ -162,6 +182,8 @@ export default class Player {
 				this.fatiguedStrLoss = 0;
 				this.fatiguedMoveLoss = 0;
 				this.fatiguedDodgeLoss = 0;
+			} else {
+				this.isPlayerUnconscious();
 			};
 		// if not fatigued, check to see if player should be
 		// if less than 1/3 of total FP is left, obtain Fatigued status effect
@@ -176,6 +198,41 @@ export default class Player {
 			this.strength = this.strength - this.fatiguedStrLoss;
 			this.move = this.move - this.fatiguedMoveLoss;
 			this.dodge = this.dodge - this.fatiguedDodgeLoss;
+
+			this.isPlayerUnconscious();
+		};
+
+	}
+
+	isPlayerHurt() {
+
+		//First check and see if the player is already wounded
+		let checkifWounded = this.statusEffects.findIndex(x => x=='Wounded');
+		if (checkifWounded >= 0) {
+			// if wounded, check to see if it can be removed
+			if (this.hp >= (this.hpMax / 3)) {
+				// remove Wounded status effect
+				let removeIt = this.statusEffects.splice(checkifWounded,1);
+				// Allow displaying Wounded warning message again
+				this.woundedWarned = false;
+
+				// When wounded status effect is removed, regain lost stats
+				this.move = this.move + this.woundedMoveLoss;
+				this.dodge = this.dodge + this.woundedDodgeLoss;
+
+				this.woundedMoveLoss = 0;
+				this.woundedDodgeLoss = 0;
+			};
+		// if not wounded, check to see if player should be
+		// if less than 1/3 of total HP is left, obtain Wounded status effect
+		} else if (this.hp < (this.hpMax / 3)) {
+			this.addStatusEffect('Wounded');
+			// When wounded, halve move and dodge
+			this.woundedMoveLoss = Math.floor(this.move / 2);
+			this.woundedDodgeLoss = Math.floor(this.dodge / 2);
+
+			this.move = this.move - this.woundedMoveLoss;
+			this.dodge = this.dodge - this.woundedDodgeLoss;
 		};
 
 	}
@@ -186,6 +243,22 @@ export default class Player {
 		} else {
 			this.panhandleScore = this.intelligence + this.panhandle - 1;
 		};
+	}
+
+
+	// Check to see if player should be unconscious
+	isPlayerUnconscious() {
+		// if FP is below max FP * -1, fall unconscious
+		if (this.fp <= (this.fpMax * -1)) {
+			this.unconsciousActivity();
+		};
+	}
+
+	// Actions that happen when player is unconscious
+	unconsciousActivity() {
+		let blackoutLength = (this.fp * -1) + 1;
+		this.playerRest(blackoutLength);
+		this.unconsciousLength = blackoutLength;
 	}
 
 }

@@ -47,20 +47,34 @@ export class ActionsScene extends Phaser.Scene {
     let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 21) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 22) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
-    function panhandle() {
+    function panhandleActivity() {
       game.self.updateTime(1);
       let diceroll = roll.dice();
-      let margin = game.self.panhandleScore - diceroll
-      // panhandling margin cannot be zero
-      if (margin === 0) {
-        margin++;
-      };
-      if (margin > 0) {
-        game.self.credits = game.self.credits+=(margin * 2)
-        game.messageBox.updateValues('Success! Made ' + (margin * 2) + ' credits!' );
-      } else {
+      // roll of 17 or 18 is automatic failure
+      if (diceroll >= 17) {
         game.messageBox.updateValues('Failure');
+      } else {
+        let margin = game.self.panhandleScore - diceroll;
+        // panhandling margin cannot be zero
+        if (margin === 0) {
+          margin++;
+        };
+        if (margin > 0) {
+          game.self.credits = game.self.credits+=(margin * 2)
+          game.messageBox.updateValues('Success! Made ' + (margin * 2) + ' credits!' );
+        } else {
+          game.messageBox.updateValues('Failure');
+        };
       };
+    }
+
+    function panhandle() {
+      // TO DO
+      // if FP less than 0, make Will roll to avoid passing out
+      panhandleActivity.call(this);
+
+
+
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
       game.self.lastAction = 'Panhandle';

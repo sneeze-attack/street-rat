@@ -111,6 +111,23 @@ export class GameScene extends Phaser.Scene {
         game.self.fatiguedWarned = true;
       };
 
+      // Wounded status effect check
+      // first turn of Wounded - warn player
+      game.self.isPlayerHurt();
+      let checkForWounded = game.self.statusEffects.includes('Wounded');
+      if (checkForWounded === true && game.self.woundedWarned === false) {
+        game.messageBox.updateBox('You are wounded.');
+        // only warn once by using woundedWarned
+        game.self.woundedWarned = true;
+      };
+
+      // Unconscious check
+      // when unconscious, print how many hours passed out for
+      if (game.self.unconsciousLength > 0) {
+        game.messageBox.updateBox('You passed out for ' + game.self.unconsciousLength + ' hours.');
+        game.self.unconsciousLength = 0;
+      };
+
       //update menu in case of stat changes
       updateMenu.call(this);
     }
@@ -124,6 +141,7 @@ export class GameScene extends Phaser.Scene {
       statusEffectsList.setText(game.self.statusEffects);
       clock.setText('Hour: ' + game.self.hour);
       calendar.setText(' Day: ' + game.self.day);
+      hpText.setText('  HP: ' + game.self.hp);
       fpText.setText('  FP: ' + game.self.fp);
       dodgeText.setText('Dodge: ' + game.self.dodge);
       moveText.setText(' Move: ' + game.self.move);
@@ -168,21 +186,36 @@ export class GameScene extends Phaser.Scene {
     let repeatButton = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 62) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let repeatText = this.add.text(((this.config.width * 42) / 128), ((this.config.height * 63) / 128), game.self.lastAction).setColor('#FFFFFF').setInteractive().setFontSize(32);
 
-    //actions for repeat button
-    function panhandle() {
+    function panhandleActivity() {
       game.self.updateTime(1);
       let diceroll = roll.dice();
-      let margin = game.self.panhandleScore - diceroll
-      // panhandling margin cannot be zero
-      if (margin === 0) {
-        margin++;
-      };
-      if (margin > 0) {
-        game.self.credits = game.self.credits+=(margin * 2)
-        game.messageBox.updateBox('Success! Made ' + (margin * 2) + ' credits!' );
-      } else {
+      // dice roll of 17 or 18 is considered an automatic failure
+      if (diceroll >= 17) {
         game.messageBox.updateBox('Failure');
+      } else {
+        let margin = game.self.panhandleScore - diceroll
+        // panhandling margin cannot be zero
+        if (margin === 0) {
+          margin++;
+        };
+        if (margin > 0) {
+          game.self.credits = game.self.credits+=(margin * 2)
+          game.messageBox.updateBox('Success! Made ' + (margin * 2) + ' credits!' );
+        } else {
+          game.messageBox.updateBox('Failure');
+        };
       };
+    }
+
+    //actions for repeat button
+    function panhandle() {
+
+      // TO DO
+      // if FP is 0 or below, make Will roll to avoid passing out
+      panhandleActivity.call(this);
+
+
+
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
 
