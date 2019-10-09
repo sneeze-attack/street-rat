@@ -4,6 +4,7 @@ import { OptionsScene } from './scenes/OptionsScene';
 import { CharGenScene } from './scenes/CharGenScene';
 import { GameScene } from './scenes/GameScene';
 import { ActionsScene } from './scenes/ActionsScene';
+import { GameOverScene } from './scenes/GameOverScene';
 import GameState from './modules/GameState';
 import Player from './modules/Player';
 import MessageBox from './modules/MessageBox';
@@ -16,7 +17,7 @@ export const config = {
         width: 1366,
         height: 768
     },
-  scene: [StartScene, OptionsScene, CharGenScene, GameScene, ActionsScene],
+  scene: [StartScene, OptionsScene, CharGenScene, GameScene, ActionsScene, GameOverScene],
 };
 
 export const gameState = new GameState();

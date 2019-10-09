@@ -22,6 +22,8 @@ export default class Player {
 
 		this.lastAction = '';
 
+		this.gameOver = false;
+
 		// use 24h clock, will add option to change to 12h clock later
 		// start game at 8am
 		this.hour = 8;
@@ -104,7 +106,7 @@ export default class Player {
 			this.sleep = this.sleep + hoursSpent;
 		};
 
-		// Oversleeping does nothing
+		// Oversleeping all at once does nothing
 		if (this.sleep > 10) {
 			this.sleep = 10;
 		};
@@ -234,6 +236,30 @@ export default class Player {
 			this.move = this.move - this.woundedMoveLoss;
 			this.dodge = this.dodge - this.woundedDodgeLoss;
 		};
+		this.isPlayerDead();
+	}
+
+	isPlayerDead() {
+		// this function checks for game over conditions
+
+		// immediately die when taking extreme damage
+		if (this.hp <= (this.hpMax * -5)) {
+			this.gameOver = true;
+			console.log('GAME OVER');
+		} else if (this.hp <= (this.hpMax * -1)) {
+			// roll against constitution, die on failure
+			let roll = (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1));
+			if (roll < this.constitution) {
+				this.gameOver = true;
+				console.log('GAME OVER');
+			};
+		} else if (this.hp <= 0) {
+			// roll against constitution, pass out on failure
+			let rollit = (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1));
+			if (rollit < this.constitution) {
+				this.unconsciousActivity();
+			};
+		};
 
 	}
 
@@ -256,9 +282,26 @@ export default class Player {
 
 	// Actions that happen when player is unconscious
 	unconsciousActivity() {
-		let blackoutLength = (this.fp * -1) + 1;
-		this.playerRest(blackoutLength);
+
+		// loop, rest once for each hour in blackoutLength
+		// this prevents getting good sleep (6+ hours)
+		let fpToOne;
+		let sleepToZero = Math.floor((this.sleep * -1))
+		if (this.fp <= 0) {
+			fpToOne = (this.fp * -1);
+		} else {
+			fpToOne = 0;
+		};
+		let blackoutLength = (sleepToZero + fpToOne);
+		if (blackoutLength === 0) {
+			blackoutLength = 1;
+		};
 		this.unconsciousLength = blackoutLength;
+
+		for (let counter = 0; counter <= blackoutLength; counter++) {
+			this.playerRest(1);
+		};
+
 	}
 
 }

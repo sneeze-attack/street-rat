@@ -212,7 +212,17 @@ export class GameScene extends Phaser.Scene {
 
       // TO DO
       // if FP is 0 or below, make Will roll to avoid passing out
-      panhandleActivity.call(this);
+
+      if (game.self.fp <= 0) {
+        let willRoll = roll.dice();
+        if (game.self.will >= willRoll) {
+            panhandleActivity.call(this);
+        } else {
+          game.self.unconsciousActivity();
+        };
+      } else {
+          panhandleActivity.call(this);
+      };
 
 
 
@@ -240,6 +250,22 @@ export class GameScene extends Phaser.Scene {
     // Inventory
     let padding2Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let padding2Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 74) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
+
+    function damageMe() {
+      game.self.hp--;
+      game.self.updateTime(1);
+      game.self.isPlayerTired();
+      game.self.isPlayerFatigued();
+      game.self.isPlayerDead();
+      statusEffectMessages.call(this);
+      updateMenu.call(this);
+    }
+    padding2Button.on('pointerup', function () {
+      damageMe.call(this);
+    });
+    padding2Text.on('pointerup', function () {
+      damageMe.call(this);
+    });
 
     // Fourth button, second column, second row
     // Skills (list/train)
@@ -307,8 +333,14 @@ export class GameScene extends Phaser.Scene {
   }
 
   update() {
+
+    if (game.self.gameOver === true) {
+      gameState.nextScene = 'GameOverScene';
+      gameState.previousScene = 'GameScene';
+    }
+
     // scene change logic
-    if (gameState.nextScene === 'ActionsScene') {
+    if (gameState.nextScene === 'ActionsScene' || gameState.nextScene === 'GameOverScene') {
       this.scene.stop(gameState.previousScene);
       this.scene.start(gameState.nextScene);
     };
