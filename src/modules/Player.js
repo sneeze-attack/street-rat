@@ -12,8 +12,8 @@ export default class Player {
 		this.hpMax = 10;
 		this.will = 10;
 		this.perception = 10;
-		this.fp = 10;
-		this.fpMax = 10;
+		this.sp = 10;
+		this.spMax = 10;
 		this.carry = 20;
 		this.speed = 5;
 		this.move = 5;
@@ -121,12 +121,12 @@ export default class Player {
 					// Allow displaying Tired warning message again
 					this.tiredWarned = false;
 			};
-			// do not exceed player's max FP
-			if (this.fp < this.fpMax) {
-				// recover FP if sleeping and not tired, 1 per hour
-				this.fp += hoursSpent;
-				if (this.fp > this.fpMax) {
-					this.fp = this.fpMax;
+			// do not exceed player's max SP
+			if (this.sp < this.spMax) {
+				// recover SP if sleeping and not tired, 1 per hour
+				this.sp += hoursSpent;
+				if (this.sp > this.spMax) {
+					this.sp = this.spMax;
 				}
 				this.isPlayerFatigued();
 			};
@@ -140,16 +140,16 @@ export default class Player {
 		// if sleep stat is greater than 0, remove Tired status effect
 		if (this.sleep <= 0) {
 			this.addStatusEffect('Tired');
-			// Every 4 extra hours the player is awake, lose 1 FP, cumulative
+			// Every 4 extra hours the player is awake, lose 1 SP, cumulative
 			// example, first 1-3 hours of being Tired, lose nothing
-			// next 4-7 hours of no sleep, lose 1 FP per turn, and so on
+			// next 4-7 hours of no sleep, lose 1 SP per turn, and so on
 			let cumulativeTired = Math.ceil(this.sleep * 0.25);
-			if (this.fp <= 0) {
-				this.fp += cumulativeTired;
+			if (this.sp <= 0) {
+				this.sp += cumulativeTired;
 				this.hp += cumulativeTired;
 				this.isPlayerHurt();
 			} else {
-				this.fp += cumulativeTired;
+				this.sp += cumulativeTired;
 			};
 
 			this.isPlayerFatigued();
@@ -170,7 +170,7 @@ export default class Player {
 		let checkifFatigued = this.statusEffects.findIndex(x => x=='Fatigued');
 		if (checkifFatigued >= 0) {
 			// if fatigued, check to see if it can be removed
-			if (this.fp >= (this.fpMax / 3)) {
+			if (this.sp >= (this.spMax / 3)) {
 				// remove Fatigued status effect
 				let removeIt = this.statusEffects.splice(checkifFatigued,1);
 				// Allow displaying Fatigued warning message again
@@ -188,8 +188,8 @@ export default class Player {
 				this.isPlayerUnconscious();
 			};
 		// if not fatigued, check to see if player should be
-		// if less than 1/3 of total FP is left, obtain Fatigued status effect
-		} else if (this.fp < (this.fpMax / 3)) {
+		// if less than 1/3 of total SP is left, obtain Fatigued status effect
+		} else if (this.sp < (this.spMax / 3)) {
 			this.addStatusEffect('Fatigued');
 			// When fatigued, halve strength, move, and dodge. May add INT, PER,
 			// and/or Will later
@@ -274,8 +274,8 @@ export default class Player {
 
 	// Check to see if player should be unconscious
 	isPlayerUnconscious() {
-		// if FP is below max FP * -1, fall unconscious
-		if (this.fp <= (this.fpMax * -1)) {
+		// if SP is below max SP * -1, fall unconscious
+		if (this.sp <= (this.spMax * -1)) {
 			this.unconsciousActivity();
 		};
 	}
@@ -285,14 +285,14 @@ export default class Player {
 
 		// loop, rest once for each hour in blackoutLength
 		// this prevents getting good sleep (6+ hours)
-		let fpToOne;
+		let spToOne;
 		let sleepToZero = Math.floor((this.sleep * -1))
-		if (this.fp <= 0) {
-			fpToOne = (this.fp * -1);
+		if (this.sp <= 0) {
+			spToOne = (this.sp * -1);
 		} else {
-			fpToOne = 0;
+			spToOne = 0;
 		};
-		let blackoutLength = (sleepToZero + fpToOne);
+		let blackoutLength = (sleepToZero + spToOne);
 		if (blackoutLength === 0) {
 			blackoutLength = 1;
 		};

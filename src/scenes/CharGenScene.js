@@ -168,7 +168,7 @@ export class CharGenScene extends Phaser.Scene {
         };
       };
       // set players stat maxes from charGen only
-      game.self.fpMax = game.self.fp;
+      game.self.spMax = game.self.sp;
       game.self.hpMax = game.self.hp;
 
       // set player dodge
@@ -198,7 +198,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.hp = 10;
       game.self.will = 10;
       game.self.perception = 10;
-      game.self.fp = 10;
+      game.self.sp = 10;
       game.self.carry = 20;
       game.self.speed = 5;
       game.self.move = 5;
@@ -290,9 +290,9 @@ export class CharGenScene extends Phaser.Scene {
     let hpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 13.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
     let hpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 13.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
-    let fpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 19) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
-    let fpPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
-    let fpMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
+    let spText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 19) / 128), '  SP: ' + game.self.sp).setColor('#FFFFFF').setFontSize(28);
+    let spPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+    let spMinus = this.add.sprite(((this.config.width * 56) / 128), ((this.config.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 
     let perText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 25) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
     let perPlus = this.add.sprite(((this.config.width * 59) / 128), ((this.config.height * 25.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
@@ -333,7 +333,7 @@ export class CharGenScene extends Phaser.Scene {
       hpText.setText('  HP: ' + game.self.hp);
       willText.setText('Will: ' + game.self.will);
       perText.setText(' Per: ' + game.self.perception);
-      fpText.setText('  FP: ' + game.self.fp);
+      spText.setText('  SP: ' + game.self.sp);
 
       carryText.setText('Carry: ' + game.self.carry);
       speedText.setText('Speed: ' + game.self.speed);
@@ -444,33 +444,33 @@ export class CharGenScene extends Phaser.Scene {
 
 
     conPlus.on('pointerup', function () {
-      //fp should not vary beyond +- 30% of constitution
-      if (game.self.constitution < 20 && game.self.points >= 10 && game.self.fp < (1.3 * game.self.constitution)) {
+      //sp should not vary beyond +- 30% of constitution
+      if (game.self.constitution < 20 && game.self.points >= 10 && game.self.sp < (1.3 * game.self.constitution)) {
         game.self.constitution++;
-        game.self.fp++;
+        game.self.sp++;
         game.self.points -= 10;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
-      } else if (game.self.constitution < 20 && game.self.fp >= (1.3 * game.self.constitution)) {
-		    game.self.fp--;
+      } else if (game.self.constitution < 20 && game.self.sp >= (1.3 * game.self.constitution)) {
+		    game.self.sp--;
 		    game.self.points += 3;
       };
       updateText.call(this);
     });
     conMinus.on('pointerup', function () {
-      //fp should not vary beyond +- 30% of constitution
-      if (game.self.constitution > 7 && game.self.fp > (0.7 * game.self.constitution)) {
+      //sp should not vary beyond +- 30% of constitution
+      if (game.self.constitution > 7 && game.self.sp > (0.7 * game.self.constitution)) {
         game.self.constitution--;
-		    game.self.fp--;
+		    game.self.sp--;
         game.self.points += 10;
         game.self.speed = ((game.self.constitution + game.self.agility) / 4) + (speedInteger * 0.25);
         game.self.calculateDodge();
         //move is equal to speed, rounded down
         game.self.move = Math.floor(game.self.speed) + moveInteger;
-      } else if (game.self.constitution > 7 && game.self.points >= 3 && game.self.fp <= (0.7 * game.self.constitution)) {
-	      game.self.fp++
+      } else if (game.self.constitution > 7 && game.self.points >= 3 && game.self.sp <= (0.7 * game.self.constitution)) {
+	      game.self.sp++
 	      game.self.points -= 3;
 	    };
       updateText.call(this);
@@ -534,17 +534,17 @@ export class CharGenScene extends Phaser.Scene {
     });
 
 
-    //fp should not vary beyond +- 30% of constitution
-    fpPlus.on('pointerup', function () {
-      if (game.self.fp < (1.3 * game.self.constitution) && game.self.points >= 3) {
-        game.self.fp++;
+    //sp should not vary beyond +- 30% of constitution
+    spPlus.on('pointerup', function () {
+      if (game.self.sp < (1.3 * game.self.constitution) && game.self.points >= 3) {
+        game.self.sp++;
         game.self.points -= 3;
       };
       updateText.call(this);
     });
-    fpMinus.on('pointerup', function () {
-      if (game.self.fp > (0.7 * game.self.constitution)) {
-        game.self.fp--;
+    spMinus.on('pointerup', function () {
+      if (game.self.sp > (0.7 * game.self.constitution)) {
+        game.self.sp--;
         game.self.points += 3;
       };
       updateText.call(this);

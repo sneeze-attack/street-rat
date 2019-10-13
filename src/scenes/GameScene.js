@@ -65,7 +65,7 @@ export class GameScene extends Phaser.Scene {
     let hpText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
     let willText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28);
     let perText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 41) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28);
-    let fpText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 47) / 128), '  FP: ' + game.self.fp).setColor('#FFFFFF').setFontSize(28);
+    let spText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 47) / 128), '  SP: ' + game.self.sp).setColor('#FFFFFF').setFontSize(28);
 
     // more secondary attributes, third column
     let carryText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28);
@@ -90,15 +90,15 @@ export class GameScene extends Phaser.Scene {
       // This is NOT adding the status effect, it is only checking for first
       // encounter of Tired status effect being present on the player.
 
-      // First turn of Tired - warn player and subtract 1 FP
+      // First turn of Tired - warn player and subtract 1 SP
       let checkForTired = game.self.statusEffects.includes('Tired');
       if (checkForTired === true && game.self.tiredWarned === false) {
         game.messageBox.updateBox('You feel tired.');
         // only warn once by using tiredWarned
         game.self.tiredWarned = true;
-        // lose 1 FP when you first get tired
+        // lose 1 SP when you first get tired
         // TODO: move this into player.isPlayerTired()
-        game.self.fp -= 1;
+        game.self.sp -= 1;
       };
 
       // Fatigued status effect check
@@ -142,7 +142,7 @@ export class GameScene extends Phaser.Scene {
       clock.setText('Hour: ' + game.self.hour);
       calendar.setText(' Day: ' + game.self.day);
       hpText.setText('  HP: ' + game.self.hp);
-      fpText.setText('  FP: ' + game.self.fp);
+      spText.setText('  SP: ' + game.self.sp);
       dodgeText.setText('Dodge: ' + game.self.dodge);
       moveText.setText(' Move: ' + game.self.move);
       strText.setText('STR: ' + game.self.strength);
@@ -211,9 +211,9 @@ export class GameScene extends Phaser.Scene {
     function panhandle() {
 
       // TO DO
-      // if FP is 0 or below, make Will roll to avoid passing out
+      // if SP is 0 or below, make Will roll to avoid passing out
 
-      if (game.self.fp <= 0) {
+      if (game.self.sp <= 0) {
         let willRoll = roll.dice();
         if (game.self.will >= willRoll) {
             panhandleActivity.call(this);

@@ -70,9 +70,9 @@ export class ActionsScene extends Phaser.Scene {
 
     function panhandle() {
       // TO DO
-      // if FP less than 0, make Will roll to avoid passing out
+      // if SP less than 0, make Will roll to avoid passing out
 
-      if (game.self.fp <= 0) {
+      if (game.self.sp <= 0) {
         let willRoll = roll.dice();
         if (game.self.will >= willRoll) {
           panhandleActivity.call(this);
