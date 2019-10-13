@@ -53,3 +53,10 @@ cog.png, dice_one.png, dice_two.png, dice_three.png, dice_four.png, dice_five.pn
 Freepik: https://www.flaticon.com/authors/freepik
 Flaticon: https://www.flaticon.com
 Flaticon Basic License: https://file000.flaticon.com/downloads/license/license.pdf
+
+checkmark-512.png by icons8.com and licensed as Creative Commons Attribution-NoDerivs 3.0.
+Icons8: https://www.iconsdb.com/redirect/?icon=checkmark
+License: https://creativecommons.org/licenses/by-nd/3.0/legalcode
+
+x-mark-512.png is provided as CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+IconsDB: https://www.iconsdb.com/black-icons/x-mark-icon.html

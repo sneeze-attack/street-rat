@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import game from '../index';
 import config from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
+import checkmark_img from '../assets/icons/32x32/checkmark_green.png';
+import x_red_img from '../assets/icons/32x32/x_red.png';
 
 
 export class OptionsScene extends Phaser.Scene {
@@ -11,6 +13,8 @@ export class OptionsScene extends Phaser.Scene {
 
   preload () {
     this.load.image('japan_background', japan_background_img);
+    this.load.image('checkmark', checkmark_img);
+    this.load.image('x_red', x_red_img);
   }
 
   create () {
@@ -37,6 +41,34 @@ export class OptionsScene extends Phaser.Scene {
       game.gameState.nextScene = game.gameState.previousScene;
       game.gameState.previousScene = 'OptionsScene';
     });
+
+    // show roll results option
+    let rollResultsText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 23) / 128), 'Show roll results:').setColor('#FFFFFF').setFontSize(32);
+    let rollResultsChoice;
+    if (game.gameState.showRollResults === false) {
+      rollResultsChoice = 'x_red';
+    } else {
+      rollResultsChoice = 'checkmark';
+    }
+
+    let rollResultsIndicator = this.add.sprite(((this.config.width * 54.5) / 128), ((this.config.height * 22.5) / 128), rollResultsChoice).setOrigin(0, 0).setInteractive();
+
+    function rollResultsChoiceSelect() {
+      if (game.gameState.showRollResults === false) {
+        rollResultsChoice = 'checkmark';
+        rollResultsIndicator.setTexture(rollResultsChoice);
+        game.gameState.showRollResults = true;
+      } else {
+        rollResultsChoice = 'x_red';
+        rollResultsIndicator.setTexture(rollResultsChoice);
+        game.gameState.showRollResults = false;
+      }
+    }
+
+    rollResultsIndicator.on('pointerup', function () {
+      rollResultsChoiceSelect.call(this);
+    });
+
   }
 
 
