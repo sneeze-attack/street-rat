@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
+import game from '../index';
 import config from '../index';
-import gameState from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 
 
@@ -17,7 +17,6 @@ export class OptionsScene extends Phaser.Scene {
 
     //needs comment
     this.config = this.sys.game.config;
-    this.globals = { gameState };
 
     //options screen background
     this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
@@ -31,12 +30,12 @@ export class OptionsScene extends Phaser.Scene {
 
     //back button logic
     closeTextBox.on('pointerup', function() {
-      gameState.nextScene = gameState.previousScene;
-      gameState.previousScene = 'OptionsScene';
+      game.gameState.nextScene = game.gameState.previousScene;
+      game.gameState.previousScene = 'OptionsScene';
     });
     closeText.on('pointerup', function() {
-      gameState.nextScene = gameState.previousScene;
-      gameState.previousScene = 'OptionsScene';
+      game.gameState.nextScene = game.gameState.previousScene;
+      game.gameState.previousScene = 'OptionsScene';
     });
   }
 
@@ -44,9 +43,9 @@ export class OptionsScene extends Phaser.Scene {
   update () {
 
     //change scene logic
-    if (gameState.nextScene === 'StartScene') {
-      this.scene.stop(gameState.previousScene);
-      this.scene.start(gameState.nextScene);
+    if (game.gameState.nextScene === 'StartScene' || game.gameState.nextScene === 'GameScene') {
+      this.scene.stop(game.gameState.previousScene);
+      this.scene.start(game.gameState.nextScene);
     };
 
   }

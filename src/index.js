@@ -20,10 +20,9 @@ export const config = {
   scene: [StartScene, OptionsScene, CharGenScene, GameScene, ActionsScene, GameOverScene],
 };
 
-export const gameState = new GameState();
-
 const game = new Phaser.Game(config);
 
+game.gameState = new GameState();
 game.self = new Player();
 game.messageBox = new MessageBox();
 

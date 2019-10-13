@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import gameState from '../index';
 import config from '../index';
 import game from '../index';
 import * as roll from '../modules/Roll';
@@ -12,6 +11,7 @@ import male1_img from '../assets/portraits/male/160x200/male1.jpg';
 import male2_img from '../assets/portraits/male/160x200/male2.jpg';
 import male3_img from '../assets/portraits/male/160x200/male3.jpg';
 import male4_img from '../assets/portraits/male/160x200/male4.jpg';
+import cog_img from '../assets/icons/48x48/cog_white.png';
 
 export class GameScene extends Phaser.Scene {
   constructor() {
@@ -28,6 +28,7 @@ export class GameScene extends Phaser.Scene {
     this.load.image('male2', male2_img);
     this.load.image('male3', male3_img);
     this.load.image('male4', male4_img);
+    this.load.image('cog', cog_img);
   }
 
   create() {
@@ -46,6 +47,14 @@ export class GameScene extends Phaser.Scene {
 
     // name
     let enterNameText = this.add.text(((this.config.width * 36) / 128), ((this.config.height * 19) / 128), game.self.name).setColor('#FFFFFF').setFontSize(36);
+
+    // options
+    let optionsCog = this.add.sprite(((this.config.width * 122) / 128), ((this.config.height * 3) / 128), 'cog').setOrigin(0, 0).setInteractive();
+
+    optionsCog.on('pointerup', function () {
+      game.gameState.nextScene = 'OptionsScene';
+      game.gameState.previousScene = 'GameScene';
+    });
 
     // small space between stats and buttons / messageBox
     //let pointsText = this.add.text(((this.config.width * 18) / 128), ((this.config.height * 56) / 128), 'Points: ' + game.self.points).setColor('#FFFFFF').setFontSize(20);
@@ -173,12 +182,12 @@ export class GameScene extends Phaser.Scene {
     let actionsText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Actions').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
     actionsButton.on('pointerup', function () {
-      gameState.nextScene = 'ActionsScene';
-      gameState.previousScene = 'GameScene';
+      game.gameState.nextScene = 'ActionsScene';
+      game.gameState.previousScene = 'GameScene';
     });
     actionsText.on('pointerup', function () {
-      gameState.nextScene = 'ActionsScene';
-      gameState.previousScene = 'GameScene';
+      game.gameState.nextScene = 'ActionsScene';
+      game.gameState.previousScene = 'GameScene';
     });
 
     // second button, top right corner
@@ -251,22 +260,6 @@ export class GameScene extends Phaser.Scene {
     let padding2Button = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     let padding2Text = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 74) / 128), '').setColor('#FFFFFF').setInteractive().setFontSize(32);
 
-    function damageMe() {
-      game.self.hp--;
-      game.self.updateTime(1);
-      game.self.isPlayerTired();
-      game.self.isPlayerFatigued();
-      game.self.isPlayerDead();
-      statusEffectMessages.call(this);
-      updateMenu.call(this);
-    }
-    padding2Button.on('pointerup', function () {
-      damageMe.call(this);
-    });
-    padding2Text.on('pointerup', function () {
-      damageMe.call(this);
-    });
-
     // Fourth button, second column, second row
     // Skills (list/train)
     let padding3Button = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 73) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
@@ -335,14 +328,14 @@ export class GameScene extends Phaser.Scene {
   update() {
 
     if (game.self.gameOver === true) {
-      gameState.nextScene = 'GameOverScene';
-      gameState.previousScene = 'GameScene';
+      game.gameState.nextScene = 'GameOverScene';
+      game.gameState.previousScene = 'GameScene';
     }
 
     // scene change logic
-    if (gameState.nextScene === 'ActionsScene' || gameState.nextScene === 'GameOverScene') {
-      this.scene.stop(gameState.previousScene);
-      this.scene.start(gameState.nextScene);
+    if (game.gameState.nextScene === 'ActionsScene' || game.gameState.nextScene === 'GameOverScene' || game.gameState.nextScene === 'OptionsScene') {
+      this.scene.stop(game.gameState.previousScene);
+      this.scene.start(game.gameState.nextScene);
     };
 
   }

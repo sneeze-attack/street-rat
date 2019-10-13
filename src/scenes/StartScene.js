@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import game from '../index';
 import config from '../index';
-import gameState from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 
 
@@ -17,7 +16,6 @@ export class StartScene extends Phaser.Scene {
   create() {
     //needs comment
     this.config = this.sys.game.config;
-    this.globals = { gameState };
 
     //start menu screen and title
     this.add.image(0, 0, 'japan_background').setOrigin(0, 0);
@@ -29,13 +27,13 @@ export class StartScene extends Phaser.Scene {
 
     //start button logic
     startText.on('pointerup', function() {
-      gameState.nextScene = 'CharGenScene';
-      gameState.previousScene = 'StartScene';
+      game.gameState.nextScene = 'CharGenScene';
+      game.gameState.previousScene = 'StartScene';
     });
 
     startTextBox.on('pointerup', function() {
-      gameState.nextScene = 'CharGenScene';
-      gameState.previousScene = 'StartScene';
+      game.gameState.nextScene = 'CharGenScene';
+      game.gameState.previousScene = 'StartScene';
     });
 
     //options button
@@ -44,22 +42,22 @@ export class StartScene extends Phaser.Scene {
 
     //options button logic
     optionsText.on('pointerup', function() {
-      gameState.nextScene = 'OptionsScene';
-      gameState.previousScene = 'StartScene';
+      game.gameState.nextScene = 'OptionsScene';
+      game.gameState.previousScene = 'StartScene';
     });
 
     optionsTextBox.on('pointerup', function() {
-      gameState.nextScene = 'OptionsScene';
-      gameState.previousScene = 'StartScene';
+      game.gameState.nextScene = 'OptionsScene';
+      game.gameState.previousScene = 'StartScene';
     });
   }
 
   update() {
 
     //change scene logic
-    if (gameState.nextScene === 'CharGenScene' || gameState.nextScene === 'OptionsScene') {
-      this.scene.stop(gameState.previousScene);
-      this.scene.start(gameState.nextScene);
+    if (game.gameState.nextScene === 'CharGenScene' || game.gameState.nextScene === 'OptionsScene') {
+      this.scene.stop(game.gameState.previousScene);
+      this.scene.start(game.gameState.nextScene);
     };
   }
 

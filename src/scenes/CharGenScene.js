@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import gameState from '../index';
 import config from '../index';
 import game from '../index';
 import * as nameGen from '../modules/NameGen';
@@ -51,7 +50,6 @@ export class CharGenScene extends Phaser.Scene {
 
     //needs comment
     this.config = this.sys.game.config;
-    this.globals = { gameState };
 
     //add black box
     let createBox = this.add.rectangle(0, 0, this.config.width, this.config.height, 0x000000).setOrigin(0, 0);
@@ -175,8 +173,8 @@ export class CharGenScene extends Phaser.Scene {
       game.self.calculateDodge();
 
       // values to change scene
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'CharGenScene';
+      game.gameState.nextScene = 'GameScene';
+      game.gameState.previousScene = 'CharGenScene';
     }
     continueButton.on('pointerup', function () {
       continueToGame.call(this);
@@ -205,8 +203,8 @@ export class CharGenScene extends Phaser.Scene {
       game.self.dodge = 8;
       game.self.panhandle = 0;
       game.self.panhandleScore = 6;
-      gameState.nextScene = 'StartScene';
-      gameState.previousScene = 'CharGenScene';
+      game.gameState.nextScene = 'StartScene';
+      game.gameState.previousScene = 'CharGenScene';
     }
     backButton.on('pointerup', function () {
       backReset.call(this);
@@ -613,9 +611,9 @@ export class CharGenScene extends Phaser.Scene {
 
   update() {
     //scene change logic
-    if (gameState.nextScene === 'GameScene' || gameState.nextScene === 'StartScene') {
-      this.scene.stop(gameState.previousScene);
-      this.scene.start(gameState.nextScene);
+    if (game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'StartScene') {
+      this.scene.stop(game.gameState.previousScene);
+      this.scene.start(game.gameState.nextScene);
     };
 
   }

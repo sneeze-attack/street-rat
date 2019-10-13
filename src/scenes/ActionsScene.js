@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import gameState from '../index';
 import config from '../index';
 import game from '../index';
 import * as roll from '../modules/Roll';
@@ -32,12 +31,12 @@ export class ActionsScene extends Phaser.Scene {
     let backButton = this.add.text(((this.config.width * 24) / 128), ((this.config.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32);
     // back button logic
     backButton.on('pointerup', function () {
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'ActionsScene';
+      game.gameState.nextScene = 'GameScene';
+      game.gameState.previousScene = 'ActionsScene';
     });
     backTextBox.on('pointerup', function () {
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'ActionsScene';
+      game.gameState.nextScene = 'GameScene';
+      game.gameState.previousScene = 'ActionsScene';
     });
 
     // add actions
@@ -90,8 +89,8 @@ export class ActionsScene extends Phaser.Scene {
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
       game.self.lastAction = 'Panhandle';
-      gameState.nextScene = 'GameScene';
-      gameState.previousScene = 'ActionsScene';
+      game.gameState.nextScene = 'GameScene';
+      game.gameState.previousScene = 'ActionsScene';
     }
 
     panhandlingButton.on('pointerup', function () {
@@ -105,9 +104,9 @@ export class ActionsScene extends Phaser.Scene {
 
   update() {
     // scene change logic
-    if (gameState.nextScene === 'GameScene') {
-      this.scene.stop(gameState.previousScene);
-      this.scene.start(gameState.nextScene);
+    if (game.gameState.nextScene === 'GameScene') {
+      this.scene.stop(game.gameState.previousScene);
+      this.scene.start(game.gameState.nextScene);
     };
 
   }
