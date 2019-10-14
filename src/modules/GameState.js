@@ -2,6 +2,6 @@ export default class GameState {
 	constructor() {
 		this.nextScene = null;
 		this.previousScene = null;
-		this.showRollResults = false;
+		this.showRollResults = true;
 	}
 }
