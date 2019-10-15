@@ -58,7 +58,7 @@ export class ActionsScene extends Phaser.Scene {
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 22) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
 
     // hidden object to show dice results (hidden at depth 0)
-    let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore);
+    let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore, 'Basic Roll');
 
 
     // add actions
@@ -86,91 +86,55 @@ export class ActionsScene extends Phaser.Scene {
       };
     }
 
-    // showPanhandlingRollResults.call(this);
-    function showPanhandlingRollResults() {
-      panhandlingResultsObject.rollTheDice();
-      panhandlingResultsObject.resultsShadeBox.setDepth(3);
-      panhandlingResultsObject.resultsBoxBorder.setDepth(4);
-      panhandlingResultsObject.resultsBox.setDepth(5);
-      panhandlingResultsObject.topLine.setDepth(6);
-      panhandlingResultsObject.bottomLine.setDepth(6);
-      panhandlingResultsObject.rollTitle.setDepth(7);
-      panhandlingResultsObject.dieOne.setDepth(8);
-      panhandlingResultsObject.dieTwo.setDepth(8);
-      panhandlingResultsObject.dieThree.setDepth(8);
-      panhandlingResultsObject.scoreNumber.setDepth(8);
-      panhandlingResultsObject.scoreText.setDepth(8);
-      panhandlingResultsObject.vsText.setDepth(8);
-      panhandlingResultsObject.rollTotalText.setDepth(8);
-      panhandlingResultsObject.rollText.setDepth(8);
-      panhandlingResultsObject.clickToContinueText.setDepth(8);
-      panhandlingResultsObject.successOrFailureText.setDepth(8);
-    }
-    // hidePanhandlingRollResults.call(this);
-    function hidePanhandlingRollResults() {
-      panhandlingResultsObject.resultsShadeBox.setDepth(0);
-      panhandlingResultsObject.resultsBoxBorder.setDepth(0);
-      panhandlingResultsObject.resultsBox.setDepth(0);
-      panhandlingResultsObject.topLine.setDepth(0);
-      panhandlingResultsObject.bottomLine.setDepth(0);
-      panhandlingResultsObject.rollTitle.setDepth(0);
-      panhandlingResultsObject.dieOne.setDepth(0);
-      panhandlingResultsObject.dieTwo.setDepth(0);
-      panhandlingResultsObject.dieThree.setDepth(0);
-      panhandlingResultsObject.scoreNumber.setDepth(0);
-      panhandlingResultsObject.scoreText.setDepth(0);
-      panhandlingResultsObject.vsText.setDepth(0);
-      panhandlingResultsObject.rollTotalText.setDepth(0);
-      panhandlingResultsObject.rollText.setDepth(0);
-      panhandlingResultsObject.clickToContinueText.setDepth(0);
-      panhandlingResultsObject.successOrFailureText.setDepth(0);
-    }
 
     // Hide results when clicked -- "click to continue"
     panhandlingResultsObject.resultsShadeBox.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.resultsBox.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.rollTitle.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
+    });
+    panhandlingResultsObject.rollReason.on('pointerup', function () {
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.dieOne.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.dieTwo.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.dieThree.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.scoreNumber.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.scoreText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.vsText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.rollTotalText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.rollText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.clickToContinueText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
     panhandlingResultsObject.successOrFailureText.on('pointerup', function () {
-      hidePanhandlingRollResults.call(this);
+      panhandlingResultsObject.hideRollResults();
     });
 
     function panhandle() {
       // show roll results when option is toggled
       if (game.gameState.showRollResults === true) {
-        showPanhandlingRollResults.call(this);
+        panhandlingResultsObject.showRollResults();
       } else {
         // if SP less than 0, make Will roll to avoid passing out
         if (game.self.sp <= 0) {

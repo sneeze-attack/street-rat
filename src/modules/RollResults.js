@@ -4,13 +4,18 @@ export default class RollResults extends Phaser.GameObjects.Group {
 	// RollResults requires scene which is usually 'this'
 	// statOrSkill should be text of what is rolled against, example 'Pandhandling' or 'Strength'
 	// playerNumber is the skill/stat level rolled against, example 'game.self.panhandeScore' or 'game.self.strength'
-	constructor(scene, statOrSkill, playerNumber) {
+	// reason is the short one or two word explanation of why there is a roll at all.
+	// reason cont. -- if obvious such as rolling againt panhandling because panhandling action was chosen
+	// reason cont. -- then use 'Basic Roll', elsewise use whatever makes sense
+	// reason example -- player's SP is below 0 and need to roll against Will then
+	// reason example -- use 'SP too low' as reason
+	constructor(scene, statOrSkill, playerNumber, reason) {
 
     // add gray shade to entire screen
     let resultsShadeBox = scene.add.rectangle(0, 0, config.scale.width, config.scale.height, 0x000000).setOrigin(0, 0).setDepth(0).setAlpha(0.5).setInteractive();
     // add bordered results box
-    let resultsBoxBorder = scene.add.rectangle(((config.scale.width * 30) / 128), ((config.scale.height * 20) / 128), ((config.scale.width * 68) / 128), ((config.scale.height * 92) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
-    let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 20.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 91) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+    let resultsBoxBorder = scene.add.rectangle(((config.scale.width * 30) / 128), ((config.scale.height * 14) / 128), ((config.scale.width * 68) / 128), ((config.scale.height * 98) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+    let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 14.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 97) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
     // add Title of roll type
 		let phx;
 		// center title based on name
@@ -19,7 +24,10 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		} else {
 			phx = 32;
 		}
-		let rollTitle = scene.add.text(((config.scale.width * phx) / 128), ((config.scale.height * 23.5) / 128), 'Roll Against ' + statOrSkill).setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let rollTitle = scene.add.text(((config.scale.width * phx) / 128), ((config.scale.height * 17) / 128), 'Roll Against ' + statOrSkill).setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let rollReason = scene.add.text(((config.scale.width * 54.5) / 128), ((config.scale.height * 26.5) / 128), '(' + reason + ')').setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(24).setDepth(0);
+
+
 		// add dice images
 		let defaultOne = 'dice_one';
 		let defaultTwo = 'dice_one';
@@ -63,6 +71,7 @@ export default class RollResults extends Phaser.GameObjects.Group {
     this.resultsBoxBorder = resultsBoxBorder;
     this.resultsBox = resultsBox;
     this.rollTitle = rollTitle;
+		this.rollReason = rollReason;
 		this.dieOne = diceOne;
 		this.dieTwo = diceTwo;
 		this.dieThree = diceThree;
@@ -148,6 +157,47 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.dieThree.setTexture(this.dieThreeImage);
 
 		this.rollTotalText.setText(this.diceTotal);
+	}
+
+	showRollResults() {
+		this.rollTheDice();
+		this.resultsShadeBox.setDepth(3);
+		this.resultsBoxBorder.setDepth(4);
+		this.resultsBox.setDepth(5);
+		this.topLine.setDepth(6);
+		this.bottomLine.setDepth(6);
+		this.rollTitle.setDepth(7);
+		this.rollReason.setDepth(7);
+		this.dieOne.setDepth(8);
+		this.dieTwo.setDepth(8);
+		this.dieThree.setDepth(8);
+		this.scoreNumber.setDepth(8);
+		this.scoreText.setDepth(8);
+		this.vsText.setDepth(8);
+		this.rollTotalText.setDepth(8);
+		this.rollText.setDepth(8);
+		this.clickToContinueText.setDepth(8);
+		this.successOrFailureText.setDepth(8);
+	}
+
+	hideRollResults() {
+		this.resultsShadeBox.setDepth(0);
+		this.resultsBoxBorder.setDepth(0);
+		this.resultsBox.setDepth(0);
+		this.topLine.setDepth(0);
+		this.bottomLine.setDepth(0);
+		this.rollTitle.setDepth(0);
+		this.rollReason.setDepth(0);
+		this.dieOne.setDepth(0);
+		this.dieTwo.setDepth(0);
+		this.dieThree.setDepth(0);
+		this.scoreNumber.setDepth(0);
+		this.scoreText.setDepth(0);
+		this.vsText.setDepth(0);
+		this.rollTotalText.setDepth(0);
+		this.rollText.setDepth(0);
+		this.clickToContinueText.setDepth(0);
+		this.successOrFailureText.setDepth(0);
 	}
 
 }
