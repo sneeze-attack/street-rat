@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import game from '../index';
-import config from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import checkmark_img from '../assets/icons/32x32/checkmark_green.png';
 import x_red_img from '../assets/icons/32x32/x_red.png';

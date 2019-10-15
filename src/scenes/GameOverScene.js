@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import config from '../index';
 import game from '../index';
 
 

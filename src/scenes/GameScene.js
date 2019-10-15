@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import config from '../index';
 import game from '../index';
 import * as roll from '../modules/Roll';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';

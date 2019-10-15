@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import config from '../index';
 import game from '../index';
 import * as nameGen from '../modules/NameGen';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
