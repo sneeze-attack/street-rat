@@ -19,7 +19,7 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		} else {
 			phx = 32;
 		}
-		let rollTitle = scene.add.text(((config.scale.width * phx) / 128), ((config.scale.height * 22.5) / 128), 'Roll Against ' + statOrSkill).setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let rollTitle = scene.add.text(((config.scale.width * phx) / 128), ((config.scale.height * 23.5) / 128), 'Roll Against ' + statOrSkill).setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
 		// add dice images
 		let defaultOne = 'dice_one';
 		let defaultTwo = 'dice_one';
@@ -43,9 +43,22 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		let rollText = scene.add.text(((config.scale.width * 80) / 128), ((config.scale.height * 57) / 128), 'Total').setColor('#A00000').setFontFamily('"DejaVu Sans Mono"').setFontSize(40).setDepth(0);
 		let rollTotalText = scene.add.text(((config.scale.width * 80) / 128), ((config.scale.height * 70) / 128), '0').setColor('#A00000').setFontFamily('"DejaVu Sans Mono"').setFontSize(80).setDepth(0);
 
+		let clickToContinueText = scene.add.text(((config.scale.width * 55.5) / 128), ((config.scale.height * 107) / 128), 'click to continue').setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(16).setDepth(0);
+
+		let successOrFailure = 'Success';
+		let successOrFailureText = scene.add.text(((config.scale.width * 52) / 128), ((config.scale.height * 93.5) / 128), successOrFailure).setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(56).setDepth(0);
+
+		let firstLine = new Phaser.Geom.Line(((config.scale.width * 30) / 128), ((config.scale.height * 34) / 128), ((config.scale.width * 98) / 128), ((config.scale.height * 34) / 128));
+    let lineFirst = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } }).setDepth(0);
+    lineFirst.strokeLineShape(firstLine);
+
+		let secondLine = new Phaser.Geom.Line(((config.scale.width * 30) / 128), ((config.scale.height * 90) / 128), ((config.scale.width * 98) / 128), ((config.scale.height * 90) / 128));
+    let lineSecond = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } }).setDepth(0);
+    lineSecond.strokeLineShape(secondLine);
+
     super(scene);
 
-
+		this.playerNumber = playerNumber;
     this.resultsShadeBox = resultsShadeBox;
     this.resultsBoxBorder = resultsBoxBorder;
     this.resultsBox = resultsBox;
@@ -62,6 +75,11 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.diceTotal = 0;
 		this.rollTotalText = rollTotalText;
 		this.rollText = rollText;
+		this.clickToContinueText = clickToContinueText;
+		this.successOrFailureText = successOrFailureText;
+		this.topLine = lineFirst;
+		this.bottomLine = lineSecond;
+		this.successOrFailure = null;
 
     //scene.add.existing(this);
 
@@ -73,6 +91,16 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		let resultThree = (Math.floor((Math.random() * 6) + 1));
 
 		this.diceTotal = resultOne + resultTwo + resultThree;
+		if (this.diceTotal <= this.playerNumber) {
+			this.successOrFailure = 'Success';
+			this.successOrFailureText.setColor('#33FF00');
+
+		} else {
+			this.successOrFailure = 'Failure';
+			this.successOrFailureText.setColor('#A00000');
+		};
+
+		this.successOrFailureText.setText(this.successOrFailure);
 
 		if (resultOne === 1) {
 			this.dieOneImage = 'dice_one';
