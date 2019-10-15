@@ -68,6 +68,9 @@ export class ActionsScene extends Phaser.Scene {
     function panhandleActivity() {
       game.self.updateTime(1);
       let diceroll = roll.dice();
+      if (game.gameState.showRollResults === true) {
+        diceroll = panhandlingResultsObject.diceTotal;
+      };
       // roll of 17 or 18 is automatic failure
       if (diceroll >= 17) {
         game.messageBox.updateValues('Failure');
@@ -90,70 +93,95 @@ export class ActionsScene extends Phaser.Scene {
     // Hide results when clicked -- "click to continue"
     panhandlingResultsObject.resultsShadeBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.resultsBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.rollTitle.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.rollReason.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.dieOne.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.dieTwo.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.dieThree.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.scoreNumber.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.scoreText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.vsText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.rollTotalText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.rollText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.clickToContinueText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
     panhandlingResultsObject.successOrFailureText.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
     });
 
     function panhandle() {
-      // show roll results when option is toggled
-      if (game.gameState.showRollResults === true) {
-        panhandlingResultsObject.showRollResults();
-      } else {
-        // if SP less than 0, make Will roll to avoid passing out
-        if (game.self.sp <= 0) {
-          let willRoll = roll.dice();
-          if (game.self.will >= willRoll) {
+      // if SP less than 0, make Will roll to avoid passing out
+      if (game.self.sp <= 0) {
+        let willRoll = roll.dice();
+        if (game.self.will >= willRoll) {
+          // show roll results when option is toggled
+          if (game.gameState.showRollResults === true) {
+            panhandlingResultsObject.showRollResults();
             panhandleActivity.call(this);
           } else {
-            game.self.unconsciousActivity();
+            panhandleActivity.call(this);
+            goToGameScene.call(this);
           };
         } else {
-          panhandleActivity.call(this);
+          game.self.unconsciousActivity();
+          goToGameScene.call(this);
         };
-
-        // check to see if Tiredness status effect should be added, since 1 hour has passed
-        game.self.isPlayerTired();
-        game.self.lastAction = 'Panhandle';
-        game.gameState.nextScene = 'GameScene';
-        game.gameState.previousScene = 'ActionsScene';
+      } else {
+        // show roll results when option is toggled
+        if (game.gameState.showRollResults === true) {
+          panhandlingResultsObject.showRollResults();
+          panhandleActivity.call(this);
+        } else {
+          panhandleActivity.call(this);
+          goToGameScene.call(this);
+        };
       };
+
+      // check to see if Tiredness status effect should be added, since 1 hour has passed
+      game.self.isPlayerTired();
+      game.self.lastAction = 'Panhandle';
+
+
+    //};
 
     }
 
@@ -163,6 +191,11 @@ export class ActionsScene extends Phaser.Scene {
     panhandlingText.on('pointerup', function () {
       panhandle.call(this);
     });
+
+    function goToGameScene() {
+      game.gameState.nextScene = 'GameScene';
+      game.gameState.previousScene = 'ActionsScene';
+    }
 
   }
 
