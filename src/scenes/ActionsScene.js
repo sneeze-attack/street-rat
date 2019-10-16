@@ -58,11 +58,23 @@ export class ActionsScene extends Phaser.Scene {
     let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 22) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
 
     // hidden object to show dice results (hidden at depth 0)
+
     let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore, 'Basic Roll');
+
     // Hide results when clicked -- "click to continue"
     panhandlingResultsObject.masterBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
       goToGameScene.call(this);
+    });
+
+    let spWillResultsObject = new RollResults(this, 'Will', game.self.will, 'SP too low');
+
+    // Hide results when clicked -- "click to continue"
+    spWillResultsObject.masterBox.on('pointerup', function () {
+      spWillResultsObject.hideRollResults();
+      if (game.self.will < spWillResultsObject.diceTotal) {
+        goToGameScene.call(this);
+      };
     });
 
 
@@ -95,33 +107,37 @@ export class ActionsScene extends Phaser.Scene {
     }
 
     function panhandle() {
-      // if SP less than 0, make Will roll to avoid passing out
-      if (game.self.sp <= 0) {
-        let willRoll = roll.dice();
-        if (game.self.will >= willRoll) {
-          // show roll results when option is toggled
-          if (game.gameState.showRollResults === true) {
+
+      if (game.gameState.showRollResults === true) {
+        // if SP less than 0, make Will roll to avoid passing out
+        if (game.self.sp <= 0) {
+          spWillResultsObject.showRollResultsModDepth(1);
+          if (game.self.will >= spWillResultsObject.diceTotal) {
             panhandlingResultsObject.showRollResults();
             panhandleActivity.call(this);
           } else {
-            panhandleActivity.call(this);
-            goToGameScene.call(this);
+            game.self.unconsciousActivity();
           };
         } else {
-          game.self.unconsciousActivity();
-          goToGameScene.call(this);
-        };
-      } else {
-        // show roll results when option is toggled
-        if (game.gameState.showRollResults === true) {
           panhandlingResultsObject.showRollResults();
           panhandleActivity.call(this);
+        };
+      } else {
+        // if SP less than 0, make Will roll to avoid passing out
+        if (game.self.sp <= 0) {
+          let willRoll = roll.dice();
+          if (game.self.will >= willRoll) {
+            panhandleActivity.call(this);
+            goToGameScene.call(this);
+          } else {
+            game.self.unconsciousActivity();
+            goToGameScene.call(this);
+          };
         } else {
           panhandleActivity.call(this);
           goToGameScene.call(this);
         };
       };
-
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
       game.self.lastAction = 'Panhandle';
