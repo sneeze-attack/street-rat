@@ -32,7 +32,7 @@ export class ActionsScene extends Phaser.Scene {
     this.config = this.sys.game.config;
 
     // add background image
-    this.add.image(0, 0, 'japan_background').setOrigin(0, 0).setDepth(1);
+    this.add.image(0, 0, 'japan_background').setOrigin(0, 0).setDepth(1).setInteractive();
 
     // add black box
     let createBox = this.add.rectangle(((this.config.width * 16) / 128), ((this.config.height * 16) / 128), ((this.config.width * 96) / 128), ((this.config.height * 96) / 128), 0x000000).setOrigin(0, 0).setDepth(1);
@@ -179,10 +179,6 @@ export class ActionsScene extends Phaser.Scene {
       // check to see if Tiredness status effect should be added, since 1 hour has passed
       game.self.isPlayerTired();
       game.self.lastAction = 'Panhandle';
-
-
-    //};
-
     }
 
     panhandlingButton.on('pointerup', function () {
