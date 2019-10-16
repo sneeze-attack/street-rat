@@ -21,9 +21,11 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		// center title based on name
 		if (statOrSkill === 'Panhandling') {
 			phx = 42;
+		} else if (statOrSkill === 'Will') {
+			phx = 47;
 		} else {
 			phx = 32;
-		}
+		};
 		let rollTitle = scene.add.text(((config.scale.width * phx) / 128), ((config.scale.height * 17) / 128), 'Roll Against ' + statOrSkill).setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
 		let rollReason = scene.add.text(((config.scale.width * 54.5) / 128), ((config.scale.height * 26.5) / 128), '(' + reason + ')').setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(24).setDepth(0);
 
@@ -93,8 +95,6 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.topLine = lineFirst;
 		this.bottomLine = lineSecond;
 		this.successOrFailure = null;
-
-    //scene.add.existing(this);
 
 	}
 
