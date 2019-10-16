@@ -144,7 +144,12 @@ export class GameScene extends Phaser.Scene {
       // Unconscious check
       // when unconscious, print how many hours passed out for
       if (game.self.unconsciousLength > 0) {
-        game.messageBox.updateBox('You passed out for ' + game.self.unconsciousLength + ' hours.');
+        if (game.self.unconsciousLength === 1) {
+          game.messageBox.updateBox('You passed out for ' + game.self.unconsciousLength + ' hour.');
+        } else {
+          game.messageBox.updateBox('You passed out for ' + game.self.unconsciousLength + ' hours.');
+        };
+
         game.self.unconsciousLength = 0;
       };
 
@@ -246,9 +251,6 @@ export class GameScene extends Phaser.Scene {
           panhandlingResultsObject.showRollResults();
           panhandleActivity.call(this);
         };
-        // check to see if Tiredness status effect should be added, since 1 hour has passed
-        game.self.isPlayerTired();
-        statusEffectMessages.call(this);
       } else {
         // if SP is 0 or below, make Will roll to avoid passing out
         if (game.self.sp <= 0) {
@@ -261,10 +263,10 @@ export class GameScene extends Phaser.Scene {
         } else {
           panhandleActivity.call(this);
         };
-        // check to see if Tiredness status effect should be added, since 1 hour has passed
-        game.self.isPlayerTired();
-        statusEffectMessages.call(this);
       };
+      // check to see if Tiredness status effect should be added, since 1 hour has passed
+      game.self.isPlayerTired();
+      statusEffectMessages.call(this);
     }
 
 
@@ -367,11 +369,3 @@ export class GameScene extends Phaser.Scene {
   }
 
 }
-
-// old code snippets
-//function passTurn() {
-//  game.self.updateTime(1);
-//  game.self.isPlayerTired();
-//  statusEffectMessages.call(this);
-//  updateMenu.call(this);
-//}
