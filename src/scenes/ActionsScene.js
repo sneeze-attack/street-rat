@@ -59,6 +59,11 @@ export class ActionsScene extends Phaser.Scene {
 
     // hidden object to show dice results (hidden at depth 0)
     let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore, 'Basic Roll');
+    // Hide results when clicked -- "click to continue"
+    panhandlingResultsObject.masterBox.on('pointerup', function () {
+      panhandlingResultsObject.hideRollResults();
+      goToGameScene.call(this);
+    });
 
 
     // add actions
@@ -88,14 +93,6 @@ export class ActionsScene extends Phaser.Scene {
         };
       };
     }
-
-
-
-    // Hide results when clicked -- "click to continue"
-    panhandlingResultsObject.masterBox.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
 
     function panhandle() {
       // if SP less than 0, make Will roll to avoid passing out
