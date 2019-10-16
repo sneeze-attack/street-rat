@@ -187,7 +187,7 @@ export default class RollResults extends Phaser.GameObjects.Group {
 
 	showRollResultsModDepth(number) {
 		this.rollTheDice();
-		let modifyNumber = number + 7;
+		let modifyNumber = number * 7;
 		this.resultsShadeBox.setAlpha(0);
 		this.resultsShadeBox.setDepth(3 + modifyNumber);
 		this.resultsBoxBorder.setDepth(4 + modifyNumber);

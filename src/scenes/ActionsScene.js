@@ -116,6 +116,7 @@ export class ActionsScene extends Phaser.Scene {
             panhandlingResultsObject.showRollResults();
             panhandleActivity.call(this);
           } else {
+            spWillResultsObject.resultsShadeBox.setAlpha(0.5);
             game.self.unconsciousActivity();
           };
         } else {
