@@ -185,6 +185,30 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.masterBox.setDepth(9);
 	}
 
+	showRollResultsModDepth(number) {
+		this.rollTheDice();
+		let modifyNumber = number + 7;
+		this.resultsShadeBox.setAlpha(0);
+		this.resultsShadeBox.setDepth(3 + modifyNumber);
+		this.resultsBoxBorder.setDepth(4 + modifyNumber);
+		this.resultsBox.setDepth(5 + modifyNumber);
+		this.topLine.setDepth(6 + modifyNumber);
+		this.bottomLine.setDepth(6 + modifyNumber);
+		this.rollTitle.setDepth(7 + modifyNumber);
+		this.rollReason.setDepth(7 + modifyNumber);
+		this.dieOne.setDepth(8 + modifyNumber);
+		this.dieTwo.setDepth(8 + modifyNumber);
+		this.dieThree.setDepth(8 + modifyNumber);
+		this.scoreNumber.setDepth(8 + modifyNumber);
+		this.scoreText.setDepth(8 + modifyNumber);
+		this.vsText.setDepth(8 + modifyNumber);
+		this.rollTotalText.setDepth(8 + modifyNumber);
+		this.rollText.setDepth(8 + modifyNumber);
+		this.clickToContinueText.setDepth(8 + modifyNumber);
+		this.successOrFailureText.setDepth(8 + modifyNumber);
+		this.masterBox.setDepth(9 + modifyNumber);
+	}
+
 	hideRollResults() {
 		this.resultsShadeBox.setDepth(0);
 		this.resultsBoxBorder.setDepth(0);

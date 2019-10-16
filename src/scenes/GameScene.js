@@ -36,11 +36,17 @@ export class GameScene extends Phaser.Scene {
     // needs comment
     this.config = this.sys.game.config;
 
-    // hidden object to show dice results (hidden at depth 0)
+    // hidden objects to show dice results (hidden at depth 0)
     let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore, 'Basic Roll');
     panhandlingResultsObject.masterBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
     });
+
+    let spWillResultsObject = new RollResults(this, 'Will', game.self.will, 'SP too low');
+    spWillResultsObject.masterBox.on('pointerup', function () {
+      spWillResultsObject.hideRollResults();
+    });
+
     // add background image
     this.add.image(0, 0, 'japan_background').setOrigin(0, 0).setDepth(1);
 
@@ -226,35 +232,42 @@ export class GameScene extends Phaser.Scene {
 
     //actions for repeat button
     function panhandle() {
-      // if SP is 0 or below, make Will roll to avoid passing out
-      if (game.self.sp <= 0) {
-        let willRoll = roll.dice();
-        if (game.self.will >= willRoll) {
-          // show roll results when option is toggled
-          if (game.gameState.showRollResults === true) {
+      if (game.gameState.showRollResults === true) {
+        // if SP is 0 or below, make Will roll to avoid passing out
+        if (game.self.sp <= 0) {
+          spWillResultsObject.showRollResultsModDepth(1);
+          if (game.self.will >= spWillResultsObject.diceTotal) {
             panhandlingResultsObject.showRollResults();
             panhandleActivity.call(this);
           } else {
-            panhandleActivity.call(this);
+            game.self.unconsciousActivity();
           };
         } else {
-          game.self.unconsciousActivity();
-        };
-      } else {
-        // show roll results when option is toggled
-        if (game.gameState.showRollResults === true) {
           panhandlingResultsObject.showRollResults();
           panhandleActivity.call(this);
+        };
+        // check to see if Tiredness status effect should be added, since 1 hour has passed
+        game.self.isPlayerTired();
+        statusEffectMessages.call(this);
+      } else {
+        // if SP is 0 or below, make Will roll to avoid passing out
+        if (game.self.sp <= 0) {
+          let willRoll = roll.dice();
+          if (game.self.will >= willRoll) {
+            panhandleActivity.call(this);
+          } else {
+            game.self.unconsciousActivity();
+          };
         } else {
           panhandleActivity.call(this);
         };
+        // check to see if Tiredness status effect should be added, since 1 hour has passed
+        game.self.isPlayerTired();
+        statusEffectMessages.call(this);
       };
-      // check to see if Tiredness status effect should be added, since 1 hour has passed
-      game.self.isPlayerTired();
-
-      updateMenu.call(this);
-      statusEffectMessages.call(this);
     }
+
+
 
     repeatButton.on('pointerup', function () {
       if (game.self.lastAction === 'Panhandle') {
@@ -266,6 +279,7 @@ export class GameScene extends Phaser.Scene {
         panhandle.call(this);
       };
     });
+
 
 
 
@@ -287,7 +301,6 @@ export class GameScene extends Phaser.Scene {
     function selfRest() {
       game.self.playerRest(1);
       statusEffectMessages.call(this);
-      updateMenu.call(this);
     }
 
     restButton.on('pointerup', function () {
@@ -314,7 +327,6 @@ export class GameScene extends Phaser.Scene {
         game.messageBox.updateBox('You slept for ' + fullSleepHours + ' hours.');
         game.self.playerRest(fullSleepHours);
         statusEffectMessages.call(this);
-        updateMenu.call(this);
       };
     }
 
