@@ -90,60 +90,9 @@ export class ActionsScene extends Phaser.Scene {
     }
 
 
+
     // Hide results when clicked -- "click to continue"
-    panhandlingResultsObject.resultsShadeBox.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.resultsBox.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.rollTitle.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.rollReason.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.dieOne.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.dieTwo.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.dieThree.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.scoreNumber.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.scoreText.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.vsText.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.rollTotalText.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.rollText.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.clickToContinueText.on('pointerup', function () {
-      panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
-    });
-    panhandlingResultsObject.successOrFailureText.on('pointerup', function () {
+    panhandlingResultsObject.masterBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
       goToGameScene.call(this);
     });

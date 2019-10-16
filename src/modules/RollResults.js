@@ -12,10 +12,10 @@ export default class RollResults extends Phaser.GameObjects.Group {
 	constructor(scene, statOrSkill, playerNumber, reason) {
 
     // add gray shade to entire screen
-    let resultsShadeBox = scene.add.rectangle(0, 0, config.scale.width, config.scale.height, 0x000000).setOrigin(0, 0).setDepth(0).setAlpha(0.5).setInteractive();
+    let resultsShadeBox = scene.add.rectangle(0, 0, config.scale.width, config.scale.height, 0x000000).setOrigin(0, 0).setDepth(0).setAlpha(0.5);
     // add bordered results box
     let resultsBoxBorder = scene.add.rectangle(((config.scale.width * 30) / 128), ((config.scale.height * 14) / 128), ((config.scale.width * 68) / 128), ((config.scale.height * 98) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
-    let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 14.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 97) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+    let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 14.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 97) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
     // add Title of roll type
 		let phx;
 		// center title based on name
@@ -33,9 +33,9 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		let defaultTwo = 'dice_one';
 		let defaultThree = 'dice_one';
 
-		let diceOne = scene.add.sprite(((config.scale.width * 50) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0).setInteractive();
-		let diceTwo = scene.add.sprite(((config.scale.width * 60) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0).setInteractive();
-		let diceThree = scene.add.sprite(((config.scale.width * 70) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0).setInteractive();
+		let diceOne = scene.add.sprite(((config.scale.width * 50) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0);
+		let diceTwo = scene.add.sprite(((config.scale.width * 60) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0);
+		let diceThree = scene.add.sprite(((config.scale.width * 70) / 128), ((config.scale.height * 40) / 128), defaultOne).setOrigin(0, 0);
 
 		let scoreOffsetText;
 		if (playerNumber >= 10) {
@@ -64,8 +64,12 @@ export default class RollResults extends Phaser.GameObjects.Group {
     let lineSecond = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } }).setDepth(0);
     lineSecond.strokeLineShape(secondLine);
 
+		// this allows "click to continue" functionality to be targeted against this object versus all the objects it covers
+		let masterBox = scene.add.rectangle(0, 0, config.scale.width, config.scale.height, 0x000000).setOrigin(0, 0).setDepth(0).setAlpha(0.01).setInteractive();
+
     super(scene);
 
+		this.masterBox = masterBox;
 		this.playerNumber = playerNumber;
     this.resultsShadeBox = resultsShadeBox;
     this.resultsBoxBorder = resultsBoxBorder;
@@ -178,6 +182,7 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.rollText.setDepth(8);
 		this.clickToContinueText.setDepth(8);
 		this.successOrFailureText.setDepth(8);
+		this.masterBox.setDepth(9);
 	}
 
 	hideRollResults() {
@@ -198,6 +203,7 @@ export default class RollResults extends Phaser.GameObjects.Group {
 		this.rollText.setDepth(0);
 		this.clickToContinueText.setDepth(0);
 		this.successOrFailureText.setDepth(0);
+		this.masterBox.setDepth(0);
 	}
 
 }
