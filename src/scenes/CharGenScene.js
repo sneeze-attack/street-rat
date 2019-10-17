@@ -171,9 +171,7 @@ export class CharGenScene extends Phaser.Scene {
       // set player dodge
       game.self.calculateDodge();
 
-      // values to change scene
-      game.gameState.nextScene = 'GameScene';
-      game.gameState.previousScene = 'CharGenScene';
+      game.gameState.changeScene('GameScene', 'CharGenScene');
     }
     continueButton.on('pointerup', function () {
       continueToGame.call(this);
@@ -202,8 +200,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.dodge = 8;
       game.self.panhandle = 0;
       game.self.panhandleScore = 6;
-      game.gameState.nextScene = 'StartScene';
-      game.gameState.previousScene = 'CharGenScene';
+      game.gameState.changeScene('StartScene', 'CharGenScene');
     }
     backButton.on('pointerup', function () {
       backReset.call(this);

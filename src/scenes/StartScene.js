@@ -26,13 +26,11 @@ export class StartScene extends Phaser.Scene {
 
     //start button logic
     startText.on('pointerup', function() {
-      game.gameState.nextScene = 'CharGenScene';
-      game.gameState.previousScene = 'StartScene';
+      game.gameState.changeScene('CharGenScene', 'StartScene');
     });
 
     startTextBox.on('pointerup', function() {
-      game.gameState.nextScene = 'CharGenScene';
-      game.gameState.previousScene = 'StartScene';
+      game.gameState.changeScene('CharGenScene', 'StartScene');
     });
 
     //options button
@@ -41,13 +39,11 @@ export class StartScene extends Phaser.Scene {
 
     //options button logic
     optionsText.on('pointerup', function() {
-      game.gameState.nextScene = 'OptionsScene';
-      game.gameState.previousScene = 'StartScene';
+      game.gameState.changeScene('OptionsScene', 'StartScene');
     });
 
     optionsTextBox.on('pointerup', function() {
-      game.gameState.nextScene = 'OptionsScene';
-      game.gameState.previousScene = 'StartScene';
+      game.gameState.changeScene('OptionsScene', 'StartScene');
     });
   }
 

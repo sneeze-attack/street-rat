@@ -33,12 +33,10 @@ export class OptionsScene extends Phaser.Scene {
 
     //back button logic
     closeTextBox.on('pointerup', function() {
-      game.gameState.nextScene = game.gameState.previousScene;
-      game.gameState.previousScene = 'OptionsScene';
+      game.gameState.changeScene(game.gameState.previousScene, 'OptionsScene');
     });
     closeText.on('pointerup', function() {
-      game.gameState.nextScene = game.gameState.previousScene;
-      game.gameState.previousScene = 'OptionsScene';
+      game.gameState.changeScene(game.gameState.previousScene, 'OptionsScene');
     });
 
     // show roll results option
@@ -74,7 +72,7 @@ export class OptionsScene extends Phaser.Scene {
   update () {
 
     //change scene logic
-    if (game.gameState.nextScene === 'StartScene' || game.gameState.nextScene === 'GameScene') {
+    if (game.gameState.nextScene === 'StartScene' || game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'ActionsScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

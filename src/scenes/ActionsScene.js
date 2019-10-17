@@ -9,6 +9,7 @@ import dice_three_img from '../assets/icons/64x64/dice_three_white.png';
 import dice_four_img from '../assets/icons/64x64/dice_four_white.png';
 import dice_five_img from '../assets/icons/64x64/dice_five_white.png';
 import dice_six_img from '../assets/icons/64x64/dice_six_white.png';
+import cog_img from '../assets/icons/48x48/cog_white.png';
 
 
 export class ActionsScene extends Phaser.Scene {
@@ -24,6 +25,7 @@ export class ActionsScene extends Phaser.Scene {
     this.load.image('dice_four', dice_four_img);
     this.load.image('dice_five', dice_five_img);
     this.load.image('dice_six', dice_six_img);
+    this.load.image('cog', cog_img);
   }
 
   create() {
@@ -37,21 +39,24 @@ export class ActionsScene extends Phaser.Scene {
     // add black box
     let createBox = this.add.rectangle(((this.config.width * 16) / 128), ((this.config.height * 16) / 128), ((this.config.width * 96) / 128), ((this.config.height * 96) / 128), 0x000000).setOrigin(0, 0).setDepth(1);
 
+    // options
+    let optionsCog = this.add.sprite(((this.config.width * 122) / 128), ((this.config.height * 3) / 128), 'cog').setOrigin(0, 0).setInteractive().setDepth(1);
+
+    optionsCog.on('pointerup', function () {
+      game.gameState.changeScene('OptionsScene', 'ActionsScene');
+    });
+
     // back button
     let backTextBox = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 100) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(2);
     let backButton = this.add.text(((this.config.width * 24) / 128), ((this.config.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
     // back button logic
     backButton.on('pointerup', function () {
-      backLogic.call(this);
+      game.gameState.changeScene('GameScene', 'ActionsScene');
     });
     backTextBox.on('pointerup', function () {
-      backLogic.call(this);
+      game.gameState.changeScene('GameScene', 'ActionsScene');
     });
 
-    function backLogic() {
-      game.gameState.nextScene = 'GameScene';
-      game.gameState.previousScene = 'ActionsScene';
-    }
 
     // buttons & text
     let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 21) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(2);
@@ -64,7 +69,7 @@ export class ActionsScene extends Phaser.Scene {
     // Hide results when clicked -- "click to continue"
     panhandlingResultsObject.masterBox.on('pointerup', function () {
       panhandlingResultsObject.hideRollResults();
-      goToGameScene.call(this);
+      game.gameState.changeScene('GameScene', 'ActionsScene');
     });
 
     let spWillResultsObject = new RollResults(this, 'Will', game.self.will, 'SP too low');
@@ -73,7 +78,7 @@ export class ActionsScene extends Phaser.Scene {
     spWillResultsObject.masterBox.on('pointerup', function () {
       spWillResultsObject.hideRollResults();
       if (game.self.will < spWillResultsObject.diceTotal) {
-        goToGameScene.call(this);
+        game.gameState.changeScene('GameScene', 'ActionsScene');
       };
     });
 
@@ -129,14 +134,14 @@ export class ActionsScene extends Phaser.Scene {
           let willRoll = roll.dice();
           if (game.self.will >= willRoll) {
             panhandleActivity.call(this);
-            goToGameScene.call(this);
+            game.gameState.changeScene('GameScene', 'ActionsScene');
           } else {
             game.self.unconsciousActivity();
-            goToGameScene.call(this);
+            game.gameState.changeScene('GameScene', 'ActionsScene');
           };
         } else {
           panhandleActivity.call(this);
-          goToGameScene.call(this);
+          game.gameState.changeScene('GameScene', 'ActionsScene');
         };
       };
       // check to see if Tiredness status effect should be added, since 1 hour has passed
@@ -151,16 +156,11 @@ export class ActionsScene extends Phaser.Scene {
       panhandle.call(this);
     });
 
-    function goToGameScene() {
-      game.gameState.nextScene = 'GameScene';
-      game.gameState.previousScene = 'ActionsScene';
-    }
-
   }
 
   update() {
     // scene change logic
-    if (game.gameState.nextScene === 'GameScene') {
+    if (game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'OptionsScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

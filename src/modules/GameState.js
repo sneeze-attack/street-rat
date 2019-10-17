@@ -4,4 +4,10 @@ export default class GameState {
 		this.previousScene = null;
 		this.showRollResults = true;
 	}
+
+	changeScene(nextScene, thisScene) {
+		this.nextScene = nextScene;
+		this.previousScene = thisScene;
+	}
+
 }
