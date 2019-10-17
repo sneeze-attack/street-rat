@@ -50,7 +50,7 @@ export class StartScene extends Phaser.Scene {
   update() {
 
     //change scene logic
-    if (game.gameState.nextScene === 'CharGenScene' || game.gameState.nextScene === 'OptionsScene') {
+    if (game.gameState.nextScene !== 'StartScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

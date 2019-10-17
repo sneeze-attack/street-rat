@@ -5,6 +5,7 @@ import { CharGenScene } from './scenes/CharGenScene';
 import { GameScene } from './scenes/GameScene';
 import { ActionsScene } from './scenes/ActionsScene';
 import { GameOverScene } from './scenes/GameOverScene';
+import { GamblingScene } from './scenes/GamblingScene';
 import GameState from './modules/GameState';
 import Player from './modules/Player';
 import MessageBox from './modules/MessageBox';
@@ -17,7 +18,7 @@ export const config = {
         width: 1366,
         height: 768
     },
-  scene: [StartScene, OptionsScene, CharGenScene, GameScene, ActionsScene, GameOverScene],
+  scene: [StartScene, OptionsScene, CharGenScene, GameScene, ActionsScene, GameOverScene, GamblingScene],
 };
 
 const game = new Phaser.Game(config);

@@ -57,13 +57,14 @@ export class ActionsScene extends Phaser.Scene {
       game.gameState.changeScene('GameScene', 'ActionsScene');
     });
 
-
     // buttons & text
-    let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 21) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(2);
-    let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 22) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
+    let gamblingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 21) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(2);
+    let gamblingText = this.add.text(((this.config.width * 22.5) / 128), ((this.config.height * 22.5) / 128), 'Gamble').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
+
+    let panhandlingButton = this.add.rectangle(((this.config.width * 18) / 128), ((this.config.height * 33) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(2);
+    let panhandlingText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 34.5) / 128), 'Panhandle').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(2);
 
     // hidden object to show dice results (hidden at depth 0)
-
     let panhandlingResultsObject = new RollResults(this, 'Panhandling', game.self.panhandleScore, 'Basic Roll');
 
     // Hide results when clicked -- "click to continue"
@@ -156,11 +157,18 @@ export class ActionsScene extends Phaser.Scene {
       panhandle.call(this);
     });
 
+    gamblingButton.on('pointerup', function () {
+      game.gameState.changeScene('GamblingScene', 'ActionsScene');
+    });
+    gamblingText.on('pointerup', function () {
+      game.gameState.changeScene('GamblingScene', 'ActionsScene');
+    });
+
   }
 
   update() {
     // scene change logic
-    if (game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'OptionsScene') {
+    if (game.gameState.nextScene !== 'ActionsScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

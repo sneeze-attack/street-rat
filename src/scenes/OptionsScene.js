@@ -71,8 +71,8 @@ export class OptionsScene extends Phaser.Scene {
 
   update () {
 
-    //change scene logic
-    if (game.gameState.nextScene === 'StartScene' || game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'ActionsScene') {
+    // scene change logic
+    if (game.gameState.nextScene !== 'OptionsScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import CharGen from '../modules/CharGen';
 import game from '../index';
 import * as nameGen from '../modules/NameGen';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
@@ -47,31 +48,16 @@ export class CharGenScene extends Phaser.Scene {
 
   create() {
 
-    //needs comment
+    // shortcut
     this.config = this.sys.game.config;
 
-    //add black box
-    let createBox = this.add.rectangle(0, 0, this.config.width, this.config.height, 0x000000).setOrigin(0, 0);
-
-    //create stat boxes
-    let primaryStatBoxBorder = this.add.rectangle(((this.config.width * 19) / 128), ((this.config.height * 12) / 128), ((this.config.width * 21) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let primaryStatBoxInterior = this.add.rectangle(((this.config.width * 19.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 20) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
-
-    let secondaryStatBoxBorder = this.add.rectangle(((this.config.width * 39.5) / 128), ((this.config.height * 12) / 128), ((this.config.width * 24) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let secondaryStatBoxInterior = this.add.rectangle(((this.config.width * 40) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 23) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
-
-    let tertiaryStatBoxBorder = this.add.rectangle(((this.config.width * 62) / 128), ((this.config.height * 12) / 128), ((this.config.width * 28) / 128), ((this.config.height * 25) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let tertiaryStatBoxInterior = this.add.rectangle(((this.config.width * 62.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 27) / 128), ((this.config.height * 24) / 128), 0x000000).setOrigin(0, 0).setInteractive();
-
-    //skills boxes
-    let skillsBoxBorder = this.add.rectangle(((this.config.width * 89) / 128), ((this.config.height * 12) / 128), ((this.config.width * 37) / 128), ((this.config.height * 101) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let skillsBoxInterior = this.add.rectangle(((this.config.width * 89.5) / 128), ((this.config.height * 12.5) / 128), ((this.config.width * 36) / 128), ((this.config.height * 100) / 128), 0x000000).setOrigin(0, 0).setInteractive();
+    // use object to set up UI
+    // TODO: move all UI elements into the CharGen module
+    let ui = new CharGen(this);
 
     // panhandling
     let panhandlingText = this.add.text(((this.config.width * 90) / 128), ((this.config.height * 15) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
-    let panhandlingPlus = this.add.sprite(((this.config.width * 116) / 128), ((this.config.height * 15.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
-    let panhandlingMinus = this.add.sprite(((this.config.width * 113) / 128), ((this.config.height * 15.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
-    panhandlingPlus.on('pointerup', function () {
+    ui.panhandlingPlus.on('pointerup', function () {
       let number = ((game.self.panhandle - 1) * 4);
       if (game.self.panhandle === 0 && game.self.points >= 1 && game.self.panhandleScore <= 15) {
         game.self.panhandle++;
@@ -86,7 +72,7 @@ export class CharGenScene extends Phaser.Scene {
       game.self.calculatePanhandleScore();
       updateText.call(this);
     });
-    panhandlingMinus.on('pointerup', function () {
+    ui.panhandlingMinus.on('pointerup', function () {
       let number = ((game.self.panhandle - 2) * 4);
       if (game.self.panhandle === 1) {
         game.self.panhandle--;
@@ -102,34 +88,18 @@ export class CharGenScene extends Phaser.Scene {
       updateText.call(this);
     });
 
-    //future concept
-    let conceptBoxBorder = this.add.rectangle(((this.config.width * 3) / 128), ((this.config.height * 48) / 128), ((this.config.width * 86.5) / 128), ((this.config.height * 65) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let conceptBoxInterior = this.add.rectangle(((this.config.width * 3.5) / 128), ((this.config.height * 48.5) / 128), ((this.config.width * 85.5) / 128), ((this.config.height * 64) / 128), 0x000000).setOrigin(0, 0).setInteractive();
-
-    //divider -- points
-    let dividerBoxBorder = this.add.rectangle(((this.config.width * 19) / 128), ((this.config.height * 36.75) / 128), ((this.config.width * 70.5) / 128), ((this.config.height * 11.5) / 128), 0xC0C0C0).setOrigin(0, 0).setInteractive();
-    let dividerBoxInterior = this.add.rectangle(((this.config.width * 19.5) / 128), ((this.config.height * 37.25) / 128), ((this.config.width * 69.5) / 128), ((this.config.height * 10.5) / 128), 0x000000).setOrigin(0, 0).setInteractive();
-
-    //back button
-    let backTextBox = this.add.rectangle(((this.config.width * 2) / 128), ((this.config.height * 115) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let backButton = this.add.text(((this.config.width * 8) / 128), ((this.config.height * 116) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32);
-
-    //continue button
-    let continueTextBox = this.add.rectangle(((this.config.width * 105) / 128), ((this.config.height * 115) / 128), ((this.config.width * 20) / 128), ((this.config.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    let continueButton = this.add.text(((this.config.width * 108) / 128), ((this.config.height * 116) / 128), 'Continue').setColor('#FFFFFF').setInteractive().setFontSize(32);
-
-    //buttons to select gender
+    // buttons to select gender
     let maleSelection = 'male_icon';
     let femaleSelection = 'female_icon';
     let maleButton = this.add.sprite(((this.config.width * 6) / 128), ((this.config.height * 40) / 128), maleSelection).setOrigin(0, 0).setInteractive();
     let femaleButton = this.add.sprite(((this.config.width * 11) / 128), ((this.config.height * 40) / 128), femaleSelection).setOrigin(0, 0).setInteractive();
 
-    //boxed selection logic for gender
+    // boxed selection logic for gender
     function genderUpdate() {
       game.self.portrait = 1;
       maleButton.setTexture(maleSelection);
       femaleButton.setTexture(femaleSelection);
-      portrait.setTexture(game.self.gender + game.self.portrait);
+      ui.portrait.setTexture(game.self.gender + game.self.portrait);
     }
     maleButton.on('pointerup', function () {
       game.self.gender = 'male';
@@ -144,7 +114,7 @@ export class CharGenScene extends Phaser.Scene {
       genderUpdate.call(this);
     });
 
-    //continue button logic
+    // continue button logic
     function continueToGame() {
       if (!game.self.gender) {
         let genderRoll = (Math.floor((Math.random() * 2) + 1));
@@ -154,9 +124,9 @@ export class CharGenScene extends Phaser.Scene {
         } else {
           game.self.gender = 'female';
         };
-        portrait.setTexture(game.self.gender + game.self.portrait);
+        ui.portrait.setTexture(game.self.gender + game.self.portrait);
       };
-      //if name hasnt been chosen, randomly assign one based on gender
+      // if name hasn't been chosen, randomly assign one based on gender
       if (!game.self.name) {
         if (game.self.gender === 'male') {
           game.self.name = nameGen.maleFirstName();
@@ -167,16 +137,15 @@ export class CharGenScene extends Phaser.Scene {
       // set players stat maxes from charGen only
       game.self.spMax = game.self.sp;
       game.self.hpMax = game.self.hp;
-
       // set player dodge
       game.self.calculateDodge();
-
       game.gameState.changeScene('GameScene', 'CharGenScene');
     }
-    continueButton.on('pointerup', function () {
+
+    ui.continueButton.on('pointerup', function () {
       continueToGame.call(this);
     });
-    continueTextBox.on('pointerup', function () {
+    ui.continueTextBox.on('pointerup', function () {
       continueToGame.call(this);
     });
 
@@ -202,16 +171,16 @@ export class CharGenScene extends Phaser.Scene {
       game.self.panhandleScore = 6;
       game.gameState.changeScene('StartScene', 'CharGenScene');
     }
-    backButton.on('pointerup', function () {
+    ui.backButton.on('pointerup', function () {
       backReset.call(this);
     });
-    backTextBox.on('pointerup', function () {
+    ui.backTextBox.on('pointerup', function () {
       backReset.call(this);
     });
 
     //create portrait with placeholder and arrows
     game.self.portrait = 0;
-    let portrait = this.add.sprite(((this.config.width * 3) / 128), ((this.config.height * 4) / 128), 'placeholder').setOrigin(0, 0);
+
     let portraitPreviousArrow = this.add.sprite(((this.config.width * 3) / 128), ((this.config.height * 41.25) / 128), 'arrow_left').setOrigin(0, 0).setInteractive();
     let portraitNextArrow = this.add.sprite(((this.config.width * 16) / 128), ((this.config.height * 41) / 128), 'arrow_right').setOrigin(0, 0).setInteractive();
 
@@ -223,7 +192,7 @@ export class CharGenScene extends Phaser.Scene {
         if (game.self.portrait === 5) {
           game.self.portrait = 1;
         };
-        portrait.setTexture(game.self.gender + game.self.portrait);
+        ui.portrait.setTexture(game.self.gender + game.self.portrait);
       };
     });
     portraitPreviousArrow.on('pointerup', function () {
@@ -233,7 +202,7 @@ export class CharGenScene extends Phaser.Scene {
         if (game.self.portrait === 0) {
           game.self.portrait = 4;
         };
-        portrait.setTexture(game.self.gender + game.self.portrait);
+        ui.portrait.setTexture(game.self.gender + game.self.portrait);
       };
     });
 
@@ -606,8 +575,8 @@ export class CharGenScene extends Phaser.Scene {
   }
 
   update() {
-    //scene change logic
-    if (game.gameState.nextScene === 'GameScene' || game.gameState.nextScene === 'StartScene') {
+    // scene change logic
+    if (game.gameState.nextScene !== 'CharGenScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };

@@ -19,11 +19,8 @@ export default class Player {
 		this.move = 5;
 		this.credits = 0;
 		this.dodge = 8;
-
 		this.lastAction = '';
-
 		this.gameOver = false;
-
 		// use 24h clock, will add option to change to 12h clock later
 		// start game at 8am
 		this.hour = 8;
@@ -54,14 +51,17 @@ export default class Player {
 		this.unconsciousLength = 0;
 
 
-
 		//skills
+
+		// level of Gambling skill
+		this.gambling = 0;
+		// Effective score of gambling skill
+		this.gamblingScore = 5;
 
 		// level of Panhandle skill
 		this.panhandle = 0;
 		// Effective score of Panhandle skill
 		this.panhandleScore = 6;
-
 	}
 
 	addStatusEffect(status) {
@@ -89,6 +89,22 @@ export default class Player {
 		this.dodge = Math.floor(this.speed + 3);
 	}
 
+	calculateGamblingScore() {
+		if (this.gambling === 0) {
+			this.gamblingScore = this.intelligence - 5;
+		} else {
+			this.gamblingScore = this.intelligence + this.gambling - 2;
+		};
+	}
+
+	calculatePanhandleScore() {
+		if (this.panhandle === 0) {
+			this.panhandleScore = this.intelligence - 4;
+		} else {
+			this.panhandleScore = this.intelligence + this.panhandle - 1;
+		};
+	}
+
 	playerRest(hoursSpent) {
 		// advance time
 		this.hour = this.hour + hoursSpent;
@@ -110,8 +126,6 @@ export default class Player {
 		if (this.sleep > 10) {
 			this.sleep = 10;
 		};
-
-
 
 		if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
@@ -151,7 +165,6 @@ export default class Player {
 			} else {
 				this.sp += cumulativeTired;
 			};
-
 			this.isPlayerFatigued();
 		} else if (this.sleep > 0) {
 			let index = this.statusEffects.findIndex(x => x=='Tired');
@@ -245,15 +258,15 @@ export default class Player {
 		// immediately die when taking extreme damage
 		if (this.hp <= (this.hpMax * -5)) {
 			this.gameOver = true;
-			console.log('GAME OVER');
 		} else if (this.hp <= (this.hpMax * -1)) {
+			// TODO: add roll results window to this roll
 			// roll against constitution, die on failure
 			let roll = (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1));
 			if (roll < this.constitution) {
 				this.gameOver = true;
-				console.log('GAME OVER');
 			};
 		} else if (this.hp <= 0) {
+			// TODO: add roll results window to this roll
 			// roll against constitution, pass out on failure
 			let rollit = (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1)) + (Math.floor((Math.random() * 6) + 1));
 			if (rollit < this.constitution) {
@@ -262,15 +275,6 @@ export default class Player {
 		};
 
 	}
-
-	calculatePanhandleScore() {
-		if (this.panhandle === 0) {
-			this.panhandleScore = this.intelligence + this.panhandle - 4;
-		} else {
-			this.panhandleScore = this.intelligence + this.panhandle - 1;
-		};
-	}
-
 
 	// Check to see if player should be unconscious
 	isPlayerUnconscious() {
@@ -282,9 +286,6 @@ export default class Player {
 
 	// Actions that happen when player is unconscious
 	unconsciousActivity() {
-
-		// loop, rest once for each hour in blackoutLength
-		// this prevents getting good sleep (6+ hours)
 		let spToOne;
 		let sleepToZero = Math.floor((this.sleep * -1))
 		if (this.sp <= 0) {
@@ -297,7 +298,8 @@ export default class Player {
 			blackoutLength = 1;
 		};
 		this.unconsciousLength = blackoutLength;
-
+		// loop, rest once for each hour in blackoutLength
+		// this prevents getting good sleep (6+ hours)
 		for (let counter = 0; counter <= blackoutLength; counter++) {
 			this.playerRest(1);
 		};

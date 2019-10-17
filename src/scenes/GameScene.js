@@ -63,8 +63,7 @@ export class GameScene extends Phaser.Scene {
     let optionsCog = this.add.sprite(((this.config.width * 122) / 128), ((this.config.height * 3) / 128), 'cog').setOrigin(0, 0).setInteractive().setDepth(1);
 
     optionsCog.on('pointerup', function () {
-      game.gameState.nextScene = 'OptionsScene';
-      game.gameState.previousScene = 'GameScene';
+      game.gameState.changeScene('OptionsScene', 'GameScene');
     });
 
     // small space between stats and buttons / messageBox
@@ -198,12 +197,10 @@ export class GameScene extends Phaser.Scene {
     let actionsText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 63) / 128), 'Actions').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(1);
 
     actionsButton.on('pointerup', function () {
-      game.gameState.nextScene = 'ActionsScene';
-      game.gameState.previousScene = 'GameScene';
+      game.gameState.changeScene('ActionsScene', 'GameScene');
     });
     actionsText.on('pointerup', function () {
-      game.gameState.nextScene = 'ActionsScene';
-      game.gameState.previousScene = 'GameScene';
+      game.gameState.changeScene('ActionsScene', 'GameScene');
     });
 
     // second button, top right corner
@@ -357,12 +354,11 @@ export class GameScene extends Phaser.Scene {
   update() {
 
     if (game.self.gameOver === true) {
-      game.gameState.nextScene = 'GameOverScene';
-      game.gameState.previousScene = 'GameScene';
+      game.gameState.changeScene('GameOverScene', 'GameScene');
     }
 
     // scene change logic
-    if (game.gameState.nextScene === 'ActionsScene' || game.gameState.nextScene === 'GameOverScene' || game.gameState.nextScene === 'OptionsScene') {
+    if (game.gameState.nextScene !== 'GameScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     };
