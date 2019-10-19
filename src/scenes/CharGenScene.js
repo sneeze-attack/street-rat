@@ -52,11 +52,43 @@ export class CharGenScene extends Phaser.Scene {
     this.config = this.sys.game.config;
 
     // use object to set up UI
-    // TODO: move all UI elements into the CharGen module
     let ui = new CharGen(this);
 
+    // gambling
+    let gamblingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 15) / 128), 'Gambling    (' + game.self.gambling + ')        ' + game.self.gamblingScore).setColor('#FFFFFF').setFontSize(24);
+    ui.gamblingPlus.on('pointerup', function () {
+      let number = ((game.self.gambling - 1) * 4);
+      if (game.self.gambling === 0 && game.self.points >= 1 && game.self.gamblingScore <= 15) {
+        game.self.gambling++;
+        game.self.points--;
+      } else if (game.self.gambling === 1 && game.self.points >= 2 && game.self.gamblingScore <= 15) {
+        game.self.gambling++;
+        game.self.points -= 2;
+      } else if (game.self.gambling >= 2 && game.self.points >= number && game.self.gamblingScore <= 15) {
+        game.self.gambling++;
+        game.self.points -= number;
+      };
+      game.self.calculateGamblingScore();
+      updateText.call(this);
+    });
+    ui.gamblingMinus.on('pointerup', function () {
+      let number = ((game.self.gambling - 2) * 4);
+      if (game.self.gambling === 1) {
+        game.self.gambling--;
+        game.self.points++;
+      } else if (game.self.gambling === 2) {
+        game.self.gambling--;
+        game.self.points += 2;
+      } else if (game.self.gambling >= 3) {
+        game.self.gambling--;
+        game.self.points += number;
+      };
+      game.self.calculateGamblingScore();
+      updateText.call(this);
+    });
+
     // panhandling
-    let panhandlingText = this.add.text(((this.config.width * 90) / 128), ((this.config.height * 15) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
+    let panhandlingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 21) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
     ui.panhandlingPlus.on('pointerup', function () {
       let number = ((game.self.panhandle - 1) * 4);
       if (game.self.panhandle === 0 && game.self.points >= 1 && game.self.panhandleScore <= 15) {
@@ -163,6 +195,8 @@ export class CharGenScene extends Phaser.Scene {
       game.self.dodge = 8;
       game.self.panhandle = 0;
       game.self.panhandleScore = 6;
+      game.self.gambling = 0;
+      game.self.gamblingScore = 5;
       game.gameState.changeScene('StartScene', 'CharGenScene');
     }
     ui.backButton.on('pointerup', function () {
@@ -257,11 +291,16 @@ export class CharGenScene extends Phaser.Scene {
 
       pointsText.setText('Points: ' + game.self.points);
 
-      // keep panhandle text aligned with if statement
-      if (game.self.panhandle === 10) {
+      // keep skills texts aligned with if statements
+      if (game.self.panhandle >= 10) {
         panhandlingText.setText('Panhandling (' + game.self.panhandle + ')       ' + game.self.panhandleScore);
       } else {
         panhandlingText.setText('Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore);
+      };
+      if (game.self.gambling >= 10) {
+        gamblingText.setText('Gambling    (' + game.self.gambling + ')       ' + game.self.gamblingScore);
+      } else {
+        gamblingText.setText('Gambling    (' + game.self.gambling + ')        ' + game.self.gamblingScore);
       };
 
     }
@@ -331,6 +370,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.will++;
         game.self.perception++;
         game.self.points -= 20;
+        game.self.calculateGamblingScore();
         game.self.calculatePanhandleScore();
         //if will is more than 20, decrease it so that intelligence may be raised
       } else if (game.self.intelligence < 20 && game.self.will >= 20) {
@@ -351,6 +391,7 @@ export class CharGenScene extends Phaser.Scene {
         game.self.perception--;
         game.self.points += 20;
         game.self.calculatePanhandleScore();
+        game.self.calculateGamblingScore();
       };
       updateText.call(this);
     });
