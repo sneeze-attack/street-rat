@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/sneeze-attack/street-rat#readme",
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^1.0.0",
     "file-loader": "^3.0.1",
