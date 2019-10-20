@@ -17,10 +17,17 @@ export default class Gamble extends Phaser.GameObjects.Group {
     let backTextBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 100) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(0);
     let backButton = scene.add.text(((config.scale.width * 24) / 128), ((config.scale.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(0);
 
+		// game choices -- chance (roulette) or skill (poker using skill checks)
+		//let rouletteBox = scene.add.rectangle(((config.scale.width * 38) / 128), ((config.scale.height * 44) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive().setDepth(0);;
+		//let rouletteText = scene.add.text(((config.scale.width * 41) / 128), ((config.scale.height * 45) / 128), 'Roulette').setColor('#FFFFFF').setInteractive().setFontSize(32).setDepth(0);
+
+
     super(scene);
     this.optionsCog = optionsCog;
     this.backTextBox = backTextBox;
     this.backButton = backButton;
+		//this.rouletteBox = rouletteBox;
+		//this.rouletteText = rouletteText;
 	}
 
 
