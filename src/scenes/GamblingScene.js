@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Gamble from '../modules/Gamble';
+import Gamble from '../modules/ui/Gamble';
 import game from '../index';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import cog_img from '../assets/icons/48x48/cog_white.png';
@@ -20,7 +20,7 @@ export class GamblingScene extends Phaser.Scene {
     this.config = this.sys.game.config;
 
     // use object to set up UI
-    let ui = new Gamble(this, game.self.gambleScore);
+    let ui = new Gamble(this);
 
     ui.optionsCog.on('pointerup', function () {
       game.gameState.changeScene('OptionsScene', 'GamblingScene');
@@ -31,6 +31,14 @@ export class GamblingScene extends Phaser.Scene {
     ui.backTextBox.on('pointerup', function () {
       game.gameState.changeScene('ActionsScene', 'GamblingScene');
     });
+
+    ui.rouletteBox.on('pointerup', function () {
+      game.gameState.changeScene('RouletteScene', 'GamblingScene');
+    });
+    ui.rouletteText.on('pointerup', function () {
+      game.gameState.changeScene('RouletteScene', 'GamblingScene');
+    });
+
   }
 
   update() {
