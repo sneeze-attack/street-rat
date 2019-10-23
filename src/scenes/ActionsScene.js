@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import RollResults from '../modules/RollResults';
-import Actions from '../modules/Actions';
+import Actions from '../modules/ui/Actions';
 import game from '../index';
-import * as roll from '../modules/Roll';
+import * as roll from '../modules/utils/Roll';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import dice_one_img from '../assets/icons/64x64/dice_one_white.png';
 import dice_two_img from '../assets/icons/64x64/dice_two_white.png';

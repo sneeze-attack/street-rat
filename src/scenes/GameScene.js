@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import RollResults from '../modules/RollResults';
 import game from '../index';
-import * as roll from '../modules/Roll';
+import * as roll from '../modules/utils/Roll';
 import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
 import female1_img from '../assets/portraits/female/160x200/female1.jpg';
 import female2_img from '../assets/portraits/female/160x200/female2.jpg';

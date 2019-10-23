@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-import CharGen from '../modules/CharGen';
+import CharGen from '../modules/ui/CharGen';
 import game from '../index';
-import * as nameGen from '../modules/NameGen';
+import * as nameGen from '../modules/utils/NameGen';
 import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
 import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
 import male_icon_boxed_img from '../assets/icons/32x32/male_icon_small_white_boxed.png';

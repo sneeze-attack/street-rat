@@ -1,4 +1,4 @@
-import config from '../index';
+import config from '../../index';
 
 export default class CharGen extends Phaser.GameObjects.Group {
   // Intended for use only in CharGenScene
