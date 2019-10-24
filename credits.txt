@@ -49,7 +49,7 @@ Smashicons: https://www.flaticon.com/authors/smashicons
 Flaticon: https://www.flaticon.com
 Flaticon Basic License: https://file000.flaticon.com/downloads/license/license.pdf
 
-cog.png, dice_one.png, dice_two.png, dice_three.png, dice_four.png, dice_five.png, and dice_six.png made by Freepik from Flaticon are licensed by Flaticon Basic License
+casino-chip.png, cog.png, dice_one.png, dice_two.png, dice_three.png, dice_four.png, dice_five.png, and dice_six.png made by Freepik from Flaticon are licensed by Flaticon Basic License
 Freepik: https://www.flaticon.com/authors/freepik
 Flaticon: https://www.flaticon.com
 Flaticon Basic License: https://file000.flaticon.com/downloads/license/license.pdf
