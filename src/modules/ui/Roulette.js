@@ -86,9 +86,33 @@ export default class Roulette extends Phaser.GameObjects.Group {
 
 		let playerCreditsText = scene.add.text(((config.scale.width * 82) / 128), ((config.scale.height * 116) / 128), 'Credits: ').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(48).setDepth(1);
 
-		let oneCreditBoxBorder = scene.add.rectangle(((config.scale.width * 6) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 35) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
-		let oneCreditBox = scene.add.rectangle(((config.scale.width * 6.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 34) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
-		let oneCreditText = scene.add.text(((config.scale.width * 7) / 128), ((config.scale.height * 46.9) / 128), '1 credit').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+		// bet amounts
+		// 1, 5, 25, 50, 100, 500
+
+		let oneCreditBoxBorder = scene.add.rectangle(((config.scale.width * 46) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let oneCreditBox = scene.add.rectangle(((config.scale.width * 46.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let oneCreditText = scene.add.text(((config.scale.width * 47) / 128), ((config.scale.height * 46.9) / 128), '1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
+		let fiveCreditBoxBorder = scene.add.rectangle(((config.scale.width * 46) / 128), ((config.scale.height * 61.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let fiveCreditBox = scene.add.rectangle(((config.scale.width * 46.5) / 128), ((config.scale.height * 62) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let fiveCreditText = scene.add.text(((config.scale.width * 47) / 128), ((config.scale.height * 61.9) / 128), '5').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
+		let twentyfiveCreditBoxBorder = scene.add.rectangle(((config.scale.width * 46) / 128), ((config.scale.height * 76.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let twentyfiveCreditBox = scene.add.rectangle(((config.scale.width * 46.5) / 128), ((config.scale.height * 77) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let twentyfiveCreditText = scene.add.text(((config.scale.width * 47) / 128), ((config.scale.height * 76.9) / 128), '25').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
+		let fiftyCreditBoxBorder = scene.add.rectangle(((config.scale.width * 71) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let fiftyCreditBox = scene.add.rectangle(((config.scale.width * 71.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let fiftyCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 46.9) / 128), '50').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
+		let hundredCreditBoxBorder = scene.add.rectangle(((config.scale.width * 71) / 128), ((config.scale.height * 61.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let hundredCreditBox = scene.add.rectangle(((config.scale.width * 71.5) / 128), ((config.scale.height * 62) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let hundredCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 61.9) / 128), '100').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
+		let fivehundredCreditBoxBorder = scene.add.rectangle(((config.scale.width * 71) / 128), ((config.scale.height * 76.9) / 128), ((config.scale.width * 15) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+		let fivehundredCreditBox = scene.add.rectangle(((config.scale.width * 71.5) / 128), ((config.scale.height * 77) / 128), ((config.scale.width * 14) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let fivehundredCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 76.9) / 128), '500').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
 
 		super(scene);
     this.optionsCog = optionsCog;
@@ -101,6 +125,21 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.oneCreditBoxBorder = oneCreditBoxBorder;
 		this.oneCreditBox = oneCreditBox;
 		this.oneCreditText = oneCreditText;
+		this.fiveCreditBoxBorder = fiveCreditBoxBorder;
+		this.fiveCreditBox = fiveCreditBox;
+		this.fiveCreditText = fiveCreditText;
+		this.twentyfiveCreditBoxBorder = twentyfiveCreditBoxBorder;
+		this.twentyfiveCreditBox = twentyfiveCreditBox;
+		this.twentyfiveCreditText = twentyfiveCreditText;
+		this.fiftyCreditBoxBorder = fiftyCreditBoxBorder;
+		this.fiftyCreditBox = fiftyCreditBox;
+		this.fiftyCreditText = fiftyCreditText;
+		this.hundredCreditBoxBorder = hundredCreditBoxBorder;
+		this.hundredCreditBox = hundredCreditBox;
+		this.hundredCreditText = hundredCreditText;
+		this.fivehundredCreditBoxBorder = fivehundredCreditBoxBorder;
+		this.fivehundredCreditBox = fivehundredCreditBox;
+		this.fivehundredCreditText = fivehundredCreditText;
 	}
 
 	pickBetAmount() {
@@ -110,6 +149,21 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.oneCreditBoxBorder.setDepth(2);
 		this.oneCreditBox.setDepth(2);
 		this.oneCreditText.setDepth(2);
+		this.fiveCreditBoxBorder.setDepth(2);
+		this.fiveCreditBox.setDepth(2);
+		this.fiveCreditText.setDepth(2);
+		this.twentyfiveCreditBoxBorder.setDepth(2);
+		this.twentyfiveCreditBox.setDepth(2);
+		this.twentyfiveCreditText.setDepth(2);
+		this.fiftyCreditBoxBorder.setDepth(2);
+		this.fiftyCreditBox.setDepth(2);
+		this.fiftyCreditText.setDepth(2);
+		this.hundredCreditBoxBorder.setDepth(2);
+		this.hundredCreditBox.setDepth(2);
+		this.hundredCreditText.setDepth(2);
+		this.fivehundredCreditBoxBorder.setDepth(2);
+		this.fivehundredCreditBox.setDepth(2);
+		this.fivehundredCreditText.setDepth(2);
 	}
 
 }
