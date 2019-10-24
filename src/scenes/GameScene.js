@@ -76,22 +76,21 @@ export class GameScene extends Phaser.Scene {
 
     // primary attributes, first column
     let strText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 29) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28).setDepth(1);
-    let agiText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 35) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28).setDepth(1);
+    let conText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 35) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28).setDepth(1);
     let intText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 41) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28).setDepth(1);
-    let conText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 47) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28).setDepth(1);
+    let agiText = this.add.text(((this.config.width * 35) / 128), ((this.config.height * 47) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28).setDepth(1);
 
     // secondary attributes, second column
     let hpText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 29) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28).setDepth(1);
-    let willText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 35) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28).setDepth(1);
+    let spText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 35) / 128), '  SP: ' + game.self.sp).setColor('#FFFFFF').setFontSize(28).setDepth(1);
     let perText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 41) / 128), ' Per: ' + game.self.perception).setColor('#FFFFFF').setFontSize(28).setDepth(1);
-    let spText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 47) / 128), '  SP: ' + game.self.sp).setColor('#FFFFFF').setFontSize(28).setDepth(1);
+    let willText = this.add.text(((this.config.width * 50) / 128), ((this.config.height * 47) / 128), 'Will: ' + game.self.will).setColor('#FFFFFF').setFontSize(28).setDepth(1);
 
     // more secondary attributes, third column
     let carryText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 29) / 128), 'Carry: ' + game.self.carry).setColor('#FFFFFF').setFontSize(28).setDepth(1);
     let speedText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 35) / 128), 'Speed: ' + game.self.speed).setColor('#FFFFFF').setFontSize(28).setDepth(1);
     let moveText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 41) / 128), ' Move: ' + game.self.move).setColor('#FFFFFF').setFontSize(28).setDepth(1);
     let dodgeText = this.add.text(((this.config.width * 68) / 128), ((this.config.height * 47) / 128), 'Dodge: ' + game.self.dodge).setColor('#FFFFFF').setFontSize(28).setDepth(1);
-
 
     // Status Effects, fourth column
     let statusEffectsText = this.add.text(((this.config.width * 88) / 128), ((this.config.height * 29) / 128), 'Status Effects').setColor('#FFFFFF').setFontSize(22).setDepth(1);

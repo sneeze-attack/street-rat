@@ -42,12 +42,12 @@ export default class CharGen extends Phaser.GameObjects.Group {
     let portraitNextArrow = scene.add.sprite(((config.scale.width * 16) / 128), ((config.scale.height * 41) / 128), 'arrow_right').setOrigin(0, 0).setInteractive();
 		let strPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 13.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
     let strMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 13.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
-		let agiPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
-		let agiMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
+		let conPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+		let conMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 19.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 		let intPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 25.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
     let intMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 25.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
-		let conPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 31.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
-    let conMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 31.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
+		let agiPlus = scene.add.sprite(((config.scale.width * 36) / 128), ((config.scale.height * 31.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
+		let agiMinus = scene.add.sprite(((config.scale.width * 33) / 128), ((config.scale.height * 31.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 		let hpPlus = scene.add.sprite(((config.scale.width * 59) / 128), ((config.scale.height * 13.75) / 128), 'plus').setOrigin(0, 0).setInteractive();
 		let hpMinus = scene.add.sprite(((config.scale.width * 56) / 128), ((config.scale.height * 13.75) / 128), 'minus').setOrigin(0, 0).setInteractive();
 		let spPlus = scene.add.sprite(((config.scale.width * 59) / 128), ((config.scale.height * 19.75) / 128), 'plus').setOrigin(0, 0).setInteractive();

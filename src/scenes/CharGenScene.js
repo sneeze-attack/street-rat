@@ -258,9 +258,10 @@ export class CharGenScene extends Phaser.Scene {
 
     // primary attributes, first column
     let strText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 13) / 128), 'STR: ' + game.self.strength).setColor('#FFFFFF').setFontSize(28);
-    let agiText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 19) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
+    let conText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 19) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
     let intText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 25) / 128), 'INT: ' + game.self.intelligence).setColor('#FFFFFF').setFontSize(28);
-    let conText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 31) / 128), 'CON: ' + game.self.constitution).setColor('#FFFFFF').setFontSize(28);
+    let agiText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 31) / 128), 'AGI: ' + game.self.agility).setColor('#FFFFFF').setFontSize(28);
+
     //secondary attributes, second column
     let hpText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 13) / 128), '  HP: ' + game.self.hp).setColor('#FFFFFF').setFontSize(28);
     let spText = this.add.text(((this.config.width * 41) / 128), ((this.config.height * 19) / 128), '  SP: ' + game.self.sp).setColor('#FFFFFF').setFontSize(28);
