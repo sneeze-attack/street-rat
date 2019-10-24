@@ -41,6 +41,86 @@ export class RouletteScene extends Phaser.Scene {
     ui.placeBetText.on('pointerup', function () {
       ui.pickBetAmount();
     });
+
+    ui.oneCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 1;
+      ui.pickBetType();
+    });
+    ui.oneCreditBox.on('pointerup', function () {
+      ui.betAmount = 1;
+      ui.pickBetType();
+    });
+    ui.oneCreditText.on('pointerup', function () {
+      ui.betAmount = 1;
+      ui.pickBetType();
+    });
+
+    ui.fiveCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 5;
+      ui.pickBetType();
+    });
+    ui.fiveCreditBox.on('pointerup', function () {
+      ui.betAmount = 5;
+      ui.pickBetType();
+    });
+    ui.fiveCreditText.on('pointerup', function () {
+      ui.betAmount = 5;
+      ui.pickBetType();
+    });
+
+    ui.twentyfiveCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 25;
+      ui.pickBetType();
+    });
+    ui.twentyfiveCreditBox.on('pointerup', function () {
+      ui.betAmount = 25;
+      ui.pickBetType();
+    });
+    ui.twentyfiveCreditText.on('pointerup', function () {
+      ui.betAmount = 25;
+      ui.pickBetType();
+    });
+
+    ui.fiftyCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 50;
+      ui.pickBetType();
+    });
+    ui.fiftyCreditBox.on('pointerup', function () {
+      ui.betAmount = 50;
+      ui.pickBetType();
+    });
+    ui.fiftyCreditText.on('pointerup', function () {
+      ui.betAmount = 50;
+      ui.pickBetType();
+    });
+
+    ui.hundredCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 100;
+      ui.pickBetType();
+    });
+    ui.hundredCreditBox.on('pointerup', function () {
+      ui.betAmount = 100;
+      ui.pickBetType();
+    });
+    ui.hundredCreditText.on('pointerup', function () {
+      ui.betAmount = 100;
+      ui.pickBetType();
+    });
+
+    ui.fivehundredCreditBoxBorder.on('pointerup', function () {
+      ui.betAmount = 500;
+      ui.pickBetType();
+    });
+    ui.fivehundredCreditBox.on('pointerup', function () {
+      ui.betAmount = 500;
+      ui.pickBetType();
+    });
+    ui.fivehundredCreditText.on('pointerup', function () {
+      ui.betAmount = 500;
+      ui.pickBetType();
+    });
+
+    
   }
 
   update() {
