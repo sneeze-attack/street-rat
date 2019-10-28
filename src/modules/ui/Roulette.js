@@ -114,6 +114,26 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		let fivehundredCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 76.9) / 128), '500').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
 
 		let betAmount = 0;
+		let creditsTally = 0;
+
+		// bet types
+		//
+		// inside bets
+		//
+		// straight up bet, 35 to 1, any single number
+		// split bet, 17 to 1, any two adjacent numbers
+		// street bet, 11 to 1, any three numbers in a row or 0 1 2, 0 00 2, 00 2 3
+		// corner bet, 8 to 1, any 4 numbers whose corners touch
+		// sucker bet, 6 to 1, 0 00 1 2 3
+		// line bet, 5 to 1, two adjacent rows of numbers (6 total numbers)
+		//
+		// outside bets
+		//
+		// column bet, 2 to 1, horizontal column of numbers not including 0 00
+		// dozen bet, 2 to 1, 1-12 or 13-24 or 25-36
+		// color bet, 2 to 1, red or black
+		// even/odd bet, 2 to 1
+		// low/high bet, 2 to 1, 1-18 or 19-36
 
 		super(scene);
     this.optionsCog = optionsCog;
@@ -142,30 +162,82 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.fivehundredCreditBox = fivehundredCreditBox;
 		this.fivehundredCreditText = fivehundredCreditText;
 		this.betAmount = betAmount;
+		this.creditsTally = creditsTally;
+		this.doubleZeroButton = doubleZeroButton;
+		this.zeroButton = zeroButton;
+		this.oneButton = oneButton;
+		this.twoButton = twoButton;
+		this.threeButton = threeButton;
+		this.fourButton = fourButton;
+		this.fiveButton = fiveButton;
+		this.sixButton = sixButton;
+		this.sevenButton = sevenButton;
+		this.eightButton = eightButton;
+		this.nineButton = nineButton;
+		this.tenButton = tenButton;
+		this.elevenButton = elevenButton;
+		this.twelveButton = twelveButton;
+		this.thirteenButton = thirteenButton;
+		this.fourteenButton = fourteenButton;
+		this.fifteenButton = fifteenButton;
+		this.sixteenButton = sixteenButton;
+		this.seventeenButton = seventeenButton;
+		this.eighteenButton = eighteenButton;
+		this.nineteenButton = nineteenButton;
+		this.twentyButton = twentyButton;
+		this.twentyoneButton = twentyoneButton;
+		this.twentytwoButton = twentytwoButton;
+		this.twentythreeButton = twentythreeButton;
+		this.twentyfourButton = twentyfourButton;
+		this.twentyfiveButton = twentyfiveButton;
+		this.twentysixButton = twentysixButton;
+		this.twentysevenButton = twentysevenButton;
+		this.twentyeightButton = twentyeightButton;
+		this.twentynineButton = twentynineButton;
+		this.thirtyButton = thirtyButton;
+		this.thirtyoneButton = thirtyoneButton;
+		this.thirtytwoButton = thirtytwoButton;
+		this.thirtythreeButton = thirtythreeButton;
+		this.thirtyfourButton = thirtyfourButton;
+		this.thirtyfiveButton = thirtyfiveButton;
+		this.thirtysixButton = thirtysixButton;
 	}
 
-	pickBetAmount() {
+	pickBetAmount(gsc) {
 		this.placeBetBoxBorder.setDepth(0);
 		this.placeBetBox.setDepth(0);
 		this.placeBetText.setDepth(0);
-		this.oneCreditBoxBorder.setDepth(2);
-		this.oneCreditBox.setDepth(2);
-		this.oneCreditText.setDepth(2);
-		this.fiveCreditBoxBorder.setDepth(2);
-		this.fiveCreditBox.setDepth(2);
-		this.fiveCreditText.setDepth(2);
-		this.twentyfiveCreditBoxBorder.setDepth(2);
-		this.twentyfiveCreditBox.setDepth(2);
-		this.twentyfiveCreditText.setDepth(2);
-		this.fiftyCreditBoxBorder.setDepth(2);
-		this.fiftyCreditBox.setDepth(2);
-		this.fiftyCreditText.setDepth(2);
-		this.hundredCreditBoxBorder.setDepth(2);
-		this.hundredCreditBox.setDepth(2);
-		this.hundredCreditText.setDepth(2);
-		this.fivehundredCreditBoxBorder.setDepth(2);
-		this.fivehundredCreditBox.setDepth(2);
-		this.fivehundredCreditText.setDepth(2);
+		if (gsc >= 1) {
+			this.oneCreditBoxBorder.setDepth(2);
+			this.oneCreditBox.setDepth(2);
+			this.oneCreditText.setDepth(2);
+		};
+		if (gsc >= 10) {
+			this.fiveCreditBoxBorder.setDepth(2);
+			this.fiveCreditBox.setDepth(2);
+			this.fiveCreditText.setDepth(2);
+		};
+		if (gsc >= 25) {
+			this.twentyfiveCreditBoxBorder.setDepth(2);
+			this.twentyfiveCreditBox.setDepth(2);
+			this.twentyfiveCreditText.setDepth(2);
+		};
+		if (gsc >= 50) {
+			this.fiftyCreditBoxBorder.setDepth(2);
+			this.fiftyCreditBox.setDepth(2);
+			this.fiftyCreditText.setDepth(2);
+		};
+		if (gsc >= 100) {
+			this.hundredCreditBoxBorder.setDepth(2);
+			this.hundredCreditBox.setDepth(2);
+			this.hundredCreditText.setDepth(2);
+		};
+		if (gsc >= 500) {
+			this.fivehundredCreditBoxBorder.setDepth(2);
+			this.fivehundredCreditBox.setDepth(2);
+			this.fivehundredCreditText.setDepth(2);
+		};
+
 	}
 
 	pickBetType() {

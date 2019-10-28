@@ -33,13 +33,13 @@ export class RouletteScene extends Phaser.Scene {
     });
 
     ui.placeBetBoxBorder.on('pointerup', function () {
-      ui.pickBetAmount();
+      ui.pickBetAmount(game.self.credits);
     });
     ui.placeBetBox.on('pointerup', function () {
-      ui.pickBetAmount();
+      ui.pickBetAmount(game.self.credits);
     });
     ui.placeBetText.on('pointerup', function () {
-      ui.pickBetAmount();
+      ui.pickBetAmount(game.self.credits);
     });
 
     ui.oneCreditBoxBorder.on('pointerup', function () {
@@ -120,7 +120,6 @@ export class RouletteScene extends Phaser.Scene {
       ui.pickBetType();
     });
 
-    
   }
 
   update() {
