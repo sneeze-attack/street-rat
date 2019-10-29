@@ -124,7 +124,7 @@ export class RouletteScene extends Phaser.Scene {
 
     function straightUpSelection() {
       ui.payout = 35;
-      ui.betType = 'Straight-up';
+      ui.betType = 'Straight-Up';
       ui.typeChosen();
       ui.straightUpBet();
     }
@@ -255,10 +255,13 @@ export class RouletteScene extends Phaser.Scene {
     });
 
     function confirmBet() {
-      if (ui.picks[0] && ui.betType === 'Straight-up') {
+      let net;
+      if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
-        ui.showSpinResults(result);
+        net = ui.showSpinResults(result);
       };
+      game.self.credits += net;
+      ui.playerCreditsText.setText('Credits: ' + game.self.credits);
     }
 
     ui.confirmBetBox.on('pointerup', function () {
@@ -271,12 +274,47 @@ export class RouletteScene extends Phaser.Scene {
       confirmBet.call(this);
     });
 
+    // click to continue code
+    ui.resultsShadeBox.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.resultsBoxBorder.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.resultsBox.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.rollTitle.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.scoreText.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.scoreNumber.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.yourBetType.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.yourNumbers.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.yourPayout.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.yourMessage.on('pointerup', function () {
+      ui.resetScene();
+    });
+    ui.clickToContinueText.on('pointerup', function () {
+      ui.resetScene();
+    });
+
   }
 
   update() {
 
     if (game.self.gameOver === true) {
-      game.gameState.changeScene('GameOverScene', 'GameScene');
+      game.gameState.changeScene('GameOverScene', 'RouletteScene');
     }
 
     // scene change logic
