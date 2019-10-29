@@ -115,7 +115,6 @@ export default class Roulette extends Phaser.GameObjects.Group {
 
 		let betAmount = 0;
 		let betType = null;
-		//let creditsTally = 0;
 		let payout = 1;
 
 		// bet types
@@ -228,7 +227,6 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.fivehundredCreditBox = fivehundredCreditBox;
 		this.fivehundredCreditText = fivehundredCreditText;
 		this.betAmount = betAmount;
-		//this.creditsTally = creditsTally;
 		this.doubleZeroButton = doubleZeroButton;
 		this.zeroButton = zeroButton;
 		this.oneButton = oneButton;
@@ -504,7 +502,6 @@ export default class Roulette extends Phaser.GameObjects.Group {
 			resultText = result;
 		};
 		// check to see if player wins or loses
-		let checkifResultMatches;
 		let amount;
 		let chosenPicks;
 		if (this.betType === 'Straight-Up') {
