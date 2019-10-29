@@ -114,26 +114,90 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		let fivehundredCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 76.9) / 128), '500').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
 
 		let betAmount = 0;
+		let betType = null;
 		let creditsTally = 0;
+		let payout = 1;
 
 		// bet types
 		//
-		// inside bets
+		// inside bets - left column
 		//
 		// straight up bet, 35 to 1, any single number
+		let straightUpBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let straightUpBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let straightUpBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 36.9) / 128), 'Straight-Up: 35 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// split bet, 17 to 1, any two adjacent numbers
+		let splitBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let splitBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let splitBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 46.9) / 128), 'Split: 17 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// street bet, 11 to 1, any three numbers in a row or 0 1 2, 0 00 2, 00 2 3
+		let streetBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 56.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let streetBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 57) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let streetBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 56.9) / 128), 'Street: 11 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// corner bet, 8 to 1, any 4 numbers whose corners touch
+		let cornerBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 66.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let cornerBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 67) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let cornerBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 66.9) / 128), 'Corner: 8 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// sucker bet, 6 to 1, 0 00 1 2 3
+		let suckerBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 76.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let suckerBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 77) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let suckerBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 76.9) / 128), 'Sucker: 6 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// line bet, 5 to 1, two adjacent rows of numbers (6 total numbers)
+		let lineBetBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 86.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let lineBetBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 87) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let lineBetText = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 86.9) / 128), 'Line: 5 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		//
-		// outside bets
+		// outside bets - right column
 		//
 		// column bet, 2 to 1, horizontal column of numbers not including 0 00
+		let columnBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let columnBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let columnBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 36.9) / 128), 'Column: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// dozen bet, 2 to 1, 1-12 or 13-24 or 25-36
+		let dozenBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let dozenBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let dozenBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 46.9) / 128), 'Dozen: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// color bet, 2 to 1, red or black
+		let colorBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 56.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let colorBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 57) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let colorBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 56.9) / 128), 'Color: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// even/odd bet, 2 to 1
+		let evenOddBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 66.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let evenOddBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 67) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let evenOddBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 66.9) / 128), 'Even/Odd: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		// low/high bet, 2 to 1, 1-18 or 19-36
+		let lowHighBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 76.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let lowHighBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 77) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let lowHighBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 76.9) / 128), 'Low/High: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+
+		// message pop-up box
+		let messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 60) / 128), ((config.scale.height * 14) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let messageBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 59) / 128), ((config.scale.height * 13.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let messageTextLineOne = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 36.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+		let messageTextLineTwo = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 43.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+
+		let confirmBetBoxBorder = scene.add.rectangle(((config.scale.width * 43) / 128), ((config.scale.height * 113.9) / 128), ((config.scale.width * 32) / 128), ((config.scale.height * 11) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let confirmBetBox = scene.add.rectangle(((config.scale.width * 43.5) / 128), ((config.scale.height * 114) / 128), ((config.scale.width * 31) / 128), ((config.scale.height * 10.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let confirmBetText = scene.add.text(((config.scale.width * 44) / 128), ((config.scale.height * 113.9) / 128), 'Confirm Bet').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
+
+		let picksText = scene.add.text(((config.scale.width * 94) / 128), ((config.scale.height * 33.9) / 128), 'Picks').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(2);
+		let picksBoxBorder = scene.add.rectangle(((config.scale.width * 93) / 128), ((config.scale.height * 43.9) / 128), ((config.scale.width * 32) / 128), ((config.scale.height * 51) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(2).setInteractive();
+		let picksBox = scene.add.rectangle(((config.scale.width * 93.5) / 128), ((config.scale.height * 44) / 128), ((config.scale.width * 31) / 128), ((config.scale.height * 50.8) / 128), 0x000000).setOrigin(0, 0).setDepth(2).setInteractive();
+		let picksListLineOne = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 44.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
+		let picksListLineTwo = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 52.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
+
+		let payoutText = scene.add.text(((config.scale.width * 93.5) / 128), ((config.scale.height * 96.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+
+		// Results box
+    let resultsShadeBox = scene.add.rectangle(0, 0, config.scale.width, config.scale.height, 0x000000).setOrigin(0, 0).setDepth(0).setAlpha(0.5).setInteractive();
+		let resultsBoxBorder = scene.add.rectangle(((config.scale.width * 30) / 128), ((config.scale.height * 14) / 128), ((config.scale.width * 68) / 128), ((config.scale.height * 98) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
+    let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 14.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 97) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
+		let rollTitle = scene.add.text(((config.scale.width * 42) / 128), ((config.scale.height * 17) / 128), 'Roulette Results').setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(50).setDepth(0);
+		let scoreText = scene.add.text(((config.scale.width * 43) / 128), ((config.scale.height * 37) / 128), 'The winning number is: ').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let scoreNumber = scene.add.text(((config.scale.width * 57) / 128), ((config.scale.height * 50) / 128), '').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(80).setDepth(0);
+		let yourBetType = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 77) / 128), 'Your bet type:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let yourNumbers = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 84) / 128), 'Your numbers:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let yourPayout = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 91) / 128), 'Your payout:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
 
 		super(scene);
     this.optionsCog = optionsCog;
@@ -201,6 +265,64 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.thirtyfourButton = thirtyfourButton;
 		this.thirtyfiveButton = thirtyfiveButton;
 		this.thirtysixButton = thirtysixButton;
+		this.payout = payout;
+		this.straightUpBetBoxBorder = straightUpBetBoxBorder;
+		this.straightUpBetBox = straightUpBetBox;
+		this.straightUpBetText = straightUpBetText;
+		this.splitBetBoxBorder = splitBetBoxBorder;
+		this.splitBetBox = splitBetBox;
+		this.splitBetText = splitBetText;
+		this.streetBetBoxBorder = streetBetBoxBorder;
+		this.streetBetBox = streetBetBox;
+		this.streetBetText = streetBetText;
+		this.cornerBetBoxBorder = cornerBetBoxBorder;
+		this.cornerBetBox = cornerBetBox;
+		this.cornerBetText = cornerBetText;
+		this.suckerBetBoxBorder = suckerBetBoxBorder;
+		this.suckerBetBox = suckerBetBox;
+		this.suckerBetText = suckerBetText;
+		this.lineBetBoxBorder = lineBetBoxBorder;
+		this.lineBetBox = lineBetBox;
+		this.lineBetText = lineBetText;
+		this.columnBetBoxBorder = columnBetBoxBorder;
+		this.columnBetBox = columnBetBox;
+		this.columnBetText = columnBetText;
+		this.dozenBetBoxBorder = dozenBetBoxBorder;
+		this.dozenBetBox = dozenBetBox;
+		this.dozenBetText = dozenBetText;
+		this.colorBetBoxBorder = colorBetBoxBorder;
+		this.colorBetBox = colorBetBox;
+		this.colorBetText = colorBetText;
+		this.evenOddBetBoxBorder = evenOddBetBoxBorder;
+		this.evenOddBetBox = evenOddBetBox;
+		this.evenOddBetText = evenOddBetText;
+		this.lowHighBetBoxBorder = lowHighBetBoxBorder;
+		this.lowHighBetBox = lowHighBetBox;
+		this.lowHighBetText = lowHighBetText;
+		this.messageBoxBorder = messageBoxBorder;
+		this.messageBox = messageBox;
+		this.messageTextLineOne = messageTextLineOne;
+		this.messageTextLineTwo = messageTextLineTwo;
+		this.picks = [];
+		this.confirmBetBoxBorder = confirmBetBoxBorder;
+		this.confirmBetBox = confirmBetBox;
+		this.confirmBetText = confirmBetText;
+		this.picksBoxBorder = picksBoxBorder;
+		this.picksBox = picksBox;
+		this.picksText = picksText;
+		this.picksListLineOne = picksListLineOne;
+		this.picksListLineTwo = picksListLineTwo;
+		this.payoutText = payoutText;
+		this.betType = betType;
+		this.resultsShadeBox = resultsShadeBox;
+		this.resultsBoxBorder = resultsBoxBorder;
+		this.resultsBox = resultsBox;
+		this.rollTitle = rollTitle;
+		this.scoreText = scoreText;
+		this.scoreNumber = scoreNumber;
+		this.yourBetType = yourBetType;
+		this.yourNumbers = yourNumbers;
+		this.yourPayout = yourPayout;
 	}
 
 	pickBetAmount(gsc) {
@@ -259,6 +381,136 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.fivehundredCreditBoxBorder.setDepth(0);
 		this.fivehundredCreditBox.setDepth(0);
 		this.fivehundredCreditText.setDepth(0);
+		this.straightUpBetBoxBorder.setDepth(2);
+		this.straightUpBetBox.setDepth(2);
+		this.straightUpBetText.setDepth(2);
+		this.splitBetBoxBorder.setDepth(2);
+		this.splitBetBox.setDepth(2);
+		this.splitBetText.setDepth(2);
+		this.streetBetBoxBorder.setDepth(2);
+		this.streetBetBox.setDepth(2);
+		this.streetBetText.setDepth(2);
+		this.cornerBetBoxBorder.setDepth(2);
+		this.cornerBetBox.setDepth(2);
+		this.cornerBetText.setDepth(2);
+		this.suckerBetBoxBorder.setDepth(2);
+		this.suckerBetBox.setDepth(2);
+		this.suckerBetText.setDepth(2);
+		this.lineBetBoxBorder.setDepth(2);
+		this.lineBetBox.setDepth(2);
+		this.lineBetText.setDepth(2);
+		this.columnBetBoxBorder.setDepth(2);
+		this.columnBetBox.setDepth(2);
+		this.columnBetText.setDepth(2);
+		this.dozenBetBoxBorder.setDepth(2);
+		this.dozenBetBox.setDepth(2);
+		this.dozenBetText.setDepth(2);
+		this.colorBetBoxBorder.setDepth(2);
+		this.colorBetBox.setDepth(2);
+		this.colorBetText.setDepth(2);
+		this.evenOddBetBoxBorder.setDepth(2);
+		this.evenOddBetBox.setDepth(2);
+		this.evenOddBetText.setDepth(2);
+		this.lowHighBetBoxBorder.setDepth(2);
+		this.lowHighBetBox.setDepth(2);
+		this.lowHighBetText.setDepth(2);
 	}
+
+	typeChosen() {
+		this.straightUpBetBoxBorder.setDepth(0);
+		this.straightUpBetBox.setDepth(0);
+		this.straightUpBetText.setDepth(0);
+		this.splitBetBoxBorder.setDepth(0);
+		this.splitBetBox.setDepth(0);
+		this.splitBetText.setDepth(0);
+		this.streetBetBoxBorder.setDepth(0);
+		this.streetBetBox.setDepth(0);
+		this.streetBetText.setDepth(0);
+		this.cornerBetBoxBorder.setDepth(0);
+		this.cornerBetBox.setDepth(0);
+		this.cornerBetText.setDepth(0);
+		this.suckerBetBoxBorder.setDepth(0);
+		this.suckerBetBox.setDepth(0);
+		this.suckerBetText.setDepth(0);
+		this.lineBetBoxBorder.setDepth(0);
+		this.lineBetBox.setDepth(0);
+		this.lineBetText.setDepth(0);
+		this.columnBetBoxBorder.setDepth(0);
+		this.columnBetBox.setDepth(0);
+		this.columnBetText.setDepth(0);
+		this.dozenBetBoxBorder.setDepth(0);
+		this.dozenBetBox.setDepth(0);
+		this.dozenBetText.setDepth(0);
+		this.colorBetBoxBorder.setDepth(0);
+		this.colorBetBox.setDepth(0);
+		this.colorBetText.setDepth(0);
+		this.evenOddBetBoxBorder.setDepth(0);
+		this.evenOddBetBox.setDepth(0);
+		this.evenOddBetText.setDepth(0);
+		this.lowHighBetBoxBorder.setDepth(0);
+		this.lowHighBetBox.setDepth(0);
+		this.lowHighBetText.setDepth(0);
+		this.messageBoxBorder.setDepth(2);
+		this.messageBox.setDepth(2);
+		this.messageTextLineOne.setDepth(2);
+		this.messageTextLineTwo.setDepth(2);
+		this.confirmBetBox.setDepth(2);
+		this.confirmBetBoxBorder.setDepth(2);
+		this.confirmBetText.setDepth(2);
+		this.picksListLineOne.setDepth(3);
+		this.payoutText.setText('Payout: ' + this.payout + ' to 1')
+		this.payoutText.setDepth(2);
+		this.clearPicks();
+		this.picksListLineOne.setText(this.picks[0]);
+		this.picksListLineTwo.setText(this.picks[1]);
+	}
+
+	addPick(pick) {
+		this.picks.unshift(pick);
+		this.updatePicks();
+	}
+
+	clearPicks() {
+		this.picks = [];
+	}
+
+	updatePicks() {
+		if (this.picks[0] === 37) {
+				this.picksListLineOne.setText('00');
+		} else {
+				this.picksListLineOne.setText(this.picks[0]);
+		};
+		if (this.picks[1] === 37) {
+				this.picksListLineTwo.setText('00');
+		} else {
+				this.picksListLineTwo.setText(this.picks[1]);
+		};
+	}
+
+	spinTheWheel() {
+		let result = (Math.floor(Math.random() * 38));
+		return result;
+	}
+
+	showSpinResults(result) {
+		this.scoreNumber.setText(result);
+		this.yourBetType.setText('Your bet type: ' + this.betType);
+		this.yourNumbers.setText('Your numbers:  ' + this.picks[0]);
+		this.yourPayout.setText('Your payout:   ' + this.payout + ' to 1')
+		this.resultsShadeBox.setDepth(4);
+		this.resultsBoxBorder.setDepth(4);
+		this.resultsBox.setDepth(4);
+		this.rollTitle.setDepth(4);
+		this.scoreText.setDepth(4);
+		this.scoreNumber.setDepth(4);
+		this.yourBetType.setDepth(4);
+		this.yourNumbers.setDepth(4);
+		this.yourPayout.setDepth(4);
+	}
+
+ straightUpBet() {
+	 this.messageTextLineOne.setText('Click on any number');
+	 this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+ }
 
 }

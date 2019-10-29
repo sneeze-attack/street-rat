@@ -17,7 +17,8 @@ export default class Player {
 		this.carry = 20;
 		this.speed = 5;
 		this.move = 5;
-		this.credits = 0;
+		// set to 10 for testing roulette
+		this.credits = 10;
 		this.dodge = 8;
 		this.lastAction = '';
 		this.gameOver = false;

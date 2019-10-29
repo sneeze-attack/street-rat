@@ -20,6 +20,8 @@ export class RouletteScene extends Phaser.Scene {
     // use object to set up UI
     let ui = new Roulette(this, game.self.gambleScore);
 
+    let result;
+
     ui.playerCreditsText.setText('Credits: ' + game.self.credits);
 
     ui.optionsCog.on('pointerup', function () {
@@ -118,6 +120,155 @@ export class RouletteScene extends Phaser.Scene {
     ui.fivehundredCreditText.on('pointerup', function () {
       ui.betAmount = 500;
       ui.pickBetType();
+    });
+
+    function straightUpSelection() {
+      ui.payout = 35;
+      ui.betType = 'Straight-up';
+      ui.typeChosen();
+      ui.straightUpBet();
+    }
+
+    ui.straightUpBetBoxBorder.on('pointerup', function () {
+      straightUpSelection.call(this);
+    });
+    ui.straightUpBetBox.on('pointerup', function () {
+      straightUpSelection.call(this);
+    });
+    ui.straightUpBetText.on('pointerup', function () {
+      straightUpSelection.call(this);
+    });
+
+    ui.oneButton.on('pointerup', function () {
+      ui.addPick(1);
+    });
+    ui.twoButton.on('pointerup', function () {
+      ui.addPick(2);
+    });
+    ui.threeButton.on('pointerup', function () {
+      ui.addPick(3);
+    });
+    ui.fourButton.on('pointerup', function () {
+      ui.addPick(4);
+    });
+    ui.fiveButton.on('pointerup', function () {
+      ui.addPick(5);
+    });
+    ui.sixButton.on('pointerup', function () {
+      ui.addPick(6);
+    });
+    ui.sevenButton.on('pointerup', function () {
+      ui.addPick(7);
+    });
+    ui.eightButton.on('pointerup', function () {
+      ui.addPick(8);
+    });
+    ui.nineButton.on('pointerup', function () {
+      ui.addPick(9);
+    });
+    ui.tenButton.on('pointerup', function () {
+      ui.addPick(10);
+    });
+    ui.elevenButton.on('pointerup', function () {
+      ui.addPick(11);
+    });
+    ui.twelveButton.on('pointerup', function () {
+      ui.addPick(12);
+    });
+    ui.thirteenButton.on('pointerup', function () {
+      ui.addPick(13);
+    });
+    ui.fourteenButton.on('pointerup', function () {
+      ui.addPick(14);
+    });
+    ui.fifteenButton.on('pointerup', function () {
+      ui.addPick(15);
+    });
+    ui.sixteenButton.on('pointerup', function () {
+      ui.addPick(16);
+    });
+    ui.seventeenButton.on('pointerup', function () {
+      ui.addPick(17);
+    });
+    ui.eighteenButton.on('pointerup', function () {
+      ui.addPick(18);
+    });
+    ui.nineteenButton.on('pointerup', function () {
+      ui.addPick(19);
+    });
+    ui.twentyButton.on('pointerup', function () {
+      ui.addPick(20);
+    });
+    ui.twentyoneButton.on('pointerup', function () {
+      ui.addPick(21);
+    });
+    ui.twentytwoButton.on('pointerup', function () {
+      ui.addPick(22);
+    });
+    ui.twentythreeButton.on('pointerup', function () {
+      ui.addPick(23);
+    });
+    ui.twentyfourButton.on('pointerup', function () {
+      ui.addPick(24);
+    });
+    ui.twentyfiveButton.on('pointerup', function () {
+      ui.addPick(25);
+    });
+    ui.twentysixButton.on('pointerup', function () {
+      ui.addPick(26);
+    });
+    ui.twentysevenButton.on('pointerup', function () {
+      ui.addPick(27);
+    });
+    ui.twentyeightButton.on('pointerup', function () {
+      ui.addPick(28);
+    });
+    ui.twentynineButton.on('pointerup', function () {
+      ui.addPick(29);
+    });
+    ui.thirtyButton.on('pointerup', function () {
+      ui.addPick(30);
+    });
+    ui.thirtyoneButton.on('pointerup', function () {
+      ui.addPick(31);
+    });
+    ui.thirtytwoButton.on('pointerup', function () {
+      ui.addPick(32);
+    });
+    ui.thirtythreeButton.on('pointerup', function () {
+      ui.addPick(33);
+    });
+    ui.thirtyfourButton.on('pointerup', function () {
+      ui.addPick(34);
+    });
+    ui.thirtyfiveButton.on('pointerup', function () {
+      ui.addPick(35);
+    });
+    ui.thirtysixButton.on('pointerup', function () {
+      ui.addPick(36);
+    });
+    ui.zeroButton.on('pointerup', function () {
+      ui.addPick(0);
+    });
+    ui.doubleZeroButton.on('pointerup', function () {
+      ui.addPick(37);
+    });
+
+    function confirmBet() {
+      if (ui.picks[0] && ui.betType === 'Straight-up') {
+        result = ui.spinTheWheel();
+        ui.showSpinResults(result);
+      };
+    }
+
+    ui.confirmBetBox.on('pointerup', function () {
+      confirmBet.call(this);
+    });
+    ui.confirmBetBoxBorder.on('pointerup', function () {
+      confirmBet.call(this);
+    });
+    ui.confirmBetText.on('pointerup', function () {
+      confirmBet.call(this);
     });
 
   }
