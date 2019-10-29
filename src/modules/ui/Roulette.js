@@ -504,15 +504,23 @@ export default class Roulette extends Phaser.GameObjects.Group {
 			resultText = result;
 		};
 		// check to see if player wins or loses
-		let checkifResultMatches = this.picks.findIndex(x => x==result);
+		let checkifResultMatches;
 		let amount;
-		if (checkifResultMatches >= 0) {
-			amount = this.betAmount * this.payout;
-			this.yourMessage.setText('You win ' + amount + ' credits!');
-			this.yourMessage.setColor('#33FF00');
-		} else {
-			amount = this.betAmount * -1;
+		let chosenPicks;
+		if (this.betType === 'Straight-Up') {
+			// only use last chosen number
+			chosenPicks = this.picks[0];
+			if (chosenPicks === result) {
+				amount = this.betAmount * this.payout;
+				this.yourMessage.setText('You win ' + amount + ' credits!');
+				this.yourMessage.setColor('#33FF00');
+			} else {
+				amount = this.betAmount * -1;
+				this.yourMessage.setText('         Lose');
+				this.yourMessage.setColor('#A00000');
+			};
 		};
+
 		this.scoreNumber.setText(resultText);
 		this.yourBetType.setText('Your bet type: ' + this.betType);
 		this.yourNumbers.setText('Your numbers:  ' + this.picks[0]);
