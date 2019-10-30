@@ -2,94 +2,93 @@ import Phaser from 'phaser';
 import CharGen from '../modules/ui/CharGen';
 import game from '../index';
 import * as nameGen from '../modules/utils/NameGen';
-import male_icon_img from '../assets/icons/32x32/male_icon_small.png';
-import female_icon_img from '../assets/icons/32x32/female_icon_small.png';
-import male_icon_boxed_img from '../assets/icons/32x32/male_icon_small_white_boxed.png';
-import female_icon_boxed_img from '../assets/icons/32x32/female_icon_small_white_boxed.png';
-import arrow_right_img from '../assets/icons/16x16/arrow_right_white_16x16.png';
-import arrow_left_img from '../assets/icons/16x16/arrow_left_white_16x16.png';
-import plus_img from '../assets/icons/16x16/plus.png';
-import minus_img from '../assets/icons/16x16/minus.png';
-import female1_img from '../assets/portraits/female/160x200/female1.jpg';
-import female2_img from '../assets/portraits/female/160x200/female2.jpg';
-import female3_img from '../assets/portraits/female/160x200/female3.jpg';
-import female4_img from '../assets/portraits/female/160x200/female4.jpg';
-import male1_img from '../assets/portraits/male/160x200/male1.jpg';
-import male2_img from '../assets/portraits/male/160x200/male2.jpg';
-import male3_img from '../assets/portraits/male/160x200/male3.jpg';
-import male4_img from '../assets/portraits/male/160x200/male4.jpg';
-import placeholder_img from '../assets/portraits/placeholder/grey.jpg';
+import maleIconImg from '../assets/icons/32x32/male_icon_small.png';
+import femaleIconImg from '../assets/icons/32x32/female_icon_small.png';
+import maleIconBoxedImg from '../assets/icons/32x32/male_icon_small_white_boxed.png';
+import femaleIconBoxedImg from '../assets/icons/32x32/female_icon_small_white_boxed.png';
+import arrowRightImg from '../assets/icons/16x16/arrow_right_white_16x16.png';
+import arrowLeftImg from '../assets/icons/16x16/arrow_left_white_16x16.png';
+import plusImg from '../assets/icons/16x16/plus.png';
+import minusImg from '../assets/icons/16x16/minus.png';
+import female1Img from '../assets/portraits/female/160x200/female1.jpg';
+import female2Img from '../assets/portraits/female/160x200/female2.jpg';
+import female3Img from '../assets/portraits/female/160x200/female3.jpg';
+import female4Img from '../assets/portraits/female/160x200/female4.jpg';
+import male1Img from '../assets/portraits/male/160x200/male1.jpg';
+import male2Img from '../assets/portraits/male/160x200/male2.jpg';
+import male3Img from '../assets/portraits/male/160x200/male3.jpg';
+import male4Img from '../assets/portraits/male/160x200/male4.jpg';
+import placeholderImg from '../assets/portraits/placeholder/grey.jpg';
 
 
-export class CharGenScene extends Phaser.Scene {
+export default class CharGenScene extends Phaser.Scene {
   constructor() {
     super({ key: 'CharGenScene' });
   }
 
   preload() {
-    this.load.image('male_icon', male_icon_img);
-    this.load.image('female_icon', female_icon_img);
-    this.load.image('male_icon_boxed', male_icon_boxed_img);
-    this.load.image('female_icon_boxed', female_icon_boxed_img);
-    this.load.image('arrow_right', arrow_right_img);
-    this.load.image('arrow_left', arrow_left_img);
-    this.load.image('plus', plus_img);
-    this.load.image('minus', minus_img);
-    this.load.image('female1', female1_img);
-    this.load.image('female2', female2_img);
-    this.load.image('female3', female3_img);
-    this.load.image('female4', female4_img);
-    this.load.image('male1', male1_img);
-    this.load.image('male2', male2_img);
-    this.load.image('male3', male3_img);
-    this.load.image('male4', male4_img);
-    this.load.image('placeholder', placeholder_img);
+    this.load.image('male_icon', maleIconImg);
+    this.load.image('female_icon', femaleIconImg);
+    this.load.image('male_icon_boxed', maleIconBoxedImg);
+    this.load.image('female_icon_boxed', femaleIconBoxedImg);
+    this.load.image('arrow_right', arrowRightImg);
+    this.load.image('arrow_left', arrowLeftImg);
+    this.load.image('plus', plusImg);
+    this.load.image('minus', minusImg);
+    this.load.image('female1', female1Img);
+    this.load.image('female2', female2Img);
+    this.load.image('female3', female3Img);
+    this.load.image('female4', female4Img);
+    this.load.image('male1', male1Img);
+    this.load.image('male2', male2Img);
+    this.load.image('male3', male3Img);
+    this.load.image('male4', male4Img);
+    this.load.image('placeholder', placeholderImg);
   }
 
   create() {
-
     // shortcut
     this.config = this.sys.game.config;
 
     // use object to set up UI
-    let ui = new CharGen(this);
+    const ui = new CharGen(this);
 
     // gambling
-    let gamblingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 15) / 128), 'Gambling    (' + game.self.gambling + ')        ' + game.self.gamblingScore).setColor('#FFFFFF').setFontSize(24);
-    ui.gamblingPlus.on('pointerup', function () {
-      let number = ((game.self.gambling - 1) * 4);
+    const gamblingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 15) / 128), `Gambling    (${game.self.gambling})        ${game.self.gamblingScore}`).setColor('#FFFFFF').setFontSize(24);
+    ui.gamblingPlus.on('pointerup', () => {
+      const number = ((game.self.gambling - 1) * 4);
       if (game.self.gambling === 0 && game.self.points >= 1 && game.self.gamblingScore <= 15) {
-        game.self.gambling++;
-        game.self.points--;
+        game.self.gambling += 1;
+        game.self.points -= 1;
       } else if (game.self.gambling === 1 && game.self.points >= 2 && game.self.gamblingScore <= 15) {
-        game.self.gambling++;
+        game.self.gambling += 1;
         game.self.points -= 2;
       } else if (game.self.gambling >= 2 && game.self.points >= number && game.self.gamblingScore <= 15) {
-        game.self.gambling++;
+        game.self.gambling += 1;
         game.self.points -= number;
-      };
+      }
       game.self.calculateGamblingScore();
       updateText.call(this);
     });
-    ui.gamblingMinus.on('pointerup', function () {
-      let number = ((game.self.gambling - 2) * 4);
+    ui.gamblingMinus.on('pointerup', () => {
+      const number = ((game.self.gambling - 2) * 4);
       if (game.self.gambling === 1) {
-        game.self.gambling--;
-        game.self.points++;
+        game.self.gambling -= 1;
+        game.self.points += 1;
       } else if (game.self.gambling === 2) {
-        game.self.gambling--;
+        game.self.gambling -= 1;
         game.self.points += 2;
       } else if (game.self.gambling >= 3) {
-        game.self.gambling--;
+        game.self.gambling -= 1;
         game.self.points += number;
-      };
+      }
       game.self.calculateGamblingScore();
       updateText.call(this);
     });
 
     // panhandling
-    let panhandlingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 21) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
-    ui.panhandlingPlus.on('pointerup', function () {
+    const panhandlingText = this.add.text(((this.config.width * 90.5) / 128), ((this.config.height * 21) / 128), 'Panhandling (' + game.self.panhandle + ')        ' + game.self.panhandleScore).setColor('#FFFFFF').setFontSize(24);
+    ui.panhandlingPlus.on('pointerup', () => {
       let number = ((game.self.panhandle - 1) * 4);
       if (game.self.panhandle === 0 && game.self.points >= 1 && game.self.panhandleScore <= 15) {
         game.self.panhandle++;
@@ -127,13 +126,13 @@ export class CharGenScene extends Phaser.Scene {
       ui.femaleButton.setTexture(ui.femaleSelection);
       ui.portrait.setTexture(game.self.gender + game.self.portrait);
     }
-    ui.maleButton.on('pointerup', function () {
+    ui.maleButton.on('pointerup', () => {
       game.self.gender = 'male';
       ui.maleSelection = 'male_icon_boxed';
       ui.femaleSelection = 'female_icon';
       genderUpdate.call(this);
     });
-    ui.femaleButton.on('pointerup', function () {
+    ui.femaleButton.on('pointerup', () => {
       game.self.gender = 'female';
       ui.maleSelection = 'male_icon';
       ui.femaleSelection = 'female_icon_boxed';
@@ -143,15 +142,15 @@ export class CharGenScene extends Phaser.Scene {
     // continue button logic
     function continueToGame() {
       if (!game.self.gender) {
-        let genderRoll = (Math.floor((Math.random() * 2) + 1));
+        const genderRoll = (Math.floor((Math.random() * 2) + 1));
         game.self.portrait = 1;
         if (genderRoll === 1) {
           game.self.gender = 'male';
         } else {
           game.self.gender = 'female';
-        };
+        }
         ui.portrait.setTexture(game.self.gender + game.self.portrait);
-      };
+      }
       // if name hasn't been chosen, randomly assign one based on gender
       if (!game.self.name) {
         if (game.self.gender === 'male') {
@@ -199,45 +198,45 @@ export class CharGenScene extends Phaser.Scene {
       game.self.gamblingScore = 5;
       game.gameState.changeScene('StartScene', 'CharGenScene');
     }
-    ui.backButton.on('pointerup', function () {
+    ui.backButton.on('pointerup', () => {
       backReset.call(this);
     });
-    ui.backTextBox.on('pointerup', function () {
+    ui.backTextBox.on('pointerup', () => {
       backReset.call(this);
     });
 
     // start at first portrait
     game.self.portrait = 0;
 
-    //portrait arrow code
-    ui.portraitNextArrow.on('pointerup', function () {
+    // portrait arrow code
+    ui.portraitNextArrow.on('pointerup', () => {
       if (game.self.gender) {
-        game.self.portrait++;
-        //loop back to first portrait once end is reached
+        game.self.portrait += 1;
+        // loop back to first portrait once end is reached
         if (game.self.portrait === 5) {
           game.self.portrait = 1;
-        };
+        }
         ui.portrait.setTexture(game.self.gender + game.self.portrait);
-      };
+      }
     });
-    ui.portraitPreviousArrow.on('pointerup', function () {
+    ui.portraitPreviousArrow.on('pointerup', () => {
       if (game.self.gender) {
-        game.self.portrait--;
-        //loop back to last portrait once beginning is reached
+        game.self.portrait -= 1;
+        // loop back to last portrait once beginning is reached
         if (game.self.portrait === 0) {
           game.self.portrait = 4;
-        };
+        }
         ui.portrait.setTexture(game.self.gender + game.self.portrait);
-      };
+      }
     });
 
-    //name
-    let enterNameText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), 'Name').setColor('#FFFFFF').setFontSize(36);
+    // name
+    const enterNameText = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), 'Name').setColor('#FFFFFF').setFontSize(36);
 
-    //enter name code
-    let nameEntry = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), '', { font: '36px Courier', fill: '#ffffff' });
-    let keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    let keyBackspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
+    // enter name code
+    const nameEntry = this.add.text(((this.config.width * 20) / 128), ((this.config.height * 5) / 128), '', { font: '36px Courier', fill: '#ffffff' });
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
 
     this.input.keyboard.on('keydown', function (event) {
         if (event.keyCode === 8 && nameEntry.text.length > 0)
@@ -564,8 +563,6 @@ export class CharGenScene extends Phaser.Scene {
     if (game.gameState.nextScene !== 'CharGenScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
-    };
-
+    }
   }
-
 }

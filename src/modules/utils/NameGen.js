@@ -1,5 +1,5 @@
 export function maleFirstName() {
-  let firstNames = [
+  const firstNames = [
     'Aaron',
     'Abe',
     'Abraham',
@@ -176,12 +176,12 @@ export function maleFirstName() {
     'Zack'
   ];
 
-  let firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   return firstName;
 }
 
 export function femaleFirstName() {
-  let firstNames = [
+  const firstNames = [
     'Abigail',
     'Adeline',
     'Alexa',
@@ -311,6 +311,6 @@ export function femaleFirstName() {
     'Zoey'
   ];
 
-  let firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   return firstName;
 }

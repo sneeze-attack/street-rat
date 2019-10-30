@@ -1,48 +1,45 @@
 import Phaser from 'phaser';
 import Gamble from '../modules/ui/Gamble';
 import game from '../index';
-import japan_background_img from '../assets/backgrounds/japan_1366_768.jpg';
-import cog_img from '../assets/icons/48x48/cog_white.png';
+import japanBackgroundImg from '../assets/backgrounds/japan_1366_768.jpg';
+import cogImg from '../assets/icons/48x48/cog_white.png';
 
-export class GamblingScene extends Phaser.Scene {
+export default class GamblingScene extends Phaser.Scene {
   constructor() {
     super({ key: 'GamblingScene' });
   }
 
   preload() {
-    this.load.image('japan_background', japan_background_img);
-    this.load.image('cog', cog_img);
+    this.load.image('japan_background', japanBackgroundImg);
+    this.load.image('cog', cogImg);
   }
 
   create() {
-
     // shortcut
     this.config = this.sys.game.config;
 
     // use object to set up UI
-    let ui = new Gamble(this);
+    const ui = new Gamble(this);
 
-    ui.optionsCog.on('pointerup', function () {
+    ui.optionsCog.on('pointerup', () => {
       game.gameState.changeScene('OptionsScene', 'GamblingScene');
     });
-    ui.backButton.on('pointerup', function () {
+    ui.backButton.on('pointerup', () => {
       game.gameState.changeScene('ActionsScene', 'GamblingScene');
     });
-    ui.backTextBox.on('pointerup', function () {
+    ui.backTextBox.on('pointerup', () => {
       game.gameState.changeScene('ActionsScene', 'GamblingScene');
     });
 
-    ui.rouletteBox.on('pointerup', function () {
+    ui.rouletteBox.on('pointerup', () => {
       game.gameState.changeScene('RouletteScene', 'GamblingScene');
     });
-    ui.rouletteText.on('pointerup', function () {
+    ui.rouletteText.on('pointerup', () => {
       game.gameState.changeScene('RouletteScene', 'GamblingScene');
     });
-
   }
 
   update() {
-
     if (game.self.gameOver === true) {
       game.gameState.changeScene('GameOverScene', 'GameScene');
     }
@@ -51,8 +48,6 @@ export class GamblingScene extends Phaser.Scene {
     if (game.gameState.nextScene !== 'GamblingScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
-    };
-
+    }
   }
-
 }
