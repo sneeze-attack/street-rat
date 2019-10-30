@@ -86,6 +86,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
 
 		let playerCreditsText = scene.add.text(((config.scale.width * 82) / 128), ((config.scale.height * 116) / 128), 'Credits: ').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(48).setDepth(1);
 
+
 		// bet amounts
 		// 1, 5, 25, 50, 100, 500
 
@@ -170,8 +171,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		let lowHighBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 76.9) / 128), 'Low/High: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 
 		// message pop-up box
-		let messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 60) / 128), ((config.scale.height * 14) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
-		let messageBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 59) / 128), ((config.scale.height * 13.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+		let messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 62) / 128), ((config.scale.height * 14) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+		let messageBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 61) / 128), ((config.scale.height * 13.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
 		let messageTextLineOne = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 36.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 		let messageTextLineTwo = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 43.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 
@@ -193,12 +194,18 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		let resultsBoxBorder = scene.add.rectangle(((config.scale.width * 30) / 128), ((config.scale.height * 14) / 128), ((config.scale.width * 68) / 128), ((config.scale.height * 98) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0);
     let resultsBox = scene.add.rectangle(((config.scale.width * 30.25) / 128), ((config.scale.height * 14.5) / 128), ((config.scale.width * 67.5) / 128), ((config.scale.height * 97) / 128), 0x000000).setOrigin(0, 0).setDepth(0);
 		let rollTitle = scene.add.text(((config.scale.width * 42) / 128), ((config.scale.height * 17) / 128), 'Roulette Results').setColor('#0033FF').setFontFamily('"DejaVu Sans Mono"').setFontSize(50).setDepth(0);
-		let scoreText = scene.add.text(((config.scale.width * 43) / 128), ((config.scale.height * 37) / 128), 'The winning number is: ').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
-		let scoreNumber = scene.add.text(((config.scale.width * 57) / 128), ((config.scale.height * 50) / 128), '').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(80).setDepth(0);
-		let yourBetType = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 73) / 128), 'Your bet type:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
-		let yourNumbers = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 80) / 128), 'Your numbers:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
-		let yourPayout = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 87) / 128), 'Your payout:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
-		let yourMessage = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 95) / 128), '         Lose').setColor('#A00000').setFontFamily('"DejaVu Sans Mono"').setFontSize(48).setDepth(0);
+		let scoreText = scene.add.text(((config.scale.width * 43) / 128), ((config.scale.height * 34) / 128), 'The winning number is: ').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let scoreNumber = scene.add.text(((config.scale.width * 57.5) / 128), ((config.scale.height * 43) / 128), '').setColor('#33FF00').setFontFamily('"DejaVu Sans Mono"').setFontSize(80).setDepth(0);
+		let yourBetType = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 66) / 128), 'Your bet type:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let yourNumbers = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 73) / 128), 'Your numbers:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let yourPayout = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 80) / 128), 'Your payout:').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setFontSize(32).setDepth(0);
+		let yourMessage = scene.add.text(((config.scale.width * 32) / 128), ((config.scale.height * 94) / 128), '         Lose').setColor('#A00000').setFontFamily('"DejaVu Sans Mono"').setFontSize(48).setDepth(0);
+		let firstLine = new Phaser.Geom.Line(((config.scale.width * 30) / 128), ((config.scale.height * 30) / 128), ((config.scale.width * 98) / 128), ((config.scale.height * 30) / 128));
+		let lineFirst = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } }).setDepth(0);
+		lineFirst.strokeLineShape(firstLine);
+		let secondLine = new Phaser.Geom.Line(((config.scale.width * 30) / 128), ((config.scale.height * 90) / 128), ((config.scale.width * 98) / 128), ((config.scale.height * 90) / 128));
+    let lineSecond = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } }).setDepth(0);
+    lineSecond.strokeLineShape(secondLine);
 
 		super(scene);
     this.optionsCog = optionsCog;
@@ -325,6 +332,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.yourPayout = yourPayout;
 		this.yourMessage = yourMessage;
 		this.clickToContinueText = clickToContinueText;
+		this.topLine = lineFirst;
+		this.bottomLine = lineSecond;
 	}
 
 	pickBetAmount(gsc) {
@@ -336,7 +345,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
 			this.oneCreditBox.setDepth(2);
 			this.oneCreditText.setDepth(2);
 		};
-		if (gsc >= 10) {
+		if (gsc >= 5) {
 			this.fiveCreditBoxBorder.setDepth(2);
 			this.fiveCreditBox.setDepth(2);
 			this.fiveCreditText.setDepth(2);
@@ -532,12 +541,20 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.yourNumbers.setDepth(4);
 		this.yourPayout.setDepth(4);
 		this.yourMessage.setDepth(4);
+		this.topLine.setDepth(5);
+		this.bottomLine.setDepth(5);
 		this.clickToContinueText.setDepth(5);
 		return amount;
 	}
 
  straightUpBet() {
 	 this.messageTextLineOne.setText('Click on any number');
+	 this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+ }
+
+ splitBet() {
+	 this.picksListLineTwo.setDepth(3);
+	 this.messageTextLineOne.setText('Click on any two adjacent numbers');
 	 this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
  }
 
@@ -562,9 +579,14 @@ export default class Roulette extends Phaser.GameObjects.Group {
 		this.confirmBetText.setDepth(0);
 		this.picksListLineOne.setDepth(0);
 		this.payoutText.setDepth(0);
+		this.topLine.setDepth(0);
+		this.bottomLine.setDepth(0);
 		this.placeBetBoxBorder.setDepth(2);
 		this.placeBetBox.setDepth(2);
 		this.placeBetText.setDepth(2);
+		this.betAmount = 0;
+		this.betType = null;
+		this.payout = 1;
 	}
 
 }

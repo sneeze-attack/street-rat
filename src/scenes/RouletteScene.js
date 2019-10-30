@@ -122,13 +122,13 @@ export class RouletteScene extends Phaser.Scene {
       ui.pickBetType();
     });
 
+    // straight-up bet button code
     function straightUpSelection() {
       ui.payout = 35;
       ui.betType = 'Straight-Up';
       ui.typeChosen();
       ui.straightUpBet();
     }
-
     ui.straightUpBetBoxBorder.on('pointerup', function () {
       straightUpSelection.call(this);
     });
@@ -139,6 +139,24 @@ export class RouletteScene extends Phaser.Scene {
       straightUpSelection.call(this);
     });
 
+    // split bet button code
+    function splitSelection() {
+      ui.payout = 17;
+      ui.betType = 'Split';
+      ui.typeChosen();
+      ui.splitBet();
+    }
+    ui.splitBetBox.on('pointerup', function () {
+      splitSelection.call(this);
+    });
+    ui.splitBetBoxBorder.on('pointerup', function () {
+      splitSelection.call(this);
+    });
+    ui.splitBetText.on('pointerup', function () {
+      splitSelection.call(this);
+    });
+
+    // Roulette numbers pick code
     ui.oneButton.on('pointerup', function () {
       ui.addPick(1);
     });
@@ -259,9 +277,11 @@ export class RouletteScene extends Phaser.Scene {
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText('Credits: ' + game.self.credits);
+      } else if (ui.betType === 'Split' && (ui.picks[0] === 0 && (ui.picks[1] === 1 || ui.picks[1] === 37 || ui.picks[1] === 2) ) ) {
+        console.log('OK!');
       };
-      game.self.credits += net;
-      ui.playerCreditsText.setText('Credits: ' + game.self.credits);
     }
 
     ui.confirmBetBox.on('pointerup', function () {
