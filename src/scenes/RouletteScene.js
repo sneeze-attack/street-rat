@@ -21,6 +21,13 @@ export default class RouletteScene extends Phaser.Scene {
 
     let result;
 
+    function inArray(array, value) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i] == value) return true;
+      }
+      return false;
+    }
+
     ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
 
     ui.optionsCog.on('pointerup', () => {
@@ -155,6 +162,23 @@ export default class RouletteScene extends Phaser.Scene {
       splitSelection.call(this);
     });
 
+    // street bet button code
+    function streetSelection() {
+      ui.payout = 11;
+      ui.betType = 'Street';
+      ui.typeChosen();
+      ui.streetBet();
+    }
+    ui.streetBetBox.on('pointerup', () => {
+      streetSelection.call(this);
+    });
+    ui.streetBetBoxBorder.on('pointerup', () => {
+      streetSelection.call(this);
+    });
+    ui.streetBetText.on('pointerup', () => {
+      streetSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -273,6 +297,10 @@ export default class RouletteScene extends Phaser.Scene {
 
     function confirmBet() {
       let net;
+      ui.lastThreePicks = [];
+      ui.lastThreePicks.push(ui.picks[0]);
+      ui.lastThreePicks.push(ui.picks[1]);
+      ui.lastThreePicks.push(ui.picks[2]);
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
@@ -280,84 +308,133 @@ export default class RouletteScene extends Phaser.Scene {
         ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
       } else if (ui.betType === 'Split'
         && ((ui.picks[0] === 0
-          && ((ui.picks[1] === 1 || ui.picks[1] === 37 || ui.picks[1] === 2))
+          && (ui.picks[1] === 1 || ui.picks[1] === 37 || ui.picks[1] === 2)
         ) || (ui.picks[0] === 37
-          && ((ui.picks[1] === 0 || ui.picks[1] === 2 || ui.picks[1] === 3))
+          && (ui.picks[1] === 0 || ui.picks[1] === 2 || ui.picks[1] === 3)
         ) || (ui.picks[0] === 1
-          && ((ui.picks[1] === 0 || ui.picks[1] === 2 || ui.picks[1] === 4))
+          && (ui.picks[1] === 0 || ui.picks[1] === 2 || ui.picks[1] === 4)
         ) || (ui.picks[0] === 2
-          && ((ui.picks[1] === 0 || ui.picks[1] === 1 || ui.picks[1] === 37 || ui.picks[1] === 3 || ui.picks[1] === 5))
+          && (ui.picks[1] === 0 || ui.picks[1] === 1 || ui.picks[1] === 37 || ui.picks[1] === 3 || ui.picks[1] === 5)
         ) || (ui.picks[0] === 3
-          && ((ui.picks[1] === 37 || ui.picks[1] === 2 || ui.picks[1] === 6))
+          && (ui.picks[1] === 37 || ui.picks[1] === 2 || ui.picks[1] === 6)
         ) || (ui.picks[0] === 4
-          && ((ui.picks[1] === 1 || ui.picks[1] === 5 || ui.picks[1] === 7))
+          && (ui.picks[1] === 1 || ui.picks[1] === 5 || ui.picks[1] === 7)
         ) || (ui.picks[0] === 5
-          && ((ui.picks[1] === 2 || ui.picks[1] === 4 || ui.picks[1] === 6 || ui.picks[1] === 8))
+          && (ui.picks[1] === 2 || ui.picks[1] === 4 || ui.picks[1] === 6 || ui.picks[1] === 8)
         ) || (ui.picks[0] === 6
-          && ((ui.picks[1] === 3 || ui.picks[1] === 5 || ui.picks[1] === 9))
+          && (ui.picks[1] === 3 || ui.picks[1] === 5 || ui.picks[1] === 9)
         ) || (ui.picks[0] === 7
-          && ((ui.picks[1] === 4 || ui.picks[1] === 8 || ui.picks[1] === 10))
+          && (ui.picks[1] === 4 || ui.picks[1] === 8 || ui.picks[1] === 10)
         ) || (ui.picks[0] === 8
-          && ((ui.picks[1] === 5 || ui.picks[1] === 7 || ui.picks[1] === 9 || ui.picks[1] === 11))
+          && (ui.picks[1] === 5 || ui.picks[1] === 7 || ui.picks[1] === 9 || ui.picks[1] === 11)
         ) || (ui.picks[0] === 9
-          && ((ui.picks[1] === 6 || ui.picks[1] === 8 || ui.picks[1] === 12))
+          && (ui.picks[1] === 6 || ui.picks[1] === 8 || ui.picks[1] === 12)
         ) || (ui.picks[0] === 10
-          && ((ui.picks[1] === 7 || ui.picks[1] === 11 || ui.picks[1] === 13))
+          && (ui.picks[1] === 7 || ui.picks[1] === 11 || ui.picks[1] === 13)
         ) || (ui.picks[0] === 11
-          && ((ui.picks[1] === 8 || ui.picks[1] === 10 || ui.picks[1] === 12 || ui.picks[1] === 14))
+          && (ui.picks[1] === 8 || ui.picks[1] === 10 || ui.picks[1] === 12 || ui.picks[1] === 14)
         ) || (ui.picks[0] === 12
-          && ((ui.picks[1] === 9 || ui.picks[1] === 11 || ui.picks[1] === 15))
+          && (ui.picks[1] === 9 || ui.picks[1] === 11 || ui.picks[1] === 15)
         ) || (ui.picks[0] === 13
-          && ((ui.picks[1] === 10 || ui.picks[1] === 14 || ui.picks[1] === 16))
+          && (ui.picks[1] === 10 || ui.picks[1] === 14 || ui.picks[1] === 16)
         ) || (ui.picks[0] === 14
-          && ((ui.picks[1] === 11 || ui.picks[1] === 13 || ui.picks[1] === 15 || ui.picks[1] === 17))
+          && (ui.picks[1] === 11 || ui.picks[1] === 13 || ui.picks[1] === 15 || ui.picks[1] === 17)
         ) || (ui.picks[0] === 15
-          && ((ui.picks[1] === 12 || ui.picks[1] === 14 || ui.picks[1] === 18))
+          && (ui.picks[1] === 12 || ui.picks[1] === 14 || ui.picks[1] === 18)
         ) || (ui.picks[0] === 16
-          && ((ui.picks[1] === 13 || ui.picks[1] === 17 || ui.picks[1] === 19))
+          && (ui.picks[1] === 13 || ui.picks[1] === 17 || ui.picks[1] === 19)
         ) || (ui.picks[0] === 17
-          && ((ui.picks[1] === 14 || ui.picks[1] === 16 || ui.picks[1] === 18 || ui.picks[1] === 20))
+          && (ui.picks[1] === 14 || ui.picks[1] === 16 || ui.picks[1] === 18 || ui.picks[1] === 20)
         ) || (ui.picks[0] === 18
-          && ((ui.picks[1] === 15 || ui.picks[1] === 17 || ui.picks[1] === 21))
+          && (ui.picks[1] === 15 || ui.picks[1] === 17 || ui.picks[1] === 21)
         ) || (ui.picks[0] === 19
-          && ((ui.picks[1] === 16 || ui.picks[1] === 20 || ui.picks[1] === 22))
+          && (ui.picks[1] === 16 || ui.picks[1] === 20 || ui.picks[1] === 22)
         ) || (ui.picks[0] === 20
-          && ((ui.picks[1] === 17 || ui.picks[1] === 19 || ui.picks[1] === 21 || ui.picks[1] === 23))
+          && (ui.picks[1] === 17 || ui.picks[1] === 19 || ui.picks[1] === 21 || ui.picks[1] === 23)
         ) || (ui.picks[0] === 21
-          && ((ui.picks[1] === 18 || ui.picks[1] === 20 || ui.picks[1] === 24))
+          && (ui.picks[1] === 18 || ui.picks[1] === 20 || ui.picks[1] === 24)
         ) || (ui.picks[0] === 22
-          && ((ui.picks[1] === 19 || ui.picks[1] === 23 || ui.picks[1] === 25))
+          && (ui.picks[1] === 19 || ui.picks[1] === 23 || ui.picks[1] === 25)
         ) || (ui.picks[0] === 23
-          && ((ui.picks[1] === 20 || ui.picks[1] === 22 || ui.picks[1] === 24 || ui.picks[1] === 26))
+          && (ui.picks[1] === 20 || ui.picks[1] === 22 || ui.picks[1] === 24 || ui.picks[1] === 26)
         ) || (ui.picks[0] === 24
-          && ((ui.picks[1] === 21 || ui.picks[1] === 23 || ui.picks[1] === 27))
+          && (ui.picks[1] === 21 || ui.picks[1] === 23 || ui.picks[1] === 27)
         ) || (ui.picks[0] === 25
-          && ((ui.picks[1] === 22 || ui.picks[1] === 26 || ui.picks[1] === 28))
+          && (ui.picks[1] === 22 || ui.picks[1] === 26 || ui.picks[1] === 28)
         ) || (ui.picks[0] === 26
-          && ((ui.picks[1] === 23 || ui.picks[1] === 25 || ui.picks[1] === 27 || ui.picks[1] === 29))
+          && (ui.picks[1] === 23 || ui.picks[1] === 25 || ui.picks[1] === 27 || ui.picks[1] === 29)
         ) || (ui.picks[0] === 27
-          && ((ui.picks[1] === 24 || ui.picks[1] === 26 || ui.picks[1] === 30))
+          && (ui.picks[1] === 24 || ui.picks[1] === 26 || ui.picks[1] === 30)
         ) || (ui.picks[0] === 28
-          && ((ui.picks[1] === 25 || ui.picks[1] === 29 || ui.picks[1] === 31))
+          && (ui.picks[1] === 25 || ui.picks[1] === 29 || ui.picks[1] === 31)
         ) || (ui.picks[0] === 29
-          && ((ui.picks[1] === 26 || ui.picks[1] === 28 || ui.picks[1] === 30 || ui.picks[1] === 32))
+          && (ui.picks[1] === 26 || ui.picks[1] === 28 || ui.picks[1] === 30 || ui.picks[1] === 32)
         ) || (ui.picks[0] === 30
-          && ((ui.picks[1] === 27 || ui.picks[1] === 29 || ui.picks[1] === 33))
+          && (ui.picks[1] === 27 || ui.picks[1] === 29 || ui.picks[1] === 33)
         ) || (ui.picks[0] === 31
-          && ((ui.picks[1] === 28 || ui.picks[1] === 32 || ui.picks[1] === 34))
+          && (ui.picks[1] === 28 || ui.picks[1] === 32 || ui.picks[1] === 34)
         ) || (ui.picks[0] === 32
-          && ((ui.picks[1] === 29 || ui.picks[1] === 31 || ui.picks[1] === 33 || ui.picks[1] === 35))
+          && (ui.picks[1] === 29 || ui.picks[1] === 31 || ui.picks[1] === 33 || ui.picks[1] === 35)
         ) || (ui.picks[0] === 33
-          && ((ui.picks[1] === 30 || ui.picks[1] === 32 || ui.picks[1] === 36))
+          && (ui.picks[1] === 30 || ui.picks[1] === 32 || ui.picks[1] === 36)
         ) || (ui.picks[0] === 34
-          && ((ui.picks[1] === 31 || ui.picks[1] === 35))
+          && (ui.picks[1] === 31 || ui.picks[1] === 35)
         ) || (ui.picks[0] === 35
-          && ((ui.picks[1] === 32 || ui.picks[1] === 34 || ui.picks[1] === 36))
+          && (ui.picks[1] === 32 || ui.picks[1] === 34 || ui.picks[1] === 36)
         ) || (ui.picks[0] === 36
-          && ((ui.picks[1] === 33 || ui.picks[1] === 35))
+          && (ui.picks[1] === 33 || ui.picks[1] === 35)
         ))
       ) {
-        // console.log('OK!');
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Street'
+      && (((inArray(ui.lastThreePicks, 0) === true)
+        && (inArray(ui.lastThreePicks, 1) === true)
+        && (inArray(ui.lastThreePicks, 2) === true))
+      || ((inArray(ui.lastThreePicks, 0) === true)
+        && (inArray(ui.lastThreePicks, 37) === true)
+        && (inArray(ui.lastThreePicks, 2) === true))
+      || ((inArray(ui.lastThreePicks, 37) === true)
+        && (inArray(ui.lastThreePicks, 3) === true)
+        && (inArray(ui.lastThreePicks, 2) === true))
+      || ((inArray(ui.lastThreePicks, 1) === true)
+        && (inArray(ui.lastThreePicks, 2) === true)
+        && (inArray(ui.lastThreePicks, 3) === true))
+      || ((inArray(ui.lastThreePicks, 4) === true)
+        && (inArray(ui.lastThreePicks, 5) === true)
+        && (inArray(ui.lastThreePicks, 6) === true))
+      || ((inArray(ui.lastThreePicks, 7) === true)
+        && (inArray(ui.lastThreePicks, 8) === true)
+        && (inArray(ui.lastThreePicks, 9) === true))
+      || ((inArray(ui.lastThreePicks, 10) === true)
+        && (inArray(ui.lastThreePicks, 11) === true)
+        && (inArray(ui.lastThreePicks, 12) === true))
+      || ((inArray(ui.lastThreePicks, 13) === true)
+        && (inArray(ui.lastThreePicks, 14) === true)
+        && (inArray(ui.lastThreePicks, 15) === true))
+      || ((inArray(ui.lastThreePicks, 16) === true)
+        && (inArray(ui.lastThreePicks, 17) === true)
+        && (inArray(ui.lastThreePicks, 18) === true))
+      || ((inArray(ui.lastThreePicks, 19) === true)
+        && (inArray(ui.lastThreePicks, 20) === true)
+        && (inArray(ui.lastThreePicks, 21) === true))
+      || ((inArray(ui.lastThreePicks, 22) === true)
+        && (inArray(ui.lastThreePicks, 23) === true)
+        && (inArray(ui.lastThreePicks, 24) === true))
+      || ((inArray(ui.lastThreePicks, 25) === true)
+        && (inArray(ui.lastThreePicks, 26) === true)
+        && (inArray(ui.lastThreePicks, 27) === true))
+      || ((inArray(ui.lastThreePicks, 28) === true)
+        && (inArray(ui.lastThreePicks, 29) === true)
+        && (inArray(ui.lastThreePicks, 30) === true))
+      || ((inArray(ui.lastThreePicks, 31) === true)
+        && (inArray(ui.lastThreePicks, 32) === true)
+        && (inArray(ui.lastThreePicks, 33) === true))
+      || ((inArray(ui.lastThreePicks, 34) === true)
+        && (inArray(ui.lastThreePicks, 35) === true)
+        && (inArray(ui.lastThreePicks, 36) === true)))) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;
