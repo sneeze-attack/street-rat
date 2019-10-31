@@ -196,6 +196,23 @@ export default class RouletteScene extends Phaser.Scene {
       cornerSelection.call(this);
     });
 
+    // sucker bet button code
+    function suckerSelection() {
+      ui.payout = 6;
+      ui.betType = 'Sucker';
+      ui.typeChosen();
+      ui.suckerBet();
+    }
+    ui.suckerBetBox.on('pointerup', () => {
+      suckerSelection.call(this);
+    });
+    ui.suckerBetBoxBorder.on('pointerup', () => {
+      suckerSelection.call(this);
+    });
+    ui.suckerBetText.on('pointerup', () => {
+      suckerSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -323,6 +340,12 @@ export default class RouletteScene extends Phaser.Scene {
       ui.lastFourPicks.push(ui.picks[1]);
       ui.lastFourPicks.push(ui.picks[2]);
       ui.lastFourPicks.push(ui.picks[3]);
+      ui.suckerPicks = [];
+      ui.suckerPicks.push(ui.picks[0]);
+      ui.suckerPicks.push(ui.picks[1]);
+      ui.suckerPicks.push(ui.picks[2]);
+      ui.suckerPicks.push(ui.picks[3]);
+      ui.suckerPicks.push(ui.picks[4]);
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
@@ -550,6 +573,16 @@ export default class RouletteScene extends Phaser.Scene {
         && (inArray(ui.lastFourPicks, 33) === true)
         && (inArray(ui.lastFourPicks, 35) === true)
         && (inArray(ui.lastFourPicks, 36) === true)))) {
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Sucker'
+      && (inArray(ui.suckerPicks, 0) === true)
+        && (inArray(ui.suckerPicks, 37) === true)
+        && (inArray(ui.suckerPicks, 1) === true)
+        && (inArray(ui.suckerPicks, 2) === true)
+        && (inArray(ui.suckerPicks, 3) === true)) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;
