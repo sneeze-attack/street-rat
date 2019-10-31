@@ -179,6 +179,23 @@ export default class RouletteScene extends Phaser.Scene {
       streetSelection.call(this);
     });
 
+    // corner bet button code
+    function cornerSelection() {
+      ui.payout = 8;
+      ui.betType = 'Corner';
+      ui.typeChosen();
+      ui.cornerBet();
+    }
+    ui.cornerBetBox.on('pointerup', () => {
+      cornerSelection.call(this);
+    });
+    ui.cornerBetBoxBorder.on('pointerup', () => {
+      cornerSelection.call(this);
+    });
+    ui.cornerBetText.on('pointerup', () => {
+      cornerSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -301,6 +318,11 @@ export default class RouletteScene extends Phaser.Scene {
       ui.lastThreePicks.push(ui.picks[0]);
       ui.lastThreePicks.push(ui.picks[1]);
       ui.lastThreePicks.push(ui.picks[2]);
+      ui.lastFourPicks = [];
+      ui.lastFourPicks.push(ui.picks[0]);
+      ui.lastFourPicks.push(ui.picks[1]);
+      ui.lastFourPicks.push(ui.picks[2]);
+      ui.lastFourPicks.push(ui.picks[3]);
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
@@ -435,6 +457,99 @@ export default class RouletteScene extends Phaser.Scene {
       || ((inArray(ui.lastThreePicks, 34) === true)
         && (inArray(ui.lastThreePicks, 35) === true)
         && (inArray(ui.lastThreePicks, 36) === true)))) {
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Corner'
+      && (((inArray(ui.lastFourPicks, 1) === true)
+        && (inArray(ui.lastFourPicks, 2) === true)
+        && (inArray(ui.lastFourPicks, 5) === true)
+        && (inArray(ui.lastFourPicks, 4) === true))
+      || ((inArray(ui.lastFourPicks, 2) === true)
+        && (inArray(ui.lastFourPicks, 3) === true)
+        && (inArray(ui.lastFourPicks, 6) === true)
+        && (inArray(ui.lastFourPicks, 5) === true))
+      || ((inArray(ui.lastFourPicks, 4) === true)
+        && (inArray(ui.lastFourPicks, 7) === true)
+        && (inArray(ui.lastFourPicks, 8) === true)
+        && (inArray(ui.lastFourPicks, 5) === true))
+      || ((inArray(ui.lastFourPicks, 5) === true)
+        && (inArray(ui.lastFourPicks, 8) === true)
+        && (inArray(ui.lastFourPicks, 9) === true)
+        && (inArray(ui.lastFourPicks, 6) === true))
+      || ((inArray(ui.lastFourPicks, 7) === true)
+        && (inArray(ui.lastFourPicks, 10) === true)
+        && (inArray(ui.lastFourPicks, 11) === true)
+        && (inArray(ui.lastFourPicks, 8) === true))
+      || ((inArray(ui.lastFourPicks, 8) === true)
+        && (inArray(ui.lastFourPicks, 11) === true)
+        && (inArray(ui.lastFourPicks, 12) === true)
+        && (inArray(ui.lastFourPicks, 9) === true))
+      || ((inArray(ui.lastFourPicks, 10) === true)
+        && (inArray(ui.lastFourPicks, 11) === true)
+        && (inArray(ui.lastFourPicks, 14) === true)
+        && (inArray(ui.lastFourPicks, 13) === true))
+      || ((inArray(ui.lastFourPicks, 11) === true)
+        && (inArray(ui.lastFourPicks, 12) === true)
+        && (inArray(ui.lastFourPicks, 15) === true)
+        && (inArray(ui.lastFourPicks, 14) === true))
+      || ((inArray(ui.lastFourPicks, 13) === true)
+        && (inArray(ui.lastFourPicks, 14) === true)
+        && (inArray(ui.lastFourPicks, 17) === true)
+        && (inArray(ui.lastFourPicks, 16) === true))
+      || ((inArray(ui.lastFourPicks, 14) === true)
+        && (inArray(ui.lastFourPicks, 15) === true)
+        && (inArray(ui.lastFourPicks, 18) === true)
+        && (inArray(ui.lastFourPicks, 17) === true))
+      || ((inArray(ui.lastFourPicks, 16) === true)
+        && (inArray(ui.lastFourPicks, 17) === true)
+        && (inArray(ui.lastFourPicks, 20) === true)
+        && (inArray(ui.lastFourPicks, 19) === true))
+      || ((inArray(ui.lastFourPicks, 17) === true)
+        && (inArray(ui.lastFourPicks, 18) === true)
+        && (inArray(ui.lastFourPicks, 21) === true)
+        && (inArray(ui.lastFourPicks, 20) === true))
+      || ((inArray(ui.lastFourPicks, 19) === true)
+        && (inArray(ui.lastFourPicks, 20) === true)
+        && (inArray(ui.lastFourPicks, 23) === true)
+        && (inArray(ui.lastFourPicks, 22) === true))
+      || ((inArray(ui.lastFourPicks, 20) === true)
+        && (inArray(ui.lastFourPicks, 21) === true)
+        && (inArray(ui.lastFourPicks, 23) === true)
+        && (inArray(ui.lastFourPicks, 24) === true))
+      || ((inArray(ui.lastFourPicks, 22) === true)
+        && (inArray(ui.lastFourPicks, 23) === true)
+        && (inArray(ui.lastFourPicks, 25) === true)
+        && (inArray(ui.lastFourPicks, 26) === true))
+      || ((inArray(ui.lastFourPicks, 23) === true)
+        && (inArray(ui.lastFourPicks, 24) === true)
+        && (inArray(ui.lastFourPicks, 26) === true)
+        && (inArray(ui.lastFourPicks, 27) === true))
+      || ((inArray(ui.lastFourPicks, 25) === true)
+        && (inArray(ui.lastFourPicks, 26) === true)
+        && (inArray(ui.lastFourPicks, 28) === true)
+        && (inArray(ui.lastFourPicks, 29) === true))
+      || ((inArray(ui.lastFourPicks, 26) === true)
+        && (inArray(ui.lastFourPicks, 27) === true)
+        && (inArray(ui.lastFourPicks, 29) === true)
+        && (inArray(ui.lastFourPicks, 30) === true))
+      || ((inArray(ui.lastFourPicks, 28) === true)
+        && (inArray(ui.lastFourPicks, 29) === true)
+        && (inArray(ui.lastFourPicks, 31) === true)
+        && (inArray(ui.lastFourPicks, 32) === true))
+      || ((inArray(ui.lastFourPicks, 29) === true)
+        && (inArray(ui.lastFourPicks, 30) === true)
+        && (inArray(ui.lastFourPicks, 32) === true)
+        && (inArray(ui.lastFourPicks, 33) === true))
+      || ((inArray(ui.lastFourPicks, 31) === true)
+        && (inArray(ui.lastFourPicks, 32) === true)
+        && (inArray(ui.lastFourPicks, 34) === true)
+        && (inArray(ui.lastFourPicks, 35) === true))
+      || ((inArray(ui.lastFourPicks, 32) === true)
+        && (inArray(ui.lastFourPicks, 33) === true)
+        && (inArray(ui.lastFourPicks, 35) === true)
+        && (inArray(ui.lastFourPicks, 36) === true)))) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;

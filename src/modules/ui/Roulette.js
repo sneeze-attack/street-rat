@@ -189,6 +189,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     const picksListLineOne = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 44.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
     const picksListLineTwo = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 52.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
     const picksListLineThree = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 60.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
+    const picksListLineFour = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 68.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
 
     const payoutText = scene.add.text(((config.scale.width * 93.5) / 128), ((config.scale.height * 96.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     const clickToContinueText = scene.add.text(((config.scale.width * 55.5) / 128), ((config.scale.height * 107) / 128), 'click to continue').setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(16).setDepth(0);
@@ -317,6 +318,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.messageTextLineThree = messageTextLineThree;
     this.picks = [];
     this.lastThreePicks = [];
+    this.lastFourPicks = [];
     this.confirmBetBoxBorder = confirmBetBoxBorder;
     this.confirmBetBox = confirmBetBox;
     this.confirmBetText = confirmBetText;
@@ -326,6 +328,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineOne = picksListLineOne;
     this.picksListLineTwo = picksListLineTwo;
     this.picksListLineThree = picksListLineThree;
+    this.picksListLineFour = picksListLineFour;
     this.payoutText = payoutText;
     this.betType = betType;
     this.resultsShadeBox = resultsShadeBox;
@@ -495,6 +498,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineOne.setText('');
     this.picksListLineTwo.setText('');
     this.picksListLineThree.setText('');
+    this.picksListLineFour.setText('');
   }
 
   addPick(pick) {
@@ -521,6 +525,11 @@ export default class Roulette extends Phaser.GameObjects.Group {
       this.picksListLineThree.setText('00');
     } else {
       this.picksListLineThree.setText(this.picks[2]);
+    }
+    if (this.picks[3] === 37) {
+      this.picksListLineFour.setText('00');
+    } else {
+      this.picksListLineFour.setText(this.picks[3]);
     }
   }
 
@@ -577,6 +586,17 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setText('         Lose');
         this.yourMessage.setColor('#A00000');
       }
+    } else if (this.betType === 'Corner') {
+      index = this.lastFourPicks.findIndex(x => x==result);
+      if (index >= 0) {
+        amount = this.betAmount * this.payout;
+        this.yourMessage.setText(`You win ${amount} credits!`);
+        this.yourMessage.setColor('#33FF00');
+      } else {
+        amount = this.betAmount * -1;
+        this.yourMessage.setText('         Lose');
+        this.yourMessage.setColor('#A00000');
+      }
     }
 
     // check for 37 in chosenPicks, if present, convert to '00'
@@ -591,6 +611,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.yourBetType.setText(`Your bet type: ${this.betType}`);
     if (this.betType === 'Street') {
       this.yourNumbers.setText(`Your numbers:  ${this.lastThreePicks}`);
+    } else if (this.betType === 'Corner') {
+      this.yourNumbers.setText(`Your numbers:  ${this.lastFourPicks}`);
     } else {
       this.yourNumbers.setText(`Your numbers:  ${this.chosenPicks}`);
     }
@@ -631,6 +653,14 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.messageTextLineThree.setText("Choose 'Confirm Bet' when ready");
   }
 
+  cornerBet() {
+    this.picksListLineTwo.setDepth(3);
+    this.picksListLineThree.setDepth(3);
+    this.picksListLineFour.setDepth(3);
+    this.messageTextLineOne.setText('Choose any four numbers whose corners touch');
+    this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+  }
+
   resetScene() {
     this.resultsShadeBox.setDepth(0);
     this.resultsBoxBorder.setDepth(0);
@@ -654,6 +684,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineOne.setDepth(0);
     this.picksListLineTwo.setDepth(0);
     this.picksListLineThree.setDepth(0);
+    this.picksListLineFour.setDepth(0);
     this.payoutText.setDepth(0);
     this.topLine.setDepth(0);
     this.bottomLine.setDepth(0);
@@ -663,6 +694,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.betAmount = 0;
     this.betType = null;
     this.payout = 1;
+    this.messageTextLineThree.setText('');
     this.clearPicks();
   }
 }
