@@ -1064,6 +1064,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.betType = null;
     this.payout = 1;
     this.messageTextLineThree.setText('');
+    this.yourNumbersTwo.setText('');
+    this.yourNumbersThree.setText('');
     this.clearPicks();
   }
 }
