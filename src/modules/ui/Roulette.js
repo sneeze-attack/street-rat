@@ -705,6 +705,18 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setText('         Lose');
         this.yourMessage.setColor('#A00000');
       }
+    } else if (this.betType === 'Dozen') {
+      // TODO use chosenPicks instead of rowPicks
+      index = this.rowPicks.findIndex(x => x==result);
+      if (index >= 0) {
+        amount = this.betAmount * this.payout;
+        this.yourMessage.setText(`You win ${amount} credits!`);
+        this.yourMessage.setColor('#33FF00');
+      } else {
+        amount = this.betAmount * -1;
+        this.yourMessage.setText('         Lose');
+        this.yourMessage.setColor('#A00000');
+      }
     }
 
     // check for 37 in chosenPicks, if present, convert to '00'
@@ -766,6 +778,9 @@ export default class Roulette extends Phaser.GameObjects.Group {
     } else if (this.betType === 'Line') {
       this.yourNumbers.setText(`Your numbers:  ${this.linePicks}`);
     } else if (this.betType === 'Row') {
+      this.yourNumbers.setText(`Your numbers:  ${this.rowPicks[0]},${this.rowPicks[1]},${this.rowPicks[2]},${this.rowPicks[3]},${this.rowPicks[4]},${this.rowPicks[5]},`);
+      this.yourNumbersTwo.setText(`               ${this.rowPicks[6]},${this.rowPicks[7]},${this.rowPicks[8]},${this.rowPicks[9]},${this.rowPicks[10]},${this.rowPicks[11]}`);
+    } else if (this.betType === 'Dozen') {
       this.yourNumbers.setText(`Your numbers:  ${this.rowPicks[0]},${this.rowPicks[1]},${this.rowPicks[2]},${this.rowPicks[3]},${this.rowPicks[4]},${this.rowPicks[5]},`);
       this.yourNumbersTwo.setText(`               ${this.rowPicks[6]},${this.rowPicks[7]},${this.rowPicks[8]},${this.rowPicks[9]},${this.rowPicks[10]},${this.rowPicks[11]}`);
     } else {
@@ -848,6 +863,22 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineEleven.setDepth(3);
     this.picksListLineTwelve.setDepth(3);
     this.messageTextLineOne.setText("Click any '2-1' button next to chosen row");
+    this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+  }
+
+  dozenBet() {
+    this.picksListLineTwo.setDepth(3);
+    this.picksListLineThree.setDepth(3);
+    this.picksListLineFour.setDepth(3);
+    this.picksListLineFive.setDepth(3);
+    this.picksListLineSix.setDepth(3);
+    this.picksListLineSeven.setDepth(3);
+    this.picksListLineEight.setDepth(3);
+    this.picksListLineNine.setDepth(3);
+    this.picksListLineTen.setDepth(3);
+    this.picksListLineEleven.setDepth(3);
+    this.picksListLineTwelve.setDepth(3);
+    this.messageTextLineOne.setText("Click '1st 12', '2nd 12', or '3rd 12'");
     this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
   }
 
