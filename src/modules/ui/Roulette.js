@@ -162,15 +162,15 @@ export default class Roulette extends Phaser.GameObjects.Group {
     // color bet, 2 to 1, red or black
     const colorBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 56.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
     const colorBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 57) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
-    const colorBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 56.9) / 128), 'Color: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+    const colorBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 56.9) / 128), 'Color: 1 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     // even/odd bet, 2 to 1
     const evenOddBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 66.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
     const evenOddBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 67) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
-    const evenOddBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 66.9) / 128), 'Even/Odd: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+    const evenOddBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 66.9) / 128), 'Even/Odd: 1 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     // low/high bet, 2 to 1, 1-18 or 19-36
     const lowHighBetBoxBorder = scene.add.rectangle(((config.scale.width * 48) / 128), ((config.scale.height * 76.9) / 128), ((config.scale.width * 40) / 128), ((config.scale.height * 7) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
     const lowHighBetBox = scene.add.rectangle(((config.scale.width * 48.5) / 128), ((config.scale.height * 77) / 128), ((config.scale.width * 39) / 128), ((config.scale.height * 6.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
-    const lowHighBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 76.9) / 128), 'Low/High: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
+    const lowHighBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 76.9) / 128), 'Low/High: 1 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 
     // message pop-up box
     const messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 84) / 128), ((config.scale.height * 21) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
