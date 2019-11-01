@@ -213,6 +213,23 @@ export default class RouletteScene extends Phaser.Scene {
       suckerSelection.call(this);
     });
 
+    // line bet button code
+    function lineSelection() {
+      ui.payout = 5;
+      ui.betType = 'Line';
+      ui.typeChosen();
+      ui.lineBet();
+    }
+    ui.lineBetBox.on('pointerup', () => {
+      lineSelection.call(this);
+    });
+    ui.lineBetBoxBorder.on('pointerup', () => {
+      lineSelection.call(this);
+    });
+    ui.lineBetText.on('pointerup', () => {
+      lineSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -346,6 +363,13 @@ export default class RouletteScene extends Phaser.Scene {
       ui.suckerPicks.push(ui.picks[2]);
       ui.suckerPicks.push(ui.picks[3]);
       ui.suckerPicks.push(ui.picks[4]);
+      ui.linePicks = [];
+      ui.linePicks.push(ui.picks[0]);
+      ui.linePicks.push(ui.picks[1]);
+      ui.linePicks.push(ui.picks[2]);
+      ui.linePicks.push(ui.picks[3]);
+      ui.linePicks.push(ui.picks[4]);
+      ui.linePicks.push(ui.picks[5]);
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
@@ -583,6 +607,77 @@ export default class RouletteScene extends Phaser.Scene {
         && (inArray(ui.suckerPicks, 1) === true)
         && (inArray(ui.suckerPicks, 2) === true)
         && (inArray(ui.suckerPicks, 3) === true)) {
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Line'
+      && (((inArray(ui.linePicks, 1) === true)
+        && (inArray(ui.linePicks, 2) === true)
+        && (inArray(ui.linePicks, 3) === true)
+        && (inArray(ui.linePicks, 4) === true)
+        && (inArray(ui.linePicks, 5) === true)
+        && (inArray(ui.linePicks, 6) === true))
+      || ((inArray(ui.linePicks, 4) === true)
+        && (inArray(ui.linePicks, 5) === true)
+        && (inArray(ui.linePicks, 6) === true)
+        && (inArray(ui.linePicks, 7) === true)
+        && (inArray(ui.linePicks, 8) === true)
+        && (inArray(ui.linePicks, 9) === true))
+      || ((inArray(ui.linePicks, 7) === true)
+        && (inArray(ui.linePicks, 8) === true)
+        && (inArray(ui.linePicks, 9) === true)
+        && (inArray(ui.linePicks, 10) === true)
+        && (inArray(ui.linePicks, 11) === true)
+        && (inArray(ui.linePicks, 12) === true))
+      || ((inArray(ui.linePicks, 10) === true)
+        && (inArray(ui.linePicks, 11) === true)
+        && (inArray(ui.linePicks, 12) === true)
+        && (inArray(ui.linePicks, 13) === true)
+        && (inArray(ui.linePicks, 14) === true)
+        && (inArray(ui.linePicks, 15) === true))
+      || ((inArray(ui.linePicks, 13) === true)
+        && (inArray(ui.linePicks, 14) === true)
+        && (inArray(ui.linePicks, 15) === true)
+        && (inArray(ui.linePicks, 16) === true)
+        && (inArray(ui.linePicks, 17) === true)
+        && (inArray(ui.linePicks, 18) === true))
+      || ((inArray(ui.linePicks, 16) === true)
+        && (inArray(ui.linePicks, 17) === true)
+        && (inArray(ui.linePicks, 18) === true)
+        && (inArray(ui.linePicks, 19) === true)
+        && (inArray(ui.linePicks, 20) === true)
+        && (inArray(ui.linePicks, 21) === true))
+      || ((inArray(ui.linePicks, 19) === true)
+        && (inArray(ui.linePicks, 20) === true)
+        && (inArray(ui.linePicks, 21) === true)
+        && (inArray(ui.linePicks, 22) === true)
+        && (inArray(ui.linePicks, 23) === true)
+        && (inArray(ui.linePicks, 24) === true))
+      || ((inArray(ui.linePicks, 22) === true)
+        && (inArray(ui.linePicks, 23) === true)
+        && (inArray(ui.linePicks, 24) === true)
+        && (inArray(ui.linePicks, 25) === true)
+        && (inArray(ui.linePicks, 26) === true)
+        && (inArray(ui.linePicks, 27) === true))
+      || ((inArray(ui.linePicks, 25) === true)
+        && (inArray(ui.linePicks, 26) === true)
+        && (inArray(ui.linePicks, 27) === true)
+        && (inArray(ui.linePicks, 28) === true)
+        && (inArray(ui.linePicks, 29) === true)
+        && (inArray(ui.linePicks, 30) === true))
+      || ((inArray(ui.linePicks, 28) === true)
+        && (inArray(ui.linePicks, 29) === true)
+        && (inArray(ui.linePicks, 30) === true)
+        && (inArray(ui.linePicks, 31) === true)
+        && (inArray(ui.linePicks, 32) === true)
+        && (inArray(ui.linePicks, 33) === true))
+      || ((inArray(ui.linePicks, 31) === true)
+        && (inArray(ui.linePicks, 32) === true)
+        && (inArray(ui.linePicks, 33) === true)
+        && (inArray(ui.linePicks, 34) === true)
+        && (inArray(ui.linePicks, 35) === true)
+        && (inArray(ui.linePicks, 36) === true)))) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;

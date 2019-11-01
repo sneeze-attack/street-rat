@@ -173,8 +173,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
     const lowHighBetText = scene.add.text(((config.scale.width * 49) / 128), ((config.scale.height * 76.9) / 128), 'Low/High: 2 to 1').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
 
     // message pop-up box
-    const messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 80) / 128), ((config.scale.height * 21) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
-    const messageBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 79) / 128), ((config.scale.height * 20.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+    const messageBoxBorder = scene.add.rectangle(((config.scale.width * 3) / 128), ((config.scale.height * 36.9) / 128), ((config.scale.width * 84) / 128), ((config.scale.height * 21) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+    const messageBox = scene.add.rectangle(((config.scale.width * 3.5) / 128), ((config.scale.height * 37) / 128), ((config.scale.width * 83) / 128), ((config.scale.height * 20.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
     const messageTextLineOne = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 36.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     const messageTextLineTwo = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 43.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     const messageTextLineThree = scene.add.text(((config.scale.width * 4) / 128), ((config.scale.height * 50.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
@@ -191,6 +191,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     const picksListLineThree = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 60.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
     const picksListLineFour = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 68.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
     const picksListLineFive = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 76.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
+    const picksListLineSix = scene.add.text(((config.scale.width * 95) / 128), ((config.scale.height * 84.4) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(48).setDepth(0);
 
     const payoutText = scene.add.text(((config.scale.width * 93.5) / 128), ((config.scale.height * 96.9) / 128), '').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(32).setDepth(0);
     const clickToContinueText = scene.add.text(((config.scale.width * 55.5) / 128), ((config.scale.height * 107) / 128), 'click to continue').setColor('#A9A9A9').setFontFamily('"DejaVu Sans Mono"').setFontSize(16).setDepth(0);
@@ -321,6 +322,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.lastThreePicks = [];
     this.lastFourPicks = [];
     this.suckerPicks = [];
+    this.linePicks = [];
     this.confirmBetBoxBorder = confirmBetBoxBorder;
     this.confirmBetBox = confirmBetBox;
     this.confirmBetText = confirmBetText;
@@ -332,6 +334,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineThree = picksListLineThree;
     this.picksListLineFour = picksListLineFour;
     this.picksListLineFive = picksListLineFive;
+    this.picksListLineSix = picksListLineSix;
     this.payoutText = payoutText;
     this.betType = betType;
     this.resultsShadeBox = resultsShadeBox;
@@ -503,6 +506,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineThree.setText('');
     this.picksListLineFour.setText('');
     this.picksListLineFive.setText('');
+    this.picksListLineSix.setText('');
   }
 
   addPick(pick) {
@@ -539,6 +543,11 @@ export default class Roulette extends Phaser.GameObjects.Group {
       this.picksListLineFive.setText('00');
     } else {
       this.picksListLineFive.setText(this.picks[4]);
+    }
+    if (this.picks[5] === 37) {
+      this.picksListLineSix.setText('00');
+    } else {
+      this.picksListLineSix.setText(this.picks[5]);
     }
   }
 
@@ -585,6 +594,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setColor('#A00000');
       }
     } else if (this.betType === 'Street') {
+      // TODO use chosenPicks instead of lastThreePicks
       index = this.lastThreePicks.findIndex(x => x==result);
       if (index >= 0) {
         amount = this.betAmount * this.payout;
@@ -596,6 +606,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setColor('#A00000');
       }
     } else if (this.betType === 'Corner') {
+      // TODO use chosenPicks instead of lastFourPicks
       index = this.lastFourPicks.findIndex(x => x==result);
       if (index >= 0) {
         amount = this.betAmount * this.payout;
@@ -607,7 +618,20 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setColor('#A00000');
       }
     } else if (this.betType === 'Sucker') {
+      // TODO use chosenPicks instead of suckerPicks
       index = this.suckerPicks.findIndex(x => x==result);
+      if (index >= 0) {
+        amount = this.betAmount * this.payout;
+        this.yourMessage.setText(`You win ${amount} credits!`);
+        this.yourMessage.setColor('#33FF00');
+      } else {
+        amount = this.betAmount * -1;
+        this.yourMessage.setText('         Lose');
+        this.yourMessage.setColor('#A00000');
+      }
+    } else if (this.betType === 'Line') {
+      // TODO use chosenPicks instead of linePicks
+      index = this.linePicks.findIndex(x => x==result);
       if (index >= 0) {
         amount = this.betAmount * this.payout;
         this.yourMessage.setText(`You win ${amount} credits!`);
@@ -651,6 +675,14 @@ export default class Roulette extends Phaser.GameObjects.Group {
       this.suckerPicks.push('00');
     }
 
+    // check for 37 in linePicks, if present, convert to '00'
+    const checkForThirtySevenlp = this.linePicks.findIndex(x => x==37);
+    // if found within linePicks array, remove and replace with '00'
+    if (checkForThirtySevenlp >= 1) {
+      this.linePicks.splice(checkForThirtySevenlp, 1);
+      this.linePicks.push('00');
+    }
+
     this.scoreNumber.setText(resultText);
     this.yourBetType.setText(`Your bet type: ${this.betType}`);
     if (this.betType === 'Street') {
@@ -659,6 +691,8 @@ export default class Roulette extends Phaser.GameObjects.Group {
       this.yourNumbers.setText(`Your numbers:  ${this.lastFourPicks}`);
     } else if (this.betType === 'Sucker') {
       this.yourNumbers.setText(`Your numbers:  ${this.suckerPicks}`);
+    } else if (this.betType === 'Line') {
+      this.yourNumbers.setText(`Your numbers:  ${this.linePicks}`);
     } else {
       this.yourNumbers.setText(`Your numbers:  ${this.chosenPicks}`);
     }
@@ -715,6 +749,16 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
   }
 
+  lineBet() {
+    this.picksListLineTwo.setDepth(3);
+    this.picksListLineThree.setDepth(3);
+    this.picksListLineFour.setDepth(3);
+    this.picksListLineFive.setDepth(3);
+    this.picksListLineSix.setDepth(3);
+    this.messageTextLineOne.setText('Click six numbers within two adjacent columns');
+    this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+  }
+
   resetScene() {
     this.resultsShadeBox.setDepth(0);
     this.resultsBoxBorder.setDepth(0);
@@ -740,6 +784,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineThree.setDepth(0);
     this.picksListLineFour.setDepth(0);
     this.picksListLineFive.setDepth(0);
+    this.picksListLineSix.setDepth(0);
     this.payoutText.setDepth(0);
     this.topLine.setDepth(0);
     this.bottomLine.setDepth(0);
