@@ -230,6 +230,23 @@ export default class RouletteScene extends Phaser.Scene {
       lineSelection.call(this);
     });
 
+    // row bet button code
+    function rowSelection() {
+      ui.payout = 2;
+      ui.betType = 'Row';
+      ui.typeChosen();
+      ui.rowBet();
+    }
+    ui.rowBetBox.on('pointerup', () => {
+      rowSelection.call(this);
+    });
+    ui.rowBetBoxBorder.on('pointerup', () => {
+      rowSelection.call(this);
+    });
+    ui.rowBetText.on('pointerup', () => {
+      rowSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -345,6 +362,48 @@ export default class RouletteScene extends Phaser.Scene {
     ui.doubleZeroButton.on('pointerup', () => {
       ui.addPick(37);
     });
+    ui.topTwoToOneButton.on('pointerup', () => {
+      ui.addPick(36);
+      ui.addPick(33);
+      ui.addPick(30);
+      ui.addPick(27);
+      ui.addPick(24);
+      ui.addPick(21);
+      ui.addPick(18);
+      ui.addPick(15);
+      ui.addPick(12);
+      ui.addPick(9);
+      ui.addPick(6);
+      ui.addPick(3);
+    });
+    ui.middleTwoToOneButton.on('pointerup', () => {
+      ui.addPick(35);
+      ui.addPick(32);
+      ui.addPick(29);
+      ui.addPick(26);
+      ui.addPick(23);
+      ui.addPick(20);
+      ui.addPick(17);
+      ui.addPick(14);
+      ui.addPick(11);
+      ui.addPick(8);
+      ui.addPick(5);
+      ui.addPick(2);
+    });
+    ui.bottomTwoToOneButton.on('pointerup', () => {
+      ui.addPick(34);
+      ui.addPick(31);
+      ui.addPick(28);
+      ui.addPick(25);
+      ui.addPick(22);
+      ui.addPick(19);
+      ui.addPick(16);
+      ui.addPick(13);
+      ui.addPick(10);
+      ui.addPick(7);
+      ui.addPick(4);
+      ui.addPick(1);
+    });
 
     function confirmBet() {
       let net;
@@ -370,6 +429,19 @@ export default class RouletteScene extends Phaser.Scene {
       ui.linePicks.push(ui.picks[3]);
       ui.linePicks.push(ui.picks[4]);
       ui.linePicks.push(ui.picks[5]);
+      ui.rowPicks = [];
+      ui.rowPicks.push(ui.picks[0]);
+      ui.rowPicks.push(ui.picks[1]);
+      ui.rowPicks.push(ui.picks[2]);
+      ui.rowPicks.push(ui.picks[3]);
+      ui.rowPicks.push(ui.picks[4]);
+      ui.rowPicks.push(ui.picks[5]);
+      ui.rowPicks.push(ui.picks[6]);
+      ui.rowPicks.push(ui.picks[7]);
+      ui.rowPicks.push(ui.picks[8]);
+      ui.rowPicks.push(ui.picks[9]);
+      ui.rowPicks.push(ui.picks[10]);
+      ui.rowPicks.push(ui.picks[11]);
       if (ui.picks[0] && ui.betType === 'Straight-Up') {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
@@ -678,6 +750,47 @@ export default class RouletteScene extends Phaser.Scene {
         && (inArray(ui.linePicks, 34) === true)
         && (inArray(ui.linePicks, 35) === true)
         && (inArray(ui.linePicks, 36) === true)))) {
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Row'
+      && (((inArray(ui.rowPicks, 3) === true)
+        && (inArray(ui.rowPicks, 6) === true)
+        && (inArray(ui.rowPicks, 9) === true)
+        && (inArray(ui.rowPicks, 12) === true)
+        && (inArray(ui.rowPicks, 15) === true)
+        && (inArray(ui.rowPicks, 18) === true)
+        && (inArray(ui.rowPicks, 21) === true)
+        && (inArray(ui.rowPicks, 24) === true)
+        && (inArray(ui.rowPicks, 27) === true)
+        && (inArray(ui.rowPicks, 30) === true)
+        && (inArray(ui.rowPicks, 33) === true)
+        && (inArray(ui.rowPicks, 36) === true))
+      || ((inArray(ui.rowPicks, 2) === true)
+        && (inArray(ui.rowPicks, 5) === true)
+        && (inArray(ui.rowPicks, 8) === true)
+        && (inArray(ui.rowPicks, 11) === true)
+        && (inArray(ui.rowPicks, 14) === true)
+        && (inArray(ui.rowPicks, 17) === true)
+        && (inArray(ui.rowPicks, 20) === true)
+        && (inArray(ui.rowPicks, 23) === true)
+        && (inArray(ui.rowPicks, 26) === true)
+        && (inArray(ui.rowPicks, 29) === true)
+        && (inArray(ui.rowPicks, 32) === true)
+        && (inArray(ui.rowPicks, 35) === true))
+      || ((inArray(ui.rowPicks, 1) === true)
+        && (inArray(ui.rowPicks, 4) === true)
+        && (inArray(ui.rowPicks, 7) === true)
+        && (inArray(ui.rowPicks, 10) === true)
+        && (inArray(ui.rowPicks, 13) === true)
+        && (inArray(ui.rowPicks, 16) === true)
+        && (inArray(ui.rowPicks, 19) === true)
+        && (inArray(ui.rowPicks, 22) === true)
+        && (inArray(ui.rowPicks, 25) === true)
+        && (inArray(ui.rowPicks, 28) === true)
+        && (inArray(ui.rowPicks, 31) === true)
+        && (inArray(ui.rowPicks, 34) === true)))) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;
