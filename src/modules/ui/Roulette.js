@@ -750,7 +750,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
         this.yourMessage.setText('         Lose');
         this.yourMessage.setColor('#A00000');
       }
-    } else if (this.betType === 'Color') {
+    } else if (this.betType === 'Color' || this.betType === 'Odd/Even') {
       // TODO use chosenPicks instead of colorPicks
       index = this.colorPicks.findIndex(x => x==result);
       if (index >= 0) {
@@ -834,7 +834,7 @@ export default class Roulette extends Phaser.GameObjects.Group {
     } else if (this.betType === 'Row' || this.betType === 'Dozen') {
       this.yourNumbers.setText(`Your numbers:  ${this.rowPicks[0]},${this.rowPicks[1]},${this.rowPicks[2]},${this.rowPicks[3]},${this.rowPicks[4]},${this.rowPicks[5]},`);
       this.yourNumbersTwo.setText(`               ${this.rowPicks[6]},${this.rowPicks[7]},${this.rowPicks[8]},${this.rowPicks[9]},${this.rowPicks[10]},${this.rowPicks[11]}`);
-    } else if (this.betType === 'Color') {
+    } else if (this.betType === 'Color' || this.betType === 'Odd/Even') {
       this.yourNumbers.setText(`Your numbers:  ${this.colorPicks[0]},${this.colorPicks[1]},${this.colorPicks[2]},${this.colorPicks[3]},${this.colorPicks[4]},${this.colorPicks[5]},`);
       this.yourNumbersTwo.setText(`               ${this.colorPicks[6]},${this.colorPicks[7]},${this.colorPicks[8]},${this.colorPicks[9]},${this.colorPicks[10]},${this.colorPicks[11]}`);
       this.yourNumbersThree.setText(`               ${this.colorPicks[12]},${this.colorPicks[13]},${this.colorPicks[14]},${this.colorPicks[15]},${this.colorPicks[16]},${this.colorPicks[17]}`);
@@ -957,6 +957,28 @@ export default class Roulette extends Phaser.GameObjects.Group {
     this.picksListLineSeventeen.setDepth(3);
     this.picksListLineEighteen.setDepth(3);
     this.messageTextLineOne.setText("Click 'RED' or 'BLACK'");
+    this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
+  }
+
+  oddEvenBet() {
+    this.picksListLineTwo.setDepth(3);
+    this.picksListLineThree.setDepth(3);
+    this.picksListLineFour.setDepth(3);
+    this.picksListLineFive.setDepth(3);
+    this.picksListLineSix.setDepth(3);
+    this.picksListLineSeven.setDepth(3);
+    this.picksListLineEight.setDepth(3);
+    this.picksListLineNine.setDepth(3);
+    this.picksListLineTen.setDepth(3);
+    this.picksListLineEleven.setDepth(3);
+    this.picksListLineTwelve.setDepth(3);
+    this.picksListLineThirteen.setDepth(3);
+    this.picksListLineFourteen.setDepth(3);
+    this.picksListLineFifteen.setDepth(3);
+    this.picksListLineSixteen.setDepth(3);
+    this.picksListLineSeventeen.setDepth(3);
+    this.picksListLineEighteen.setDepth(3);
+    this.messageTextLineOne.setText("Click 'EVEN' or 'ODD'");
     this.messageTextLineTwo.setText("Choose 'Confirm Bet' when ready");
   }
 

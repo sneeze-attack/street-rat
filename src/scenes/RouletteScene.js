@@ -281,6 +281,23 @@ export default class RouletteScene extends Phaser.Scene {
       colorSelection.call(this);
     });
 
+    // odd/even bet button code
+    function oddEvenSelection() {
+      ui.payout = 1;
+      ui.betType = 'Odd/Even';
+      ui.typeChosen();
+      ui.oddEvenBet();
+    }
+    ui.evenOddBetBox.on('pointerup', () => {
+      oddEvenSelection.call(this);
+    });
+    ui.evenOddBetBoxBorder.on('pointerup', () => {
+      oddEvenSelection.call(this);
+    });
+    ui.evenOddBetText.on('pointerup', () => {
+      oddEvenSelection.call(this);
+    });
+
     // Roulette numbers pick code
     ui.oneButton.on('pointerup', () => {
       ui.addPick(1);
@@ -519,6 +536,46 @@ export default class RouletteScene extends Phaser.Scene {
       ui.addPick(6);
       ui.addPick(4);
       ui.addPick(2);
+    });
+    ui.evenButton.on('pointerup', () => {
+      ui.addPick(36);
+      ui.addPick(34);
+      ui.addPick(32);
+      ui.addPick(30);
+      ui.addPick(28);
+      ui.addPick(26);
+      ui.addPick(24);
+      ui.addPick(22);
+      ui.addPick(20);
+      ui.addPick(18);
+      ui.addPick(16);
+      ui.addPick(14);
+      ui.addPick(12);
+      ui.addPick(10);
+      ui.addPick(8);
+      ui.addPick(6);
+      ui.addPick(4);
+      ui.addPick(2);
+    });
+    ui.oddButton.on('pointerup', () => {
+      ui.addPick(35);
+      ui.addPick(33);
+      ui.addPick(31);
+      ui.addPick(29);
+      ui.addPick(27);
+      ui.addPick(25);
+      ui.addPick(23);
+      ui.addPick(21);
+      ui.addPick(19);
+      ui.addPick(17);
+      ui.addPick(15);
+      ui.addPick(13);
+      ui.addPick(11);
+      ui.addPick(9);
+      ui.addPick(7);
+      ui.addPick(5);
+      ui.addPick(3);
+      ui.addPick(1);
     });
 
     function confirmBet() {
@@ -1009,6 +1066,47 @@ export default class RouletteScene extends Phaser.Scene {
         && (inArray(ui.colorPicks, 31) === true)
         && (inArray(ui.colorPicks, 33) === true)
         && (inArray(ui.colorPicks, 35) === true)))) {
+        result = ui.spinTheWheel();
+        net = ui.showSpinResults(result);
+        game.self.credits += net;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else if (ui.betType === 'Odd/Even'
+      && (((inArray(ui.colorPicks, 1) === true)
+        && (inArray(ui.colorPicks, 3) === true)
+        && (inArray(ui.colorPicks, 5) === true)
+        && (inArray(ui.colorPicks, 7) === true)
+        && (inArray(ui.colorPicks, 9) === true)
+        && (inArray(ui.colorPicks, 11) === true)
+        && (inArray(ui.colorPicks, 13) === true)
+        && (inArray(ui.colorPicks, 15) === true)
+        && (inArray(ui.colorPicks, 17) === true)
+        && (inArray(ui.colorPicks, 19) === true)
+        && (inArray(ui.colorPicks, 21) === true)
+        && (inArray(ui.colorPicks, 23) === true)
+        && (inArray(ui.colorPicks, 25) === true)
+        && (inArray(ui.colorPicks, 27) === true)
+        && (inArray(ui.colorPicks, 39) === true)
+        && (inArray(ui.colorPicks, 31) === true)
+        && (inArray(ui.colorPicks, 33) === true)
+        && (inArray(ui.colorPicks, 35) === true))
+      || ((inArray(ui.colorPicks, 2) === true)
+        && (inArray(ui.colorPicks, 4) === true)
+        && (inArray(ui.colorPicks, 6) === true)
+        && (inArray(ui.colorPicks, 8) === true)
+        && (inArray(ui.colorPicks, 10) === true)
+        && (inArray(ui.colorPicks, 12) === true)
+        && (inArray(ui.colorPicks, 14) === true)
+        && (inArray(ui.colorPicks, 16) === true)
+        && (inArray(ui.colorPicks, 18) === true)
+        && (inArray(ui.colorPicks, 20) === true)
+        && (inArray(ui.colorPicks, 22) === true)
+        && (inArray(ui.colorPicks, 24) === true)
+        && (inArray(ui.colorPicks, 26) === true)
+        && (inArray(ui.colorPicks, 28) === true)
+        && (inArray(ui.colorPicks, 30) === true)
+        && (inArray(ui.colorPicks, 32) === true)
+        && (inArray(ui.colorPicks, 34) === true)
+        && (inArray(ui.colorPicks, 36) === true)))) {
         result = ui.spinTheWheel();
         net = ui.showSpinResults(result);
         game.self.credits += net;
