@@ -1142,7 +1142,7 @@ export default class RouletteScene extends Phaser.Scene {
         && (inArray(ui.colorPicks, 23) === true)
         && (inArray(ui.colorPicks, 25) === true)
         && (inArray(ui.colorPicks, 27) === true)
-        && (inArray(ui.colorPicks, 39) === true)
+        && (inArray(ui.colorPicks, 29) === true)
         && (inArray(ui.colorPicks, 31) === true)
         && (inArray(ui.colorPicks, 33) === true)
         && (inArray(ui.colorPicks, 35) === true))
