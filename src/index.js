@@ -7,6 +7,7 @@ import ActionsScene from './scenes/ActionsScene';
 import GameOverScene from './scenes/GameOverScene';
 import GamblingScene from './scenes/GamblingScene';
 import RouletteScene from './scenes/RouletteScene';
+import PokerScene from './scenes/PokerScene';
 import GameState from './modules/GameState';
 import Player from './modules/Player';
 import MessageBox from './modules/MessageBox';
@@ -27,7 +28,8 @@ export const config = {
     ActionsScene,
     GameOverScene,
     GamblingScene,
-    RouletteScene
+    RouletteScene,
+    PokerScene
   ],
 };
 

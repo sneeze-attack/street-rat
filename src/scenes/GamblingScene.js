@@ -37,11 +37,18 @@ export default class GamblingScene extends Phaser.Scene {
     ui.rouletteText.on('pointerup', () => {
       game.gameState.changeScene('RouletteScene', 'GamblingScene');
     });
+
+    ui.pokerBox.on('pointerup', () => {
+      game.gameState.changeScene('PokerScene', 'GamblingScene');
+    });
+    ui.pokerText.on('pointerup', () => {
+      game.gameState.changeScene('PokerScene', 'GamblingScene');
+    });
   }
 
   update() {
     if (game.self.gameOver === true) {
-      game.gameState.changeScene('GameOverScene', 'GameScene');
+      game.gameState.changeScene('GameOverScene', 'GamblingScene');
     }
 
     // scene change logic
