@@ -21,7 +21,7 @@ export default class Gamble extends Phaser.GameObjects.Group {
     const rouletteBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 21) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     const rouletteText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 22) / 128), 'Roulette').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
     const pokerBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 33) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    const pokerText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 34) / 128), 'Poker').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
+    const pokerText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 34) / 128), 'Cards').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
     super(scene);
     this.optionsCog = optionsCog;
     this.backTextBox = backTextBox;
