@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
-import Poker from '../modules/ui/Poker';
+import Cards from '../modules/ui/Cards';
 import game from '../index';
 import japanBackgroundImg from '../assets/backgrounds/japan_1366_768.jpg';
 import cogImg from '../assets/icons/48x48/cog_white.png';
 
-export default class PokerScene extends Phaser.Scene {
+export default class CardsScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'PokerScene' });
+    super({ key: 'CardsScene' });
   }
 
   preload() {
@@ -19,17 +19,17 @@ export default class PokerScene extends Phaser.Scene {
     this.config = this.sys.game.config;
 
     // use object to set up UI
-    const ui = new Poker(this, game.self.gamblingScore);
+    const ui = new Cards(this, game.self.gamblingScore);
 
     ui.setScores();
     ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
     ui.messageTextLineOne.setText('Play a skill-based game of cards with 9 other players');
 
     ui.backButton.on('pointerup', () => {
-      game.gameState.changeScene('GamblingScene', 'PokerScene');
+      game.gameState.changeScene('GamblingScene', 'CardsScene');
     });
     ui.backTextBox.on('pointerup', () => {
-      game.gameState.changeScene('GamblingScene', 'PokerScene');
+      game.gameState.changeScene('GamblingScene', 'CardsScene');
     });
 
     ui.playText.on('pointerup', () => {
@@ -364,11 +364,11 @@ export default class PokerScene extends Phaser.Scene {
 
   update() {
     if (game.self.gameOver === true) {
-      game.gameState.changeScene('GameOverScene', 'PokerScene');
+      game.gameState.changeScene('GameOverScene', 'CardsScene');
     }
 
     // scene change logic
-    if (game.gameState.nextScene !== 'PokerScene') {
+    if (game.gameState.nextScene !== 'CardsScene') {
       this.scene.stop(game.gameState.previousScene);
       this.scene.start(game.gameState.nextScene);
     }

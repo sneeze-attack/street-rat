@@ -3,10 +3,10 @@ no-undef: off */
 import { config } from '../../index';
 import * as roll from '../utils/Roll';
 
-export default class Poker extends Phaser.GameObjects.Group {
-  // Intended for use only in PokerScene
+export default class Cards extends Phaser.GameObjects.Group {
+  // Intended for use only in CardsScene
 
-  // Poker requires scene which is usually 'this'
+  // Cards requires scene which is usually 'this'
   // gsgs is game.self.gamblingScore
   constructor(scene, gsgs) {
     // add black box (background)

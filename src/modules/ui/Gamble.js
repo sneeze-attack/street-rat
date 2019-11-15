@@ -17,18 +17,18 @@ export default class Gamble extends Phaser.GameObjects.Group {
     // back button
     const backTextBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 100) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     const backButton = scene.add.text(((config.scale.width * 24) / 128), ((config.scale.height * 101) / 128), 'Back').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
-    // game choices -- chance (roulette) or skill (poker using skill checks)
+    // game choices -- chance (roulette) or skill (cards using skill checks)
     const rouletteBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 21) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
     const rouletteText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 22) / 128), 'Roulette').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
-    const pokerBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 33) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
-    const pokerText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 34) / 128), 'Cards').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
+    const cardsBox = scene.add.rectangle(((config.scale.width * 18) / 128), ((config.scale.height * 33) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 8) / 128), 0x4D4E4F).setOrigin(0, 0).setInteractive();
+    const cardsText = scene.add.text(((config.scale.width * 21) / 128), ((config.scale.height * 34) / 128), 'Cards').setColor('#FFFFFF').setInteractive().setFontSize(32).setFontFamily('"DejaVu Sans Mono"');
     super(scene);
     this.optionsCog = optionsCog;
     this.backTextBox = backTextBox;
     this.backButton = backButton;
     this.rouletteBox = rouletteBox;
     this.rouletteText = rouletteText;
-    this.pokerBox = pokerBox;
-    this.pokerText = pokerText;
+    this.cardsBox = cardsBox;
+    this.cardsText = cardsText;
   }
 }
