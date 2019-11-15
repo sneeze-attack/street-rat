@@ -39,6 +39,10 @@ export default class Poker extends Phaser.GameObjects.Group {
     const foldBox = scene.add.rectangle(((config.scale.width * 16.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
     const foldText = scene.add.text(((config.scale.width * 17) / 128), ((config.scale.height * 46.9) / 128), 'Fold').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
 
+    const showBoxBorder = scene.add.rectangle(((config.scale.width * 16) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 21) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
+    const showBox = scene.add.rectangle(((config.scale.width * 16.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
+    const showText = scene.add.text(((config.scale.width * 17) / 128), ((config.scale.height * 46.9) / 128), 'Show').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
+
     const callBoxBorder = scene.add.rectangle(((config.scale.width * 41) / 128), ((config.scale.height * 46.9) / 128), ((config.scale.width * 21) / 128), ((config.scale.height * 13) / 128), 0xFFFFFF).setOrigin(0, 0).setDepth(0).setInteractive();
     const callBox = scene.add.rectangle(((config.scale.width * 41.5) / 128), ((config.scale.height * 47) / 128), ((config.scale.width * 20) / 128), ((config.scale.height * 12.8) / 128), 0x000000).setOrigin(0, 0).setDepth(0).setInteractive();
     const callText = scene.add.text(((config.scale.width * 42) / 128), ((config.scale.height * 46.9) / 128), 'Call').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
@@ -70,6 +74,9 @@ export default class Poker extends Phaser.GameObjects.Group {
     const sixteenCreditText = scene.add.text(((config.scale.width * 72) / 128), ((config.scale.height * 61.9) / 128), '16').setColor('#FFFFFF').setFontFamily('"DejaVu Sans Mono"').setInteractive().setFontSize(64).setDepth(0);
 
     super(scene);
+    this.showBoxBorder = showBoxBorder;
+    this.showBox = showBox;
+    this.showText = showText;
     this.allInBoxBorder = allInBoxBorder;
     this.allInBox = allInBox;
     this.allInText = allInText;
@@ -379,17 +386,131 @@ export default class Poker extends Phaser.GameObjects.Group {
       thisDiff = gs - this.playerRoll;
       this.playerDiff += gs - this.playerRoll;
       if (thisDiff > 8) {
-        this.messageTextLineOne.setText('You significantly improve your odds');
+        this.messageTextLineOne.setText('You greatly improve your odds in the second round');
       } else if (thisDiff > 5) {
-        this.messageTextLineOne.setText('You improve your odds');
+        this.messageTextLineOne.setText('You improve your odds in the second round');
       } else if (thisDiff > 2) {
-        this.messageTextLineOne.setText('You improve your odds a little');
+        this.messageTextLineOne.setText('You improve your odds a little in the second round');
       } else {
-        this.messageTextLineOne.setText("You don't improve your odds much");
+        this.messageTextLineOne.setText("You don't improve your odds much in the second round");
       }
-      // TO DO : continue here
+      this.messageTextLineTwo.setText(`Pot amount: ${this.potAmount}`);
+      this.messageTextLineThree.setText(`Opponents remaining: ${this.opponentsRemaining}`);
+      // show options..call..raise..fold..all-in
+      if (gc >= this.betAmount) {
+        this.callBoxBorder.setDepth(2);
+        this.callBox.setDepth(2);
+        this.callText.setDepth(2);
+      }
+      if (gc >= (this.betAmount * 2)) {
+        this.raiseBoxBorder.setDepth(2);
+        this.raiseBox.setDepth(2);
+        this.raiseText.setDepth(2);
+      }
+      // only allow all-in if cannot call
+      if (gc < this.betAmount) {
+        this.allInBoxBorder.setDepth(2);
+        this.allInBox.setDepth(2);
+        this.allInText.setDepth(2);
+      }
+      this.foldBoxBorder.setDepth(2);
+      this.foldBox.setDepth(2);
+      this.foldText.setDepth(2);
     } else {
       // fail
+      this.messageTextLineOne.setText('You are dealt out in the second round');
+      this.playAgainBoxBorder.setDepth(2);
+      this.playAgainBox.setDepth(2);
+      this.playAgainText.setDepth(2);
+    }
+  }
+
+  // gs is game.self.gamblingScore
+  // gc is game.self.credits
+  roundThree(gs, gc) {
+    this.potAmount += this.betAmount;
+    this.playerRoll = roll.dice();
+    let thisDiff;
+    if (this.playerRoll <= gs) {
+      // success, stay in the round
+      // call, raise, fold
+      // show current pot amount..show remaining opponent count
+      this.opponentTurn();
+      thisDiff = gs - this.playerRoll;
+      this.playerDiff += gs - this.playerRoll;
+      if (thisDiff > 8) {
+        this.messageTextLineOne.setText('You greatly improve your odds in the third round');
+      } else if (thisDiff > 5) {
+        this.messageTextLineOne.setText('You improve your odds in the third round');
+      } else if (thisDiff > 2) {
+        this.messageTextLineOne.setText('You improve your odds a little in the third round');
+      } else {
+        this.messageTextLineOne.setText("You don't improve your odds much in the third round");
+      }
+      this.messageTextLineTwo.setText(`Pot amount: ${this.potAmount}`);
+      this.messageTextLineThree.setText(`Opponents remaining: ${this.opponentsRemaining}`);
+      // show options..call..raise..fold..all-in
+      if (gc >= this.betAmount) {
+        this.callBoxBorder.setDepth(2);
+        this.callBox.setDepth(2);
+        this.callText.setDepth(2);
+      }
+      if (gc >= (this.betAmount * 2)) {
+        this.raiseBoxBorder.setDepth(2);
+        this.raiseBox.setDepth(2);
+        this.raiseText.setDepth(2);
+      }
+      // only allow all-in if cannot call
+      if (gc < this.betAmount) {
+        this.allInBoxBorder.setDepth(2);
+        this.allInBox.setDepth(2);
+        this.allInText.setDepth(2);
+      }
+      this.foldBoxBorder.setDepth(2);
+      this.foldBox.setDepth(2);
+      this.foldText.setDepth(2);
+    } else {
+      // fail
+      this.messageTextLineOne.setText('You are dealt out in the third round');
+      this.playAgainBoxBorder.setDepth(2);
+      this.playAgainBox.setDepth(2);
+      this.playAgainText.setDepth(2);
+    }
+  }
+
+  // gs is game.self.gamblingScore
+  roundFour(gs) {
+    this.potAmount += this.betAmount;
+    this.playerRoll = roll.dice();
+    let thisDiff;
+    if (this.playerRoll <= gs) {
+      // success, stay in the round
+      // show/end
+      // show current pot amount..show remaining opponent count
+      this.opponentTurn();
+      thisDiff = gs - this.playerRoll;
+      this.playerDiff += gs - this.playerRoll;
+      if (thisDiff > 8) {
+        this.messageTextLineOne.setText('You greatly improve your odds in the last round');
+      } else if (thisDiff > 5) {
+        this.messageTextLineOne.setText('You improve your odds in the last round');
+      } else if (thisDiff > 2) {
+        this.messageTextLineOne.setText('You improve your odds a little in the last round');
+      } else {
+        this.messageTextLineOne.setText("You don't improve your odds much in the last round");
+      }
+      this.messageTextLineTwo.setText(`Pot amount: ${this.potAmount}`);
+      this.messageTextLineThree.setText(`Opponents remaining: ${this.opponentsRemaining}`);
+      // show options..show/end
+      this.showBoxBorder.setDepth(2);
+      this.showBox.setDepth(2);
+      this.showText.setDepth(2);
+    } else {
+      // fail
+      this.messageTextLineOne.setText('You are dealt out in the last round');
+      this.playAgainBoxBorder.setDepth(2);
+      this.playAgainBox.setDepth(2);
+      this.playAgainText.setDepth(2);
     }
   }
 

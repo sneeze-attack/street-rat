@@ -148,6 +148,32 @@ export default class PokerScene extends Phaser.Scene {
       ui.fold();
     });
 
+    function noOpponentsLeft() {
+      // hide options, print win message, increase credits, and show play again button
+      ui.callBoxBorder.setDepth(0);
+      ui.callBox.setDepth(0);
+      ui.callText.setDepth(0);
+      ui.raiseBoxBorder.setDepth(0);
+      ui.raiseBox.setDepth(0);
+      ui.raiseText.setDepth(0);
+      ui.allInBoxBorder.setDepth(0);
+      ui.allInBox.setDepth(0);
+      ui.allInText.setDepth(0);
+      ui.foldBoxBorder.setDepth(0);
+      ui.foldBox.setDepth(0);
+      ui.foldText.setDepth(0);
+      ui.showBoxBorder.setDepth(0);
+      ui.showBox.setDepth(0);
+      ui.showText.setDepth(0);
+      ui.playAgainBoxBorder.setDepth(2);
+      ui.playAgainBox.setDepth(2);
+      ui.playAgainText.setDepth(2);
+      ui.messageTextLineOne.setText('All opponents are out');
+      ui.messageTextLineTwo.setText('');
+      ui.messageTextLineThree.setText(`You win ${ui.potAmount} credits`);
+      game.self.credits += ui.potAmount;
+    }
+
     function callAction() {
       ui.currentRound += 1;
       ui.foldBoxBorder.setDepth(0);
@@ -163,6 +189,31 @@ export default class PokerScene extends Phaser.Scene {
       ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
       if (ui.currentRound === 2) {
         ui.roundTwo(game.self.gamblingScore, game.self.credits);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
+      } else if (ui.currentRound === 3) {
+        ui.roundThree(game.self.gamblingScore, game.self.credits);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
+      } else {
+        ui.roundFour(game.self.gamblingScore);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
       }
     }
 
@@ -193,6 +244,31 @@ export default class PokerScene extends Phaser.Scene {
       ui.currentBetText.setText(`Bet Amount: ${ui.betAmount}`);
       if (ui.currentRound === 2) {
         ui.roundTwo(game.self.gamblingScore, game.self.credits);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
+      } else if (ui.currentRound === 3) {
+        ui.roundThree(game.self.gamblingScore, game.self.credits);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
+      } else {
+        ui.roundFour(game.self.gamblingScore);
+        if ((ui.opponent1Folded === true) && (ui.opponent2Folded === true)
+        && (ui.opponent3Folded === true) && (ui.opponent4Folded === true)
+        && (ui.opponent5Folded === true) && (ui.opponent6Folded === true)
+        && (ui.opponent7Folded === true) && (ui.opponent8Folded === true)
+        && (ui.opponent9Folded === true)) {
+          noOpponentsLeft.call(this);
+        }
       }
     }
 
@@ -245,6 +321,44 @@ export default class PokerScene extends Phaser.Scene {
     });
     ui.allInText.on('pointerup', () => {
       allIn.call(this);
+    });
+
+    function showAction() {
+      ui.showBoxBorder.setDepth(0);
+      ui.showBox.setDepth(0);
+      ui.showText.setDepth(0);
+      if ((ui.playerDiff > ui.opponent1diff)
+      && (ui.playerDiff > ui.opponent2diff)
+      && (ui.playerDiff > ui.opponent3diff)
+      && (ui.playerDiff > ui.opponent4diff)
+      && (ui.playerDiff > ui.opponent5diff)
+      && (ui.playerDiff > ui.opponent6diff)
+      && (ui.playerDiff > ui.opponent7diff)
+      && (ui.playerDiff > ui.opponent8diff)
+      && (ui.playerDiff > ui.opponent9diff)) {
+        ui.messageTextLineOne.setText(`You win a total of ${ui.potAmount} credits`);
+        ui.messageTextLineTwo.setText('');
+        ui.messageTextLineThree.setText('');
+        game.self.credits += ui.potAmount;
+        ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
+      } else {
+        ui.messageTextLineOne.setText('You score lower than your opponent');
+        ui.messageTextLineTwo.setText('');
+        ui.messageTextLineThree.setText('');
+      }
+      ui.playAgainBoxBorder.setDepth(2);
+      ui.playAgainBox.setDepth(2);
+      ui.playAgainText.setDepth(2);
+    }
+
+    ui.showBoxBorder.on('pointerup', () => {
+      showAction.call(this);
+    });
+    ui.showBox.on('pointerup', () => {
+      showAction.call(this);
+    });
+    ui.showText.on('pointerup', () => {
+      showAction.call(this);
     });
   }
 
