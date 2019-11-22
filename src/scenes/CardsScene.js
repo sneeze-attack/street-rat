@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Cards from '../modules/ui/Cards';
+import RollResults from '../modules/RollResults';
 import game from '../index';
 import japanBackgroundImg from '../assets/backgrounds/japan_1366_768.jpg';
 import cogImg from '../assets/icons/48x48/cog_white.png';
@@ -20,6 +21,14 @@ export default class CardsScene extends Phaser.Scene {
 
     // use object to set up UI
     const ui = new Cards(this, game.self.gamblingScore);
+
+    // hidden object to show dice results (hidden at depth 0)
+    const gamblingResultsObject = new RollResults(this, 'Gambling', game.self.gamblingScore, 'Basic Roll');
+
+    // Hide results when clicked -- "click to continue"
+    gamblingResultsObject.masterBox.on('pointerup', () => {
+      gamblingResultsObject.hideRollResults();
+    });
 
     ui.setScores();
     ui.playerCreditsText.setText(`Credits: ${game.self.credits}`);
