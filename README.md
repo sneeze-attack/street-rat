@@ -2,6 +2,7 @@
 
 A Phaser 3 project for practice and fun. Uses [Babel 7](https://babeljs.io) and [Webpack 4](https://webpack.js.org/)
 
+All further development updates to this app will occur [here](https://aaatowing.duckdns.org/gitea/SneezeAttack/street-rat)
 
 ## Live Demo
-[Demo Site](http://street-rat.duckdns.org:8080)
+[Demo Site](https://aaatowing.duckdns.org/street-rat)
